@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guess Total — Daily Amazon Price Game</title>
+  <meta name="description" content="Guess the price of 5 Amazon products every day. How close is your cart total?" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg2: #f5f5f4;
+      --bg3: #eeece8;
+      --text: #1a1a18;
+      --text2: #6b6b67;
+      --text3: #9c9a92;
+      --border: rgba(0,0,0,0.1);
+      --border2: rgba(0,0,0,0.18);
+      --blue: #378ADD;
+      --green: #1D9E75;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1c1c1a;
+        --bg2: #262624;
+        --bg3: #2e2e2b;
+        --text: #e8e6df;
+        --text2: #9c9a92;
+        --text3: #6b6b67;
+        --border: rgba(255,255,255,0.1);
+        --border2: rgba(255,255,255,0.18);
+      }
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg3);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1rem 0 4rem;
+    }
+
+    #app {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      padding: 1.5rem 0 1.25rem;
+    }
+
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      letter-spacing: 3px;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .tagline {
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 5px;
+    }
+
+    .score-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 10px;
+    }
+
+    /* PROGRESS */
+    .progress-wrap {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .prog-dot {
+      width: 36px;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+
+    .prog-dot.done { background: var(--green); }
+    .prog-dot.active { background: var(--blue); }
+
+    /* CARD */
+    .card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    /* PRODUCT IMAGE */
+    .product-img-wrap {
+      width: 100%;
+      height: 220px;
+      background: var(--bg2);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .product-img-wrap img {
+      max-height: 200px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .product-emoji { font-size: 72px; }
+
+    .product-name {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+
+    .product-meta {
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 1.25rem;
+      line-height: 1.4;
+    }
+
+    /* INPUT */
+    .input-label {
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .dollar {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text2);
+    }
+
+    input[type="number"] {
+      flex: 1;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 1px;
+      padding: 10px 12px;
+      border: 0.5px solid var(--border2);
+      border-radius: var(--radius-sm);
+      background: var(--bg2);
+      color: var(--text);
+      outline: none;
+      width: 100%;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    input[type="number"]:focus { border-color: var(--blue); }
+
+    .input-hint {
+      font-size: 12px;
+      color: var(--text3);
+      margin-bottom: 1rem;
+    }
+
+    /* BUTTONS */
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .btn-blue {
+      width: 100%;
+      padding: 15px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .btn-blue:hover { opacity: 0.85; }
+
+    /* RESULT */
+    .result-wrap { margin-top: 1rem; display: none; }
+    .result-wrap.show { display: block; }
+
+    .heat-box {
+      text-align: center;
+      padding: 1.25rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+    }
+
+    .heat-emoji-big { font-size: 52px; line-height: 1; margin-bottom: 6px; }
+    .heat-title { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+    .heat-detail { font-size: 13px; opacity: 0.85; }
+
+    .h-perfect { background: #E1F5EE; color: #085041; }
+    .h-hot     { background: #EAF3DE; color: #27500A; }
+    .h-warm    { background: #FAEEDA; color: #633806; }
+    .h-cold    { background: #FAECE7; color: #712B13; }
+    .h-ice     { background: #F1EFE8; color: #444441; }
+
+    @media (prefers-color-scheme: dark) {
+      .h-perfect { background: #085041; color: #9FE1CB; }
+      .h-hot     { background: #27500A; color: #C0DD97; }
+      .h-warm    { background: #633806; color: #FAC775; }
+      .h-cold    { background: #712B13; color: #F5C4B3; }
+      .h-ice     { background: #444441; color: #D3D1C7; }
+    }
+
+    .pts-big {
+      text-align: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px;
+      color: var(--blue);
+      margin-bottom: 1rem;
+    }
+
+    .acc-wrap { margin-bottom: 1rem; }
+    .acc-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+    .acc-track { height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden; }
+    .acc-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; width: 0%; }
+
+    /* FINAL SCREEN */
+    .final-wrap { display: none; }
+    .final-wrap.show { display: block; }
+    .game-wrap { display: block; }
+    .game-wrap.hide { display: none; }
+
+    .final-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 44px;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .final-sub {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 1.5rem;
+    }
+
+    /* CART */
+    .cart-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .cart-head {
+      padding: 12px 16px;
+      background: var(--bg2);
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cart-head-title { font-size: 14px; font-weight: 500; }
+    .cart-head-count { font-size: 12px; color: var(--text2); }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .cart-item:last-of-type { border-bottom: none; }
+
+    .cart-thumb {
+      width: 48px;
+      height: 48px;
+      background: var(--bg2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .cart-thumb img { width: 48px; height: 48px; object-fit: contain; }
+
+    .cart-info { flex: 1; min-width: 0; }
+
+    .cart-name {
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cart-prices { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+    .cart-amz {
+      font-size: 11px;
+      color: var(--blue);
+      text-decoration: none;
+      display: block;
+      margin-top: 3px;
+    }
+
+    .cart-right { text-align: right; flex-shrink: 0; }
+    .cart-actual { font-size: 15px; font-weight: 500; }
+    .cart-guess { font-size: 11px; color: var(--text2); margin-top: 2px; }
+    .cart-heat-sm { font-size: 16px; margin-top: 2px; }
+
+    /* TOTALS */
+    .totals-section { border-top: 0.5px solid var(--border); }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 16px;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .total-row:last-child { border-bottom: none; }
+    .total-row-label { font-size: 13px; color: var(--text2); }
+    .total-row-val { font-size: 13px; font-weight: 500; }
+
+    .total-row.grand {
+      background: var(--bg2);
+      padding: 14px 16px;
+    }
+
+    .total-row.grand .total-row-label {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .total-row.grand .total-row-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
+
+    .diff-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 16px;
+    }
+
+    .diff-label { font-size: 13px; color: var(--text2); }
+
+    .diff-pill {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 4px 14px;
+      border-radius: 999px;
+    }
+
+    .diff-over  { background: #FCEBEB; color: #501313; }
+    .diff-under { background: #E1F5EE; color: #085041; }
+    .diff-exact { background: #E1F5EE; color: #085041; }
+
+    @media (prefers-color-scheme: dark) {
+      .diff-over  { background: #501313; color: #F7C1C1; }
+      .diff-under { background: #085041; color: #9FE1CB; }
+      .diff-exact { background: #085041; color: #9FE1CB; }
+    }
+
+    /* SCORE FINAL */
+    .score-final {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .score-final-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 72px;
+      color: var(--blue);
+      line-height: 1;
+    }
+
+    .score-final-label {
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 4px;
+    }
+
+    /* SHARE */
+    .share-btn {
+      width: 100%;
+      padding: 15px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: opacity 0.15s;
+    }
+
+    .share-btn:hover { opacity: 0.85; }
+
+    .copied-msg {
+      text-align: center;
+      font-size: 13px;
+      color: var(--green);
+      min-height: 20px;
+      margin-bottom: 0.75rem;
+    }
+
+    /* LEADERBOARD */
+    .divider { height: 0.5px; background: var(--border); margin: 1.25rem 0; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 10px;
+    }
+
+    .lb-form { display: flex; gap: 8px; margin-bottom: 12px; }
+
+    .lb-input {
+      flex: 1;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      border: 0.5px solid var(--border2);
+      border-radius: var(--radius-sm);
+      background: var(--bg2);
+      color: var(--text);
+      outline: none;
+    }
+
+    .lb-input:focus { border-color: var(--blue); }
+
+    .lb-btn {
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+
+    .lb-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.5rem; }
+
+    .lb-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+    }
+
+    .lb-rank {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      width: 26px;
+      text-align: center;
+      color: var(--text2);
+    }
+
+    .lb-rank.gold   { color: #BA7517; }
+    .lb-rank.silver { color: #888780; }
+    .lb-rank.bronze { color: #993C1D; }
+
+    .lb-name { flex: 1; font-weight: 500; }
+    .lb-score { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--blue); }
+    .lb-you { border-color: var(--blue); background: #E6F1FB; }
+
+    @media (prefers-color-scheme: dark) {
+      .lb-you { background: #0C447C; }
+    }
+
+    .affiliate-note {
+      font-size: 11px;
+      color: var(--text3);
+      text-align: center;
+      margin-top: 1rem;
+      padding-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <div class="header">
+    <div class="logo">GUESS TOTAL</div>
+    <div class="tagline">Guess the price of 5 Amazon products. How close is your cart total?</div>
+    <div class="score-pill">Score: <span id="score-display">0</span> pts</div>
+  </div>
+
+  <div class="progress-wrap" id="progress-wrap"></div>
+
+  <!-- GAME -->
+  <div class="game-wrap" id="game-wrap">
+    <div class="card">
+      <div class="product-img-wrap" id="product-img-wrap">
+        <span class="product-emoji" id="product-emoji">📦</span>
+      </div>
+      <div class="product-name" id="product-name"></div>
+      <div class="product-meta" id="product-meta"></div>
+      <div class="input-label">What does this cost on Amazon?</div>
+      <div class="input-row">
+        <span class="dollar">$</span>
+        <input type="number" id="price-input" placeholder="0.00" min="0" step="0.01" />
+      </div>
+      <div class="input-hint">Closer to the real price = more points. Over or under doesn't matter.</div>
+      <button class="btn-primary" id="submit-btn">Lock In My Guess</button>
+
+      <div class="result-wrap" id="result-wrap">
+        <div class="heat-box" id="heat-box">
+          <div class="heat-emoji-big" id="heat-emoji"></div>
+          <div class="heat-title" id="heat-title"></div>
+          <div class="heat-detail" id="heat-detail"></div>
+        </div>
+        <div class="pts-big" id="pts-big"></div>
+        <div class="acc-wrap">
+          <div class="acc-labels"><span>Accuracy</span><span id="acc-pct"></span></div>
+          <div class="acc-track"><div class="acc-fill" id="acc-fill"></div></div>
+        </div>
+        <button class="btn-blue" id="next-btn">Next Item →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL -->
+  <div class="final-wrap" id="final-wrap">
+    <div class="final-title">Your Cart</div>
+    <div class="final-sub">Here's how your guesses stacked up</div>
+
+    <div class="cart-card">
+      <div class="cart-head">
+        <span class="cart-head-title">Today's Items</span>
+        <span class="cart-head-count">5 items</span>
+      </div>
+      <div id="cart-items"></div>
+      <div class="totals-section" id="cart-totals"></div>
+    </div>
+
+    <div class="score-final">
+      <div class="score-final-num" id="score-final-num">0</div>
+      <div class="score-final-label">points out of 5,000</div>
+    </div>
+
+    <button class="share-btn" id="share-btn">Share My Results</button>
+    <div class="copied-msg" id="copied-msg"></div>
+
+    <div class="divider"></div>
+
+    <div class="section-label">Add to leaderboard</div>
+    <div class="lb-form">
+      <input class="lb-input" type="text" id="lb-name" placeholder="Your name or initials" maxlength="20" />
+      <button class="lb-btn" id="lb-submit">Submit</button>
+    </div>
+
+    <div class="section-label">Today's Leaderboard</div>
+    <div class="lb-list" id="lb-list"></div>
+
+    <p class="affiliate-note">As an Amazon Associate I earn from qualifying purchases.</p>
+  </div>
+
+</div>
+
+<script>
+  const TAG = 'guesstotal-20';
+
+  const HEAT = [
+    { max:2,   emoji:'🎯', label:'Exact!',        cls:'h-perfect', color:'#1D9E75', pts:1000 },
+    { max:5,   emoji:'🔥', label:'On fire',        cls:'h-hot',     color:'#3B6D11', pts:850  },
+    { max:10,  emoji:'♨️', label:'Very close',     cls:'h-hot',     color:'#3B6D11', pts:700  },
+    { max:20,  emoji:'😅', label:'Getting warm',   cls:'h-warm',    color:'#854F0B', pts:500  },
+    { max:35,  emoji:'❄️', label:'A bit cold',     cls:'h-cold',    color:'#993C1D', pts:300  },
+    { max:999, emoji:'🧊', label:'Freezing',       cls:'h-ice',     color:'#5F5E5A', pts:100  },
+  ];
+
+  function getHeat(pct) {
+    for (const h of HEAT) if (pct <= h.max) return h;
+    return HEAT[HEAT.length - 1];
+  }
+
+  function affLink(asin) {
+    return `https://www.amazon.com/dp/${asin}?tag=${TAG}`;
+  }
+
+  // ── PRODUCTS ──────────────────────────────────────────────
+  // To update weekly: change name, meta, price, asin, img for each product.
+  // img: paste the Amazon product image URL, or leave as '' to show emoji.
+  const PRODUCTS = [
+    {
+      emoji: '💪',
+      name: 'Theragun Relief Handheld Percussive Massage Gun',
+      meta: 'Quiet, portable, 3 attachments — designed for everyday pain relief',
+      price: 79.00,
+      asin: 'B0CXHQTXQ5',
+      img: ''
+    },
+    {
+      emoji: '🥤',
+      name: 'Stanley Quencher H2.0 FlowState Tumbler 30oz',
+      meta: 'The viral tumbler — insulated, dishwasher safe, fits car cup holders',
+      price: 35.00,
+      asin: 'B09YWQTG34',
+      img: ''
+    },
+    {
+      emoji: '🍦',
+      name: 'Ninja Creami Ice Cream Maker',
+      meta: 'Turns frozen bases into ice cream, sorbet & smoothie bowls in minutes',
+      price: 169.99,
+      asin: 'B0C8SXHKR7',
+      img: ''
+    },
+    {
+      emoji: '💍',
+      name: 'Oura Ring Gen 3 — Smart Health Tracker',
+      meta: 'Tracks sleep, heart rate, temperature & readiness. Worn on your finger.',
+      price: 299.00,
+      asin: 'B09V4DJ6L9',
+      img: ''
+    },
+    {
+      emoji: '☕',
+      name: 'Zulay Milk Frother Wand',
+      meta: '300,000+ reviews. Makes café-quality foam in seconds. Batteries included.',
+      price: 9.99,
+      asin: 'B01M0NUTJT',
+      img: ''
+    },
+  ];
+
+  function getDailySeed() {
+    const d = new Date();
+    return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+  }
+
+  function seededShuffle(arr, seed) {
+    const a = [...arr]; let s = seed;
+    for (let i = a.length - 1; i > 0; i--) {
+      s = (s * 1664525 + 1013904223) & 0xffffffff;
+      const j = Math.abs(s) % (i + 1);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  const todayProducts = seededShuffle(PRODUCTS, getDailySeed());
+  let current = 0, score = 0, guesses = [], submitted = false;
+
+  // ── LEADERBOARD (localStorage) ────────────────────────────
+  function getTodayKey() {
+    const d = new Date();
+    return `gt_${d.getFullYear()}_${d.getMonth() + 1}_${d.getDate()}`;
+  }
+
+  function loadLB() {
+    try { return JSON.parse(localStorage.getItem(getTodayKey()) || '[]'); } catch { return []; }
+  }
+
+  function saveLB(lb) {
+    try { localStorage.setItem(getTodayKey(), JSON.stringify(lb)); } catch {}
+  }
+
+  // ── PROGRESS BAR ──────────────────────────────────────────
+  function renderProgress() {
+    const wrap = document.getElementById('progress-wrap');
+    wrap.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+      const d = document.createElement('div');
+      d.className = 'prog-dot' + (i < current ? ' done' : i === current ? ' active' : '');
+      wrap.appendChild(d);
+    }
+  }
+
+  // ── RENDER PRODUCT ────────────────────────────────────────
+  function renderProduct() {
+    const p = todayProducts[current];
+    const wrap = document.getElementById('product-img-wrap');
+    wrap.innerHTML = p.img
+      ? `<img src="${p.img}" alt="${p.name}" />`
+      : `<span class="product-emoji">${p.emoji}</span>`;
+    document.getElementById('product-name').textContent = p.name;
+    document.getElementById('product-meta').textContent = p.meta;
+    document.getElementById('price-input').value = '';
+    document.getElementById('result-wrap').className = 'result-wrap';
+    document.getElementById('submit-btn').disabled = false;
+    submitted = false;
+    renderProgress();
+  }
+
+  // ── SUBMIT GUESS ──────────────────────────────────────────
+  document.getElementById('submit-btn').addEventListener('click', () => {
+    if (submitted) return;
+    const val = parseFloat(document.getElementById('price-input').value);
+    if (isNaN(val) || val < 0) { document.getElementById('price-input').focus(); return; }
+
+    submitted = true;
+    document.getElementById('submit-btn').disabled = true;
+
+    const p = todayProducts[current];
+    const diff = Math.abs(val - p.price);
+    const pct = (diff / p.price) * 100;
+    const heat = getHeat(pct);
+
+    score += heat.pts;
+    guesses.push({ product: p, guess: val, pts: heat.pts, heat, pct });
+    document.getElementById('score-display').textContent = score.toLocaleString();
+
+    // Heat box
+    const hb = document.getElementById('heat-box');
+    hb.className = 'heat-box ' + heat.cls;
+    document.getElementById('heat-emoji').textContent = heat.emoji;
+    document.getElementById('heat-title').textContent = heat.label;
+    const dir = val > p.price ? 'over' : val < p.price ? 'under' : 'exact';
+    document.getElementById('heat-detail').textContent = dir === 'exact'
+      ? `Actual: $${p.price.toFixed(2)} — perfect!`
+      : `$${diff.toFixed(2)} ${dir}. Actual: $${p.price.toFixed(2)}`;
+
+    document.getElementById('pts-big').textContent = '+' + heat.pts.toLocaleString() + ' pts';
+
+    const accuracy = Math.max(0, 100 - pct);
+    document.getElementById('acc-pct').textContent = Math.round(accuracy) + '%';
+    setTimeout(() => {
+      document.getElementById('acc-fill').style.width = Math.min(100, accuracy) + '%';
+      document.getElementById('acc-fill').style.background = heat.color;
+    }, 50);
+
+    document.getElementById('next-btn').textContent = current < 4 ? 'Next Item →' : 'See My Cart';
+    document.getElementById('result-wrap').className = 'result-wrap show';
+  });
+
+  document.getElementById('price-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('submit-btn').click();
+  });
+
+  document.getElementById('next-btn').addEventListener('click', () => {
+    if (current < 4) { current++; renderProduct(); }
+    else showFinal();
+  });
+
+  // ── FINAL SCREEN ──────────────────────────────────────────
+  function showFinal() {
+    document.getElementById('game-wrap').className = 'game-wrap hide';
+    document.getElementById('final-wrap').className = 'final-wrap show';
+    document.getElementById('score-final-num').textContent = score.toLocaleString();
+
+    const realTotal = todayProducts.reduce((a, p) => a + p.price, 0);
+    const guessTotal = guesses.reduce((a, g) => a + g.guess, 0);
+    const diff = guessTotal - realTotal;
+
+    // Cart items
+    const cartItems = document.getElementById('cart-items');
+    cartItems.innerHTML = '';
+    guesses.forEach(g => {
+      const item = document.createElement('div');
+      item.className = 'cart-item';
+      const imgEl = g.product.img
+        ? `<div class="cart-thumb"><img src="${g.product.img}" alt="${g.product.name}" /></div>`
+        : `<div class="cart-thumb">${g.product.emoji}</div>`;
+      item.innerHTML = `
+        ${imgEl}
+        <div class="cart-info">
+          <div class="cart-name">${g.product.name}</div>
+          <div class="cart-prices">Your guess: $${g.guess.toFixed(2)}</div>
+          <a class="cart-amz" href="${affLink(g.product.asin)}" target="_blank">View on Amazon →</a>
+        </div>
+        <div class="cart-right">
+          <div class="cart-actual">$${g.product.price.toFixed(2)}</div>
+          <div class="cart-heat-sm">${g.heat.emoji}</div>
+        </div>`;
+      cartItems.appendChild(item);
+    });
+
+    // Totals
+    const diffAbs = Math.abs(diff).toFixed(2);
+    const diffLabel = diff === 0 ? 'Exact match!' : diff > 0 ? `$${diffAbs} over` : `$${diffAbs} under`;
+    const diffCls = diff === 0 ? 'diff-exact' : diff > 0 ? 'diff-over' : 'diff-under';
+
+    document.getElementById('cart-totals').innerHTML = `
+      <div class="total-row grand">
+        <span class="total-row-label">Actual total</span>
+        <span class="total-row-val">$${realTotal.toFixed(2)}</span>
+      </div>
+      <div class="total-row grand">
+        <span class="total-row-label">Your total</span>
+        <span class="total-row-val">$${guessTotal.toFixed(2)}</span>
+      </div>
+      <div class="diff-row">
+        <span class="diff-label">Difference</span>
+        <span class="diff-pill ${diffCls}">${diffLabel}</span>
+      </div>`;
+
+    renderLB();
+  }
+
+  // ── LEADERBOARD ───────────────────────────────────────────
+  function renderLB(highlightName) {
+    const lb = loadLB();
+    lb.sort((a, b) => b.score - a.score);
+    const top = lb.slice(0, 10);
+    const list = document.getElementById('lb-list');
+    list.innerHTML = '';
+    if (top.length === 0) {
+      list.innerHTML = '<div style="font-size:13px;color:var(--text2);text-align:center;padding:1rem;">No entries yet — be the first!</div>';
+      return;
+    }
+    top.forEach((entry, i) => {
+      const row = document.createElement('div');
+      const rankCls = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+      const isYou = highlightName && entry.name === highlightName;
+      row.className = 'lb-row' + (isYou ? ' lb-you' : '');
+      row.innerHTML = `
+        <div class="lb-rank ${rankCls}">${i + 1}</div>
+        <div class="lb-name">${entry.name}${isYou ? ' (you)' : ''}</div>
+        <div class="lb-score">${entry.score.toLocaleString()}</div>`;
+      list.appendChild(row);
+    });
+  }
+
+  document.getElementById('lb-submit').addEventListener('click', () => {
+    const name = document.getElementById('lb-name').value.trim();
+    if (!name) return;
+    const lb = loadLB();
+    const existing = lb.findIndex(e => e.name === name);
+    const entry = { name, score };
+    if (existing >= 0) { if (score > lb[existing].score) lb[existing] = entry; }
+    else lb.push(entry);
+    saveLB(lb);
+    document.getElementById('lb-submit').textContent = 'Saved!';
+    document.getElementById('lb-submit').disabled = true;
+    renderLB(name);
+  });
+
+  // ── SHARE ─────────────────────────────────────────────────
+  document.getElementById('share-btn').addEventListener('click', () => {
+    const realTotal = todayProducts.reduce((a, p) => a + p.price, 0);
+    const guessTotal = guesses.reduce((a, g) => a + g.guess, 0);
+    const diffAbs = Math.abs(guessTotal - realTotal).toFixed(2);
+    const squares = guesses.map(g => g.heat.emoji).join('');
+    const d = new Date();
+    const text = `Guess Total ${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}\n${squares}\nActual: $${realTotal.toFixed(2)} · My total: $${guessTotal.toFixed(2)} · Off by $${diffAbs}\nScore: ${score.toLocaleString()} pts\nguesstotal.com`;
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        document.getElementById('copied-msg').textContent = 'Copied to clipboard!';
+        setTimeout(() => document.getElementById('copied-msg').textContent = '', 2500);
+      })
+      .catch(() => {
+        document.getElementById('copied-msg').textContent = 'Copy the text above manually.';
+      });
+  });
+
+  // ── INIT ──────────────────────────────────────────────────
+  renderProduct();
+</script>
+</body>
+</html>
