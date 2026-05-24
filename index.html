@@ -709,21 +709,19 @@ async function submitEmail(){
   if(!email||!email.includes('@')){document.getElementById('email-success').textContent='Please enter a valid email.';return;}
   document.getElementById('email-success').textContent='Subscribing...';
   try{
-    const response=await fetch('/api/subscribe',{
+    const formData=new FormData();
+    formData.append('EMAIL',email);
+    formData.append('b_010aa02dbe2725380a129894e_a0549dd1da','');
+    await fetch('https://guesstotal.us9.list-manage.com/subscribe/post?u=010aa02dbe2725380a129894e&id=a0549dd1da&f_id=009b19e1f0',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email})
+      mode:'no-cors',
+      body:formData
     });
-    const data=await response.json();
-    if(data.success){
-      document.getElementById('email-success').textContent='You\'re in! See you tomorrow 🎉';
-      document.getElementById('email-input').value='';
-      if(typeof gtag!=='undefined')gtag('event','email_signup',{'bundle_theme':todayBundle.theme});
-    } else {
-      document.getElementById('email-success').textContent='Something went wrong. Try again!';
-    }
+    document.getElementById('email-success').textContent="You\'re in! See you tomorrow 🎉";
+    document.getElementById('email-input').value='';
+    if(typeof gtag!=='undefined')gtag('event','email_signup',{'bundle_theme':todayBundle.theme});
   } catch(e){
-    document.getElementById('email-success').textContent='Something went wrong. Try again!';
+    document.getElementById('email-success').textContent="Something went wrong. Try again!";
   }
 }
 
