@@ -399,7 +399,10 @@ const VIBES=[
   {min:0, emoji:'💀',title:'COMPLETELY LOST',  color:'#5F5E5A',sub:'The prices had absolutely no mercy on you today. See you tomorrow for redemption.'},
 ];
 function getVibe(acc){for(const v of VIBES)if(acc>=v.min)return v;return VIBES[VIBES.length-1];}
-function affLink(asin){return`https://www.amazon.com/dp/${asin}?tag=${TAG}`;}
+function affLink(asin){
+  // Use universal link format that triggers Amazon app on iPhone
+  return`https://www.amazon.com/dp/${asin}?tag=${TAG}&linkCode=ll1&linkId=${asin}&language=en_US&ref_=as_li_ss_tl`;
+}
 
 const BUNDLES=[
 {id:'backyard_games',theme:'Backyard Games Bundle',tagline:'Everything you need to dominate the backyard this summer ⚡',emoji:'🏆',tease:'Tomorrow: Chill Vibes Only 😎',products:[
