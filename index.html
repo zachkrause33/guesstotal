@@ -706,23 +706,16 @@ function shareResults(){
 
 async function submitEmail(){
   const email=document.getElementById('email-input').value.trim();
-  if(!email||!email.includes('@')){document.getElementById('email-success').textContent='Please enter a valid email.';return;}
-  document.getElementById('email-success').textContent='Subscribing...';
-  try{
-    const formData=new FormData();
-    formData.append('EMAIL',email);
-    formData.append('b_010aa02dbe2725380a129894e_a0549dd1da','');
-    await fetch('https://guesstotal.us9.list-manage.com/subscribe/post?u=010aa02dbe2725380a129894e&id=a0549dd1da&f_id=009b19e1f0',{
-      method:'POST',
-      mode:'no-cors',
-      body:formData
-    });
-    document.getElementById('email-success').textContent="You\'re in! See you tomorrow 🎉";
-    document.getElementById('email-input').value='';
-    if(typeof gtag!=='undefined')gtag('event','email_signup',{'bundle_theme':todayBundle.theme});
-  } catch(e){
-    document.getElementById('email-success').textContent="Something went wrong. Try again!";
+  if(!email||!email.includes('@')){
+    document.getElementById('email-success').textContent='Please enter a valid email.';
+    return;
   }
+  // Open Mailchimp hosted signup page in new tab with email pre-filled
+  const url='https://guesstotal.us9.list-manage.com/subscribe/post?u=010aa02dbe2725380a129894e&id=a0549dd1da&EMAIL='+encodeURIComponent(email);
+  window.open(url,'_blank');
+  document.getElementById('email-success').textContent="You\'re in! See you tomorrow 🎉";
+  document.getElementById('email-input').value='';
+  if(typeof gtag!=='undefined')gtag('event','email_signup',{'bundle_theme':todayBundle.theme});
 }
 
 function updateCountdown(){
