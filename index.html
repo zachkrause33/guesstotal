@@ -400,8 +400,7 @@ const VIBES=[
 ];
 function getVibe(acc){for(const v of VIBES)if(acc>=v.min)return v;return VIBES[VIBES.length-1];}
 function affLink(asin){
-  // Use universal link format that triggers Amazon app on iPhone
-  return`https://www.amazon.com/dp/${asin}?tag=${TAG}&linkCode=ll1&linkId=${asin}&language=en_US&ref_=as_li_ss_tl`;
+  return`https://www.amazon.com/dp/${asin}?tag=${TAG}`;
 }
 
 const BUNDLES=[
@@ -518,7 +517,7 @@ function buildGuessScreen(){
   const body=document.getElementById('guess-body');body.innerHTML='';
   todayBundle.products.forEach((p,i)=>{
     const card=document.createElement('div');card.className='product-guess-card';card.id=`pgc-${i}`;
-    card.innerHTML=`<div class="pgc-img">${p.img?`<img src="${p.img}" alt="${p.name}"/>`:'<span style="font-size:52px">📦</span>'}<div class="pgc-num">Item ${i+1}</div></div><div class="pgc-info"><div class="pgc-name">${p.name}</div><div class="pgc-meta">${p.meta}</div><div class="pgc-input-row"><span class="pgc-dollar">$</span><input class="pgc-input" type="number" id="inp-${i}" placeholder="0.00" min="0" step="0.01" oninput="onInput()" /></div><a class="pgc-need-btn" href="${affLink(p.asin)}">⚡ I need this now</a></div>`;
+    card.innerHTML=`<div class="pgc-img">${p.img?`<img src="${p.img}" alt="${p.name}"/>`:'<span style="font-size:52px">📦</span>'}<div class="pgc-num">Item ${i+1}</div></div><div class="pgc-info"><div class="pgc-name">${p.name}</div><div class="pgc-meta">${p.meta}</div><div class="pgc-input-row"><span class="pgc-dollar">$</span><input class="pgc-input" type="number" id="inp-${i}" placeholder="0.00" min="0" step="0.01" oninput="onInput()" /></div><a class="pgc-need-btn" href="${affLink(p.asin)}" target="_blank">⚡ I need this now</a></div>`;
     body.appendChild(card);
   });
   updateTotal();
@@ -591,7 +590,7 @@ function buildResultsScreen(){
         <div class="rc-thumb">${p.img?`<img src="${p.img}" alt="${p.name}"/>`:'<span style="font-size:28px">📦</span>'}</div>
         <div class="rc-name-wrap">
           <div class="rc-name">${p.name}</div>
-          <a class="rc-link" href="${affLink(p.asin)}">🛒 Shop This Item</a>
+          <a class="rc-link" href="${affLink(p.asin)}" target="_blank">🛒 Shop This Item</a>
         </div>
       </div>
       <div class="verdict-banner ${heat.cls}">
@@ -650,7 +649,7 @@ async function showFinal(){
           </div>
         </div>
       </div>
-      <a class="cc-item-shop-btn" href="${affLink(g.product.asin)}">🛒 Shop This Item</a>`;
+      <a class="cc-item-shop-btn" href="${affLink(g.product.asin)}" target="_blank">🛒 Shop This Item</a>`;
     ccItems.appendChild(row);
   });
   document.getElementById('cc-actual').textContent=`$${realTotal.toFixed(2)}`;
@@ -737,10 +736,8 @@ setInterval(updateCountdown,1000);
 updateCountdown();
 function shopBundle(){
   if(typeof gtag!=='undefined')gtag('event','shop_bundle',{'bundle_theme':todayBundle.theme});
-  // Open first product in same window, rest in new tabs
   todayBundle.products.forEach((p,i)=>{
-    if(i===0){window.location.href=affLink(p.asin);}
-    else{setTimeout(()=>{window.open(affLink(p.asin),'_blank');},i*300);}
+    setTimeout(()=>{window.open(affLink(p.asin),'_blank');},i*300);
   });
 }
 initLanding();
