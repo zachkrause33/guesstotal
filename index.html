@@ -23,6 +23,8 @@ html,body{height:100%;overflow:hidden;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text);display:flex;flex-direction:column;}
 .screen{display:none;flex-direction:column;height:100vh;overflow:hidden;}
 .screen.active{display:flex;}
+#landing{height:auto;min-height:100vh;overflow-x:hidden;}
+#results{height:auto;min-height:100vh;overflow-x:hidden;}
 
 /* CONFETTI */
 .confetti-container{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
@@ -34,6 +36,31 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text);di
 /* ── LANDING ── */
 #landing{background:var(--orange);align-items:center;justify-content:center;text-align:center;padding:2.5rem 1.25rem 2rem;position:relative;overflow-y:auto;}
 .land-circle{position:absolute;border-radius:50%;background:rgba(255,255,255,0.06);}
+/* COMBINED LANDING */
+.land-header{background:var(--orange);padding:1rem 1.25rem 1rem;text-align:center;position:relative;overflow:hidden;}
+.land-logo{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;color:#fff;line-height:1;padding:0.5rem 0.5rem 0;text-align:center;width:100%;}
+.land-logo span{color:var(--gold);}
+.land-theme-row{display:flex;align-items:center;gap:10px;justify-content:center;margin:6px 0 4px;}
+.land-theme-row span{font-size:28px;}
+.land-theme-name{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff;letter-spacing:2px;line-height:1.1;text-align:left;}
+.land-theme-tagline{font-size:11px;color:rgba(255,255,255,0.8);text-align:left;line-height:1.3;}
+.land-rules-mini{font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;}
+.land-body{flex:1;overflow-y:auto;padding:0.875rem;-webkit-overflow-scrolling:touch;}
+
+/* PRODUCT LAND CARD */
+.plc{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius);overflow:hidden;margin-bottom:0.875rem;transition:border-color 0.2s,box-shadow 0.2s;}
+.plc.filled{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,0.1);}
+.plc-img{width:100%;height:180px;background:var(--orange-light);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+.plc-img img{max-height:160px;max-width:88%;object-fit:contain;}
+.plc-num{position:absolute;top:10px;left:10px;background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;}
+.plc-info{padding:0.875rem 1rem;}
+.plc-name{font-size:14px;font-weight:600;margin-bottom:4px;line-height:1.4;}
+.plc-teaser{font-size:11px;color:var(--text3);margin-bottom:0.75rem;font-style:italic;}
+.plc-input-row{display:flex;align-items:center;gap:6px;}
+.plc-dollar{font-size:22px;font-weight:700;color:var(--orange);}
+.plc-input{flex:1;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;padding:8px 10px;border:2px solid var(--border2);border-radius:var(--radius-sm);background:var(--orange-light);color:var(--text);outline:none;width:100%;-moz-appearance:textfield;}
+.plc-input::-webkit-inner-spin-button,.plc-input::-webkit-outer-spin-button{-webkit-appearance:none;}
+.plc-input:focus{border-color:var(--orange);background:#fff;}
 .land-logo{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;color:#fff;line-height:1;padding:0.5rem 0.5rem 0;text-align:center;width:100%;}
 .land-logo span{color:var(--gold);}
 .land-theme-wrap{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:var(--radius);padding:1.5rem 1.25rem;margin:1.25rem 0;max-width:340px;width:100%;}
@@ -73,7 +100,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text);di
 .pgc-input{flex:1;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;padding:8px 10px;border:2px solid var(--border2);border-radius:var(--radius-sm);background:var(--orange-light);color:var(--text);outline:none;width:100%;-moz-appearance:textfield;}
 .pgc-input::-webkit-inner-spin-button,.pgc-input::-webkit-outer-spin-button{-webkit-appearance:none;}
 .pgc-input:focus{border-color:var(--orange);background:#fff;}
-.running-total-bar{background:#fff;border-top:2px solid var(--border2);padding:0.875rem 1rem;flex-shrink:0;}
+.running-total-bar{background:#fff;border-top:2px solid var(--border2);padding:0.875rem 1rem;}
 .rt-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;}
 .rt-label{font-size:12px;color:var(--text2);font-weight:500;}
 .rt-total{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--orange);transition:all 0.2s;}
@@ -244,103 +271,91 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text);di
 <body>
 <div class="confetti-container" id="confetti-container"></div>
 
-<!-- LANDING -->
-<div class="screen active" id="landing">
-  <div style="background:var(--orange);flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.25rem;position:relative;overflow:hidden;">
-    <div class="land-circle" style="width:280px;height:280px;top:-80px;right:-80px;"></div>
-    <div class="land-circle" style="width:180px;height:180px;bottom:-50px;left:-50px;"></div>
+<!-- LANDING — ONE FLOWING PAGE -->
+<div class="screen active" id="landing" style="display:block;height:auto;min-height:100vh;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg2);">
+
+  <!-- ORANGE HEADER — scrolls with page -->
+  <div style="background:var(--orange);padding:1.25rem 1.25rem 1.25rem;text-align:center;">
     <div class="land-logo">GUESS <span>TOTAL</span></div>
-    <div class="land-theme-wrap">
-      <span class="land-theme-emoji" id="land-emoji">🏆</span>
-      <div class="land-theme-name" id="land-theme-name">Loading...</div>
-      <div class="land-theme-tagline" id="land-theme-tagline"></div>
+    <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0 4px;">
+      <span style="font-size:26px;" id="land-emoji">🏆</span>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff;letter-spacing:2px;line-height:1.1;text-align:left;" id="land-theme-name">Loading...</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.8);text-align:left;line-height:1.3;" id="land-theme-tagline"></div>
+      </div>
     </div>
-    <div class="land-meta">
-      <div class="land-meta-chip">5 Products</div>
-      <div class="land-meta-chip">Guess All · Then Submit</div>
-      <div class="land-meta-chip">Daily Theme</div>
-    </div>
-    <button onclick="startGame()" class="start-btn">🛒 Start Guessing</button>
-    <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:10px 16px;margin-bottom:1rem;max-width:320px;width:100%;position:relative;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">🔥 Can't Miss Today</div>
-      <div style="font-size:13px;color:#fff;opacity:0.9;" id="cant-miss-text">Loading today's theme...</div>
-    </div>
-    <div class="land-rules">
-      <b>🎯 Exact</b> = 1000 pts &nbsp;·&nbsp; <b>🔥 On fire</b> = 850 pts &nbsp;·&nbsp; <b>🧊 Freezing</b> = 100 pts<br/>Closer = more points · over or under doesn't matter
+    <div style="font-size:11px;color:rgba(255,255,255,0.7);margin:4px 0 8px;">Guess the price of each product · closer = more points · new theme daily</div>
+    <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:8px 14px;display:inline-block;max-width:320px;width:100%;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;">🔥 Can't Miss Today</div>
+      <div style="font-size:12px;color:#fff;opacity:0.9;" id="cant-miss-text">Loading...</div>
     </div>
   </div>
+
+  <!-- PRODUCTS -->
+  <div style="padding:0.875rem;">
+    <div id="land-body"></div>
+
+    <!-- RUNNING TOTAL + SUBMIT -->
+    <div style="background:#fff;border:1.5px solid var(--border2);border-radius:var(--radius);padding:1rem;margin-bottom:0.875rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+        <span style="font-size:13px;color:var(--text2);font-weight:500;">Your total guess</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--orange);" id="rt-total" class="rt-total">$0.00</span>
+      </div>
+      <button class="submit-btn ready" id="submit-btn" onclick="submitAll()">Submit My Guesses 🔒</button>
+      <p style="font-size:10px;color:var(--text3);text-align:center;margin-top:8px;">Leave any input blank to skip · zeros count</p>
+    </div>
+    <p style="font-size:10px;color:var(--text3);text-align:center;padding-bottom:1.5rem;">As an Associate I earn from qualifying purchases.</p>
+  </div>
+
 </div>
 
-<!-- GUESS SCREEN -->
-<div class="screen" id="guess">
-  <div class="guess-header">
-    <div class="gh-top">
-      <div class="gh-logo">GUESS <span>TOTAL</span></div>
-    </div>
-    <div class="gh-theme" id="gh-theme"></div>
-  </div>
-  <div class="guess-body" id="guess-body"></div>
-  <div class="running-total-bar">
-    <div class="rt-row">
-      <div class="rt-label">Your running total</div>
-      <div class="rt-total" id="rt-total">$0.00</div>
-    </div>
-    <button class="submit-btn" id="submit-btn" disabled onclick="submitAll()">Enter all 5 prices to submit</button>
-  </div>
-</div>
+<!-- Guess screen merged into landing -->
 
-<!-- RESULTS SCREEN -->
-<div class="screen" id="results">
-  <div class="results-header">
-    <div class="rh-logo">GUESS <span>TOTAL</span></div>
-    <div class="rh-theme" id="rh-theme"></div>
-  </div>
-  <div class="results-body" id="results-body"></div>
-  <div class="results-footer">
-    <div class="rf-total-row">
-      <span class="rf-label">Total score</span>
-      <span class="rf-score" id="rf-score">0 pts</span>
-    </div>
-    <button class="see-results-btn" onclick="showFinal()">See My Vibe Meter 🎯</button>
-    <p style="font-size:10px;color:var(--text3);text-align:center;margin-top:8px;">As an Associate I earn from qualifying purchases.</p>
-  </div>
-</div>
+<!-- COMBINED RESULTS + FINAL SCREEN -->
+<div class="screen" id="results" style="height:auto;min-height:100vh;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg2);">
 
-<!-- FINAL SCREEN -->
-<div class="screen" id="final">
-  <div class="final-header">
-    <div class="fh-circle" style="width:200px;height:200px;top:-60px;right:-40px;"></div>
-    <div class="fh-logo">GUESS <span>TOTAL</span></div>
-    <div class="fh-theme" id="fh-theme"></div>
-    <div class="fh-score" id="fh-score">0</div>
-    <div class="fh-score-label">points out of 5,000</div>
+  <!-- HEADER -->
+  <div style="background:var(--orange);padding:1rem 1.25rem;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.06);top:-60px;right:-40px;"></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:#fff;">GUESS <span style="color:var(--gold);">TOTAL</span></div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:2px;" id="rh-theme"></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:64px;color:var(--gold);line-height:1;text-shadow:0 4px 16px rgba(255,215,0,0.5);" id="fh-score">0</div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.75);">points out of 5,000</div>
+    <!-- HEAT CHIPS -->
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;" id="heat-chips"></div>
   </div>
-  <div class="final-body">
+
+  <div style="padding:0.875rem;">
+
     <!-- VIBE METER -->
-    <div class="vibe-card" id="vibe-card">
+    <div class="vibe-card" id="vibe-card" style="margin-bottom:1rem;">
       <span class="vibe-emoji" id="vibe-emoji">🏆</span>
       <div class="vibe-title" id="vibe-title"></div>
       <div class="vibe-sub" id="vibe-sub"></div>
       <div class="vibe-track"><div class="vibe-fill" id="vibe-fill" style="width:0%"></div></div>
       <div class="vibe-ends"><span>💀 Lost</span><span>🏆 Genius</span></div>
     </div>
-    <!-- HEAT CHIPS -->
-    <div class="heat-chips" id="heat-chips"></div>
-    <!-- CART TOTAL + BIG PRODUCT LINKS -->
-    <div class="cart-card">
-      <div class="cc-head"><span class="cc-title">Today's Bundle</span><span style="font-size:11px;color:var(--text2);" id="cc-theme"></span></div>
-      <div id="cc-items"></div>
+
+    <!-- PRODUCT REVEALS -->
+    <div id="results-body"></div>
+
+    <!-- CART TOTALS -->
+    <div class="cart-card" style="margin-bottom:1rem;">
+      <div class="cc-head"><span class="cc-title">Cart Total</span><span style="font-size:11px;color:var(--text2);" id="cc-theme"></span></div>
       <div class="cc-row" style="background:var(--orange-light);"><span class="cc-label" style="font-weight:700;">Actual total</span><span class="cc-val" id="cc-actual"></span></div>
       <div class="cc-row"><span class="cc-label" style="font-weight:700;">Your total</span><span class="cc-val" id="cc-yours"></span></div>
       <div class="cc-diff"><span class="cc-diff-label">Difference</span><span class="diff-pill" id="cc-diff"></span></div>
     </div>
-    <!-- SHOP BUNDLE BUTTON -->
-    <button class="shop-bundle-btn" id="shop-bundle-btn" onclick="shopBundle()">🛍️ Shop Today's Full Bundle</button>
-    <p style="font-size:10px;color:var(--text3);text-align:center;margin-bottom:1rem;">Opens all 5 products in new tabs</p>
+
+    <!-- SHOP BUNDLE -->
+    <button class="shop-bundle-btn" onclick="shopBundle()" style="margin-bottom:6px;">🛍️ Shop Today's Full Bundle</button>
+    <p style="font-size:10px;color:var(--text3);text-align:center;margin-bottom:1rem;">Opens all 5 products · affiliate links</p>
+
     <!-- SHARE -->
     <button class="share-btn" onclick="shareResults()">Share My Results 📤</button>
     <div class="copied-msg" id="copied-msg"></div>
     <div class="divider"></div>
+
     <!-- LEADERBOARD -->
     <div class="section-label">Today's Leaderboard</div>
     <div class="lb-list" id="lb-list"></div>
@@ -349,6 +364,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text);di
       <button class="lb-btn" id="lb-btn" onclick="submitLB()">Add My Score</button>
     </div>
     <div class="divider"></div>
+
     <!-- EMAIL -->
     <div class="email-card">
       <div class="email-card-title">🔔 Get Tomorrow's Theme</div>
@@ -360,8 +376,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text);di
       <div class="email-success" id="email-success"></div>
     </div>
     <div class="divider"></div>
-    <!-- TOMORROW TEASE — BOTTOM -->
-    <div class="tease-card">
+
+    <!-- TOMORROW TEASE -->
+    <div class="tease-card" style="margin-bottom:1rem;">
       <div class="tease-label">Coming Tomorrow</div>
       <div class="tease-name" id="tease-name"></div>
       <span class="tease-sil" id="tease-sil"></span>
@@ -371,9 +388,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text);di
         <div class="countdown-time" id="countdown-time">--:--:--</div>
       </div>
     </div>
+
     <p class="affiliate-note">As an Associate I earn from qualifying purchases.</p>
   </div>
 </div>
+
+<!-- FINAL SCREEN — redirects to results -->
+<div class="screen" id="final" style="display:none;"></div>
 
 <script>
 const TAG='guesstotal-20';
@@ -485,7 +506,26 @@ async function saveLB(lb){
     try{localStorage.setItem(getTodayKey(),JSON.stringify(lb));}catch{}
   }
 }
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function showScreen(id){
+  if(id==='final') id='results';
+  // Hide all screens
+  document.querySelectorAll('.screen').forEach(s=>{
+    s.classList.remove('active');
+    s.style.visibility='hidden';
+    s.style.position='absolute';
+    s.style.top='-9999px';
+  });
+  // Show target screen
+  const el=document.getElementById(id);
+  if(el){
+    el.classList.add('active');
+    el.style.visibility='visible';
+    el.style.position='relative';
+    el.style.top='0';
+    el.scrollTop=0;
+    window.scrollTo(0,0);
+  }
+}
 
 function fireConfetti(n=60){
   const colors=['#FF6B35','#FFD700','#FF6B6B','#4ECDC4','#95E1D3','#fff'];
@@ -506,8 +546,39 @@ function initLanding(){
   const cantMiss=document.getElementById('cant-miss-text');
   if(cantMiss){
     const p=todayBundle.products[Math.floor(Math.random()*todayBundle.products.length)];
-    cantMiss.textContent=`Today\'s bundle includes ${p.teaser} — and the price will surprise you.`;
+    cantMiss.textContent=`Today includes ${p.teaser} — and the price will surprise you.`;
   }
+  buildLandingProducts();
+}
+
+function buildLandingProducts(){
+  const body=document.getElementById('land-body');
+  if(!body)return;
+  body.innerHTML='';
+  todayBundle.products.forEach((p,i)=>{
+    const card=document.createElement('div');
+    card.className='plc';
+    card.id=`plc-${i}`;
+    card.innerHTML=`
+      <div class="plc-img">
+        ${p.img?`<img src="${p.img}" alt="${p.name}"/>`:'<span style="font-size:52px">📦</span>'}
+        <div class="plc-num">Item ${i+1}</div>
+      </div>
+      <div class="plc-info">
+        <div class="plc-name">${p.name}</div>
+        <div class="plc-teaser">🔍 Make your guess to discover this product</div>
+        <div class="plc-input-row">
+          <span class="plc-dollar">$</span>
+          <input class="plc-input" type="number" id="inp-${i}" placeholder="0.00" min="0" step="0.01" oninput="onLandInput()"/>
+        </div>
+      </div>`;
+    card.style.marginBottom='0.875rem';
+    body.appendChild(card);
+  });
+}
+
+function onLandInput(){
+  onInput();
 }
 
 function startGame(){score=0;guesses=[];showScreen('guess');buildGuessScreen();}
@@ -525,13 +596,10 @@ function buildGuessScreen(){
 
 function onInput(){
   updateTotal();
-  const all=todayBundle.products.every((_,i)=>{const v=parseFloat(document.getElementById(`inp-${i}`)?.value);return !isNaN(v)&&v>=0;});
-  const btn=document.getElementById('submit-btn');
-  btn.disabled=!all;
-  if(all){btn.textContent='Submit All Guesses 🔒';btn.classList.add('ready');}
-  else{btn.textContent='Enter all 5 prices to submit';btn.classList.remove('ready');}
+  if(!todayBundle)return;
   todayBundle.products.forEach((_,i)=>{
     const v=document.getElementById(`inp-${i}`)?.value;
+    document.getElementById(`plc-${i}`)?.classList.toggle('filled',v&&v!=='');
     document.getElementById(`pgc-${i}`)?.classList.toggle('filled',v&&v!=='');
   });
 }
@@ -545,7 +613,8 @@ function updateTotal(){
 function submitAll(){
   guesses=[];score=0;
   todayBundle.products.forEach((p,i)=>{
-    const val=parseFloat(document.getElementById(`inp-${i}`).value)||0;
+    const raw=document.getElementById(`inp-${i}`)?.value;
+    const val=raw&&raw!==''?parseFloat(raw):0;
     const diff=Math.abs(val-p.price);
     const pct=(diff/p.price)*100;
     const heat=getHeat(pct);
@@ -553,44 +622,37 @@ function submitAll(){
     guesses.push({product:p,guess:val,pts:heat.pts,heat,pct});
     if(typeof gtag!=='undefined'){
       gtag('event','product_guess',{
-        'product_name':p.name,
-        'actual_price':p.price,
-        'guessed_price':val,
-        'difference_pct':Math.round(pct),
-        'heat_result':heat.key,
-        'points_earned':heat.pts,
+        'product_name':p.name,'actual_price':p.price,
+        'guessed_price':val,'difference_pct':Math.round(pct),
+        'heat_result':heat.key,'points_earned':heat.pts,
         'bundle_theme':todayBundle.theme
       });
     }
   });
   if(typeof gtag!=='undefined'){
-    gtag('event','game_complete',{
-      'bundle_theme':todayBundle.theme,
-      'final_score':score
-    });
+    gtag('event','game_complete',{'bundle_theme':todayBundle.theme,'final_score':score});
   }
   buildResultsScreen();
-  showScreen('results');
+  showFinal();
 }
 
 function buildResultsScreen(){
-  document.getElementById('rh-theme').textContent=todayBundle.theme+' '+todayBundle.emoji;
-  document.getElementById('rf-score').textContent=score.toLocaleString()+' pts';
+  document.getElementById('rh-theme') && (document.getElementById('rh-theme').textContent=todayBundle.theme+' '+todayBundle.emoji);
   const body=document.getElementById('results-body');body.innerHTML='';
   const bgMap={'h-perfect':'#E1F5EE','h-hot':'#EAF3DE','h-warm':'#FAEEDA','h-cold':'#FAECE7','h-ice':'#EEF2F7'};
-
   guesses.forEach((g,i)=>{
     const p=g.product;const heat=g.heat;
     const commentArr=p.comments[heat.key]||['😅','NOT BAD.','Decent guess!'];
     const card=document.createElement('div');
     card.className='result-card';
     card.style.animationDelay=(i*0.12)+'s';
+    card.style.marginBottom='1rem';
     card.innerHTML=`
       <div class="rc-img-row">
         <div class="rc-thumb">${p.img?`<img src="${p.img}" alt="${p.name}"/>`:'<span style="font-size:28px">📦</span>'}</div>
         <div class="rc-name-wrap">
           <div class="rc-name">${p.name}</div>
-          <a class="rc-link" href="${affLink(p.asin)}" target="_blank">🛒 Shop This Item</a>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px;">Actual: <strong style="color:var(--orange);">$${p.price.toFixed(2)}</strong> · Your guess: <strong>$${g.guess.toFixed(2)}</strong></div>
         </div>
       </div>
       <div class="verdict-banner ${heat.cls}">
@@ -600,28 +662,22 @@ function buildResultsScreen(){
           <div class="verdict-comment">${commentArr[2]}</div>
         </div>
       </div>
-      <div class="price-compare">
-        <div class="pc-box actual"><div class="pc-label">Actual Price</div><div class="pc-price actual-price">$${p.price.toFixed(2)}</div></div>
-        <div class="pc-box guess"><div class="pc-label">Your Guess</div><div class="pc-price">$${g.guess.toFixed(2)}</div></div>
-      </div>
-      <div class="pc-pts">+${g.pts.toLocaleString()} pts ${heat.emoji}</div>`;
+      <div style="padding:0 0.875rem 0.875rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);">+${g.pts.toLocaleString()} pts ${heat.emoji}</span>
+          <span style="font-size:12px;color:var(--text2);">${Math.round(Math.max(0,100-g.pct))}% accuracy</span>
+        </div>
+        <a class="rc-link" href="${affLink(p.asin)}" target="_blank">🛒 Shop This Item — $${p.price.toFixed(2)}</a>
+      </div>`;
     body.appendChild(card);
-
     if(heat.pts>=850){setTimeout(()=>{fireConfetti(heat.pts>=950?80:40);if(heat.pts>=950)goldPulse();},i*120+300);}
   });
 }
 
 async function showFinal(){
-  if(typeof gtag!=='undefined'){
-    gtag('event','game_complete',{
-      'bundle_theme':todayBundle.theme,
-      'final_score':score,
-      'avg_accuracy':Math.round(guesses.reduce((a,g)=>a+Math.max(0,100-g.pct),0)/5)
-    });
-  }
-  showScreen('final');
+  showScreen('results');
   fireConfetti(70);
-  document.getElementById('fh-theme').textContent=todayBundle.theme+' '+todayBundle.emoji;
+  document.getElementById('rh-theme').textContent=todayBundle.theme+' '+todayBundle.emoji;
   document.getElementById('fh-score').textContent=score.toLocaleString();
   const realTotal=todayBundle.products.reduce((a,p)=>a+p.price,0);
   const guessTotal=guesses.reduce((a,g)=>a+g.guess,0);
@@ -630,28 +686,19 @@ async function showFinal(){
   document.getElementById('vibe-emoji').textContent=vibe.emoji;
   document.getElementById('vibe-title').textContent=vibe.title;
   document.getElementById('vibe-sub').textContent=vibe.sub;
-  setTimeout(()=>{document.getElementById('vibe-fill').style.width=Math.min(100,avgAcc)+'%';document.getElementById('vibe-fill').style.background=vibe.color;},200);
+  setTimeout(()=>{
+    document.getElementById('vibe-fill').style.width=Math.min(100,avgAcc)+'%';
+    document.getElementById('vibe-fill').style.background=vibe.color;
+  },200);
   const chips=document.getElementById('heat-chips');chips.innerHTML='';
   const bgMap={'h-perfect':'#E1F5EE','h-hot':'#EAF3DE','h-warm':'#FAEEDA','h-cold':'#FAECE7','h-ice':'#EEF2F7'};
-  guesses.forEach((g,i)=>{const c=document.createElement('div');c.className='hc';c.style.animationDelay=(i*.1)+'s';c.style.background=bgMap[g.heat.cls]||'#F1EFE8';c.textContent=g.heat.emoji;chips.appendChild(c);});
-  document.getElementById('cc-theme').textContent=todayBundle.theme;
-  const ccItems=document.getElementById('cc-items');ccItems.innerHTML='';
-  guesses.forEach(g=>{
-    const row=document.createElement('div');row.className='cc-item';
-    row.innerHTML=`
-      <div class="cc-item-top">
-        <div class="cc-item-thumb">${g.product.img?`<img src="${g.product.img}" alt="${g.product.name}"/>`:'📦'}</div>
-        <div class="cc-item-info">
-          <div class="cc-item-name">${g.product.name}</div>
-          <div class="cc-item-price-row">
-            <span class="cc-item-price">$${g.product.price.toFixed(2)}</span>
-            <span class="cc-item-heat">${g.heat.emoji}</span>
-          </div>
-        </div>
-      </div>
-      <a class="cc-item-shop-btn" href="${affLink(g.product.asin)}" target="_blank">🛒 Shop This Item</a>`;
-    ccItems.appendChild(row);
+  guesses.forEach((g,i)=>{
+    const c=document.createElement('div');c.className='hc';
+    c.style.animationDelay=(i*.1)+'s';
+    c.style.background=bgMap[g.heat.cls]||'#F1EFE8';
+    c.textContent=g.heat.emoji;chips.appendChild(c);
   });
+  document.getElementById('cc-theme').textContent=todayBundle.theme;
   document.getElementById('cc-actual').textContent=`$${realTotal.toFixed(2)}`;
   document.getElementById('cc-yours').textContent=`$${guessTotal.toFixed(2)}`;
   const diff=guessTotal-realTotal;
