@@ -1,0 +1,124 @@
+{
+  "categories": {
+    "tech": [
+      {"asin":"B08S7M1QPZ","teaser":"The Floating World","meta":"Defies gravity · LED light base · slow spin · conversation starter","fallbackName":"MOKOQI Magnetic Levitation Globe","fallbackPrice":36.99},
+      {"asin":"B0F18BBHCC","teaser":"The Glow Up","meta":"Red light LED · wireless · spa-level treatment at home","fallbackName":"LED Face Mask Light Therapy","fallbackPrice":89.99},
+      {"asin":"B082F13J55","teaser":"Big Screen Energy","meta":"1080p native · 200\" display · WiFi + Bluetooth · built-in speakers","fallbackName":"Mini Projector with WiFi and Bluetooth","fallbackPrice":69.99},
+      {"asin":"B0CQQ85ZK3","teaser":"The Vibe Setter","meta":"16 million colors · app controlled · music sync · adhesive mount","fallbackName":"Govee Smart LED Neon Rope Lights","fallbackPrice":49.99},
+      {"asin":"B0C535NZQ8","teaser":"The Command Center","meta":"4 ports · fast charge · LED display · compact design","fallbackName":"Charging Station for Multiple Devices","fallbackPrice":39.99},
+      {"asin":"B0DCM34GXX","teaser":"The Content Machine","meta":"Waterproof · 5.3K video · HyperSmooth stabilization · rugged","fallbackName":"GoPro HERO 13 Black","fallbackPrice":349.00},
+      {"asin":"B0BWP15J1P","teaser":"The Instant Classic","meta":"Instant film · auto exposure · selfie mirror · compact","fallbackName":"Fujifilm Instax Mini 12 Camera","fallbackPrice":86.74},
+      {"asin":"B0CTNMJL8G","teaser":"The Party Speaker","meta":"Bluetooth 5.3 · IP67 waterproof · 12hr battery · bass boost","fallbackName":"JBL Clip 5 Portable Speaker","fallbackPrice":59.95},
+      {"asin":"B09G9FPHY6","teaser":"The Night Owl","meta":"4K monitor light bar · auto dimming · USB powered · no glare","fallbackName":"BenQ ScreenBar Monitor Light","fallbackPrice":109.00},
+      {"asin":"B0BSHF7WHW","teaser":"The Power Bank","meta":"20000mAh · 65W fast charge · laptop compatible · USB-C","fallbackName":"Anker Prime 20000mAh Power Bank","fallbackPrice":99.99},
+      {"asin":"B0D5C4KXD6","teaser":"The Ear Upgrade","meta":"Active noise cancelling · 50hr battery · spatial audio · USB-C","fallbackName":"Sony WH-1000XM5 Headphones","fallbackPrice":298.00},
+      {"asin":"B0CX23V2ZK","teaser":"The Tracker","meta":"Fitness tracking · GPS · 10 day battery · always-on display","fallbackName":"Fitbit Charge 6","fallbackPrice":99.95}
+    ],
+    "outdoor": [
+      {"asin":"B002V7A7MQ","teaser":"The Backyard Weapon","meta":"Pro kit · 3 balls included · foldable legs · intense rallies","fallbackName":"Spikeball 3-Ball Kit","fallbackPrice":59.99},
+      {"asin":"B0F5G8BVVJ","teaser":"The Disc Duel","meta":"Flying disc + slam can · all ages · portable · instant setup","fallbackName":"Kan Jam Original Disc Toss Game","fallbackPrice":39.99},
+      {"asin":"B07G3VFB12","teaser":"The Toss Boss","meta":"All-weather · LED option · regulation size · carrying case","fallbackName":"GoSports Cornhole Set","fallbackPrice":59.99},
+      {"asin":"B0DGGBV13B","teaser":"The Ladder Launcher","meta":"Wrap-around scoring · indoor/outdoor · includes bolas · folding frame","fallbackName":"Ladder Toss Game Set","fallbackPrice":34.99},
+      {"asin":"B00IZCFTSG","teaser":"The Lawn Legend","meta":"Bocce ball · 8 balls + pallino · carrying case · regulation size","fallbackName":"AmazonBasics Bocce Ball Set","fallbackPrice":29.99},
+      {"asin":"B0CHRPQ952","teaser":"The Splash Zone","meta":"68\" splash pad · sprinkler · non-slip · toddler safe · easy setup","fallbackName":"Splash Pad for Dogs and Kids","fallbackPrice":32.99},
+      {"asin":"B088LG4FPD","teaser":"The Pool Party","meta":"Foldable · PVC · drain plug · non-slip · 63\" diameter","fallbackName":"Foldable Dog Pool","fallbackPrice":22.99},
+      {"asin":"B0F1T8XL4G","teaser":"The Ring Master","meta":"Glow in dark · indoor/outdoor · suction cup or lawn · travel bag","fallbackName":"Ring Toss Game Set","fallbackPrice":19.99}
+    ],
+    "kitchen": [
+      {"asin":"B005Q8X6IO","teaser":"The Retro Toaster","meta":"4-slice · stainless steel · 6 shade settings · bagel function · countdown","fallbackName":"SMEG Retro Style Toaster","fallbackPrice":32.99},
+      {"asin":"B01MZ14LJV","teaser":"The Drainer","meta":"Collapsible · BPA-free · space-saving · dishwasher safe · no mess","fallbackName":"Collapsible Colander","fallbackPrice":16.99},
+      {"asin":"B094NTCSDJ","teaser":"The Yolk Splitter","meta":"Food-grade · one-handed · BPA-free · fits any bowl · cute design","fallbackName":"Egg Separator","fallbackPrice":7.99},
+      {"asin":"B08R8YVH9G","teaser":"The Coaster Set","meta":"Absorbent ceramic · cork back · 6-pack · modern patterns","fallbackName":"Ceramic Coasters Set of 6","fallbackPrice":11.99},
+      {"asin":"B0D1SQPV27","teaser":"The Ice Queen","meta":"Nugget ice · countertop · self-cleaning · 26 lbs/day","fallbackName":"Nugget Ice Maker Countertop","fallbackPrice":159.99},
+      {"asin":"B07PJV3JPR","teaser":"The Chop Master","meta":"Electric food processor · 2 cup · stainless blades · one-touch","fallbackName":"Hamilton Beach Food Chopper","fallbackPrice":19.99},
+      {"asin":"B0BN23GZWN","teaser":"The Air Fryer","meta":"6 quart · 8 presets · digital display · easy clean · compact","fallbackName":"COSORI Air Fryer 6 Quart","fallbackPrice":79.99},
+      {"asin":"B07S85TPLG","teaser":"The Cold Brew King","meta":"64oz · fine mesh filter · airtight lid · dishwasher safe","fallbackName":"Cold Brew Coffee Maker","fallbackPrice":24.99}
+    ],
+    "fitness": [
+      {"asin":"B0CN3S2SW2","teaser":"The Portable Blender","meta":"USB-C rechargeable · 20oz · 6 blades · self-cleaning · travel-ready","fallbackName":"Portable Blender","fallbackPrice":19.95},
+      {"asin":"B08YWVJNNV","teaser":"The Cool Down","meta":"Rechargeable · 3 speeds · neck fan · hands-free · portable","fallbackName":"Portable Neck Fan","fallbackPrice":19.99},
+      {"asin":"B0DM37J9S4","teaser":"The Stay Cold","meta":"40oz · vacuum insulated · straw lid · fits cup holder · sweat-proof","fallbackName":"RTIC Tumbler 40oz","fallbackPrice":18.39},
+      {"asin":"B0DFM59KY7","teaser":"The Fold-Up","meta":"Collapsible · BPA-free · leak-proof · clip-on · 20oz","fallbackName":"Collapsible Water Bottle","fallbackPrice":12.99},
+      {"asin":"B07BSWDTBK","teaser":"The Adventure Bag","meta":"Waterproof dry bag · 20L · roll-top · shoulder strap · floating","fallbackName":"Waterproof Dry Bag 20L","fallbackPrice":18.99},
+      {"asin":"B0BSFBPXQ4","teaser":"The Home Gym","meta":"Adjustable · 5-25 lbs · space-saving · quick change · grip comfort","fallbackName":"Adjustable Dumbbell Set","fallbackPrice":149.99},
+      {"asin":"B07K3BKKN3","teaser":"The Roller","meta":"High-density foam · 18 inch · textured surface · recovery tool","fallbackName":"Foam Roller for Muscle Recovery","fallbackPrice":16.99},
+      {"asin":"B09KHLTQNJ","teaser":"The Smart Scale","meta":"Body fat % · muscle mass · BMI · Bluetooth · app sync","fallbackName":"RENPHO Smart Body Scale","fallbackPrice":24.99}
+    ],
+    "pets": [
+      {"asin":"B01I3DTB2S","teaser":"The Splash Pad","meta":"Non-slip · auto spray · 60\" · adjustable pressure · easy connect","fallbackName":"Dog Splash Pad","fallbackPrice":29.99},
+      {"asin":"B0GT3SRF8Q","teaser":"The Solar Fountain","meta":"Solar powered · 6 nozzles · bird bath · no wiring · floating","fallbackName":"Solar Fountain for Bird Bath","fallbackPrice":19.99},
+      {"asin":"B07Y5FC2HB","teaser":"The Paw Cleaner","meta":"Portable · soft bristles · one-hand use · muddy paw solution","fallbackName":"Dog Paw Cleaner","fallbackPrice":14.99},
+      {"asin":"B08JCM6VK6","teaser":"The Puzzle Pro","meta":"Interactive · slow feeder · mental stimulation · non-slip base","fallbackName":"Dog Puzzle Toy","fallbackPrice":12.99},
+      {"asin":"B074RG4HCH","teaser":"The Treat Launcher","meta":"Auto ball launcher · 3 distance settings · standard tennis balls","fallbackName":"Automatic Dog Ball Launcher","fallbackPrice":39.99},
+      {"asin":"B07D3GWNQL","teaser":"The Cat Castle","meta":"Multi-level · sisal scratching posts · hammock · condo · 50 inch","fallbackName":"Cat Tree Tower","fallbackPrice":49.99},
+      {"asin":"B08GKC7DFG","teaser":"The Slow Feeder","meta":"Anti-gulp · non-slip base · dishwasher safe · fun maze pattern","fallbackName":"Slow Feeder Dog Bowl","fallbackPrice":9.99}
+    ],
+    "selfcare": [
+      {"asin":"B0CQXMWQH9","teaser":"The Brain Freeze","meta":"Full coverage · gel bead · hot/cold therapy · adjustable strap","fallbackName":"Migraine Relief Cap","fallbackPrice":19.99},
+      {"asin":"B0F531JR4Z","teaser":"The Chop Block","meta":"Bamboo · juice groove · handle · antimicrobial · reversible","fallbackName":"Premium Bamboo Cutting Board","fallbackPrice":24.99},
+      {"asin":"B07TZF5HKZ","teaser":"The Zen Den","meta":"Essential oil diffuser · 400ml · color changing LED · auto shutoff","fallbackName":"Essential Oil Diffuser","fallbackPrice":23.99},
+      {"asin":"B0B4N1MMJM","teaser":"The Silk Slide","meta":"Mulberry silk · 22 momme · hidden zipper · cooling · hair care","fallbackName":"Silk Pillowcase","fallbackPrice":23.99},
+      {"asin":"B09DKWGLHK","teaser":"The Eye Mask","meta":"Heated · USB rechargeable · lavender scented · sleep aid · timer","fallbackName":"Heated Eye Mask","fallbackPrice":29.99},
+      {"asin":"B07PXLF6KS","teaser":"The Glow Drops","meta":"Vitamin C serum · hyaluronic acid · anti-aging · brightening","fallbackName":"TruSkin Vitamin C Serum","fallbackPrice":19.99},
+      {"asin":"B09KMDJNM7","teaser":"The Scalp Spa","meta":"Electric · IPX7 waterproof · 4 massage heads · rechargeable","fallbackName":"Electric Scalp Massager","fallbackPrice":27.99}
+    ],
+    "home": [
+      {"asin":"B0DHLJ6TR9","teaser":"The Bouquet","meta":"LEGO flowers · 756 pieces · no watering · display ready · relaxing build","fallbackName":"LEGO Flower Bouquet","fallbackPrice":47.98},
+      {"asin":"B09PFWFCH9","teaser":"The Lazy Hang","meta":"Portable · holds 450 lbs · easy setup · no trees needed · carry bag","fallbackName":"Portable Hammock with Stand","fallbackPrice":39.99},
+      {"asin":"B0C411QF65","teaser":"The Cool Table","meta":"Built-in cooler · outdoor table · patio · drink holder · 28 quart","fallbackName":"Keter Outdoor Cooler Table","fallbackPrice":89.99},
+      {"asin":"B0C68LM827","teaser":"The Glow String","meta":"Solar powered · 100 LED · 8 modes · waterproof · warm white","fallbackName":"Solar String Lights","fallbackPrice":34.99},
+      {"asin":"B07DR7MB48","teaser":"The Party Stakes","meta":"Outdoor drink holders · set of 6 · stake in ground · fits cans","fallbackName":"Outdoor Drink Stake Holders","fallbackPrice":16.99},
+      {"asin":"B0CMVTHVJ6","teaser":"The Sunrise Alarm","meta":"Wake-up light · sunrise simulation · FM radio · nature sounds","fallbackName":"Sunrise Alarm Clock","fallbackPrice":34.99},
+      {"asin":"B07RKRZB8C","teaser":"The Neon Sign","meta":"Custom LED neon · USB powered · wall mount · dimmable · acrylic","fallbackName":"LED Neon Light Sign","fallbackPrice":24.99},
+      {"asin":"B09CFVFBXG","teaser":"The Smart Plug","meta":"WiFi · Alexa/Google · timer · energy monitor · 4-pack","fallbackName":"Smart Plug 4-Pack","fallbackPrice":22.99}
+    ],
+    "party": [
+      {"asin":"B0BT5WK9ZJ","teaser":"The S'more Machine","meta":"Electric · indoor · 6 servings · easy clean · no flame needed","fallbackName":"Indoor Electric S'mores Maker","fallbackPrice":35.99},
+      {"asin":"B0C6QJK9SP","teaser":"The Bubble Show","meta":"Giant bubble wands · 2-pack · refill mix · outdoor magic","fallbackName":"Giant Bubble Wands 2-Pack","fallbackPrice":19.99},
+      {"asin":"B0CTKR7JSK","teaser":"The Magnet Battle","meta":"Magnetic darts · rollable board · 12 darts · safe for kids · portable","fallbackName":"Magnetic Dart Board","fallbackPrice":17.97},
+      {"asin":"B0B5B8P36W","teaser":"The Net Boss","meta":"4-way volleyball · adjustable net · all ages · portable · pro level","fallbackName":"CROSSNET Four Way Volleyball","fallbackPrice":109.99},
+      {"asin":"B08R6ZY4F2","teaser":"The Tower Toppler","meta":"Giant tumbling tower · 54 blocks · carry bag · builds to 5 ft","fallbackName":"Giant Tumbling Tower Game","fallbackPrice":41.99},
+      {"asin":"B0C68LM827","teaser":"The Glow String","meta":"Solar powered · 100 LED · 8 modes · waterproof · warm white","fallbackName":"Solar String Lights","fallbackPrice":34.99},
+      {"asin":"B0BWKP58SH","teaser":"The Karaoke Box","meta":"Bluetooth · wireless mic · LED lights · portable · USB-C charge","fallbackName":"Karaoke Machine with Wireless Mic","fallbackPrice":49.99},
+      {"asin":"B09WMHFKJR","teaser":"The Photo Booth","meta":"Instant print · filters · frames · party mode · rechargeable","fallbackName":"Instant Print Camera","fallbackPrice":59.99}
+    ],
+    "travel": [
+      {"asin":"B07RKRZB8C","teaser":"The Neck Saver","meta":"Memory foam · adjustable · washable cover · carry bag · ergonomic","fallbackName":"Travel Neck Pillow","fallbackPrice":24.99},
+      {"asin":"B07VJYZFLL","teaser":"The Packing Pro","meta":"6 piece set · compression · waterproof · see-through · color coded","fallbackName":"Packing Cubes Set of 6","fallbackPrice":19.99},
+      {"asin":"B0BSHF7WHW","teaser":"The Juice Box","meta":"20000mAh · 65W · USB-C · laptop compatible · airline approved","fallbackName":"Anker Power Bank 20000mAh","fallbackPrice":99.99},
+      {"asin":"B07XJ8C8F5","teaser":"The Lockdown","meta":"TSA approved · combination · 4 digit · zinc alloy · 2-pack","fallbackName":"TSA Luggage Lock 2-Pack","fallbackPrice":10.99},
+      {"asin":"B09GFQKH42","teaser":"The Tag Along","meta":"Apple Find My · replaceable battery · water resistant · key ring","fallbackName":"AirTag 4-Pack","fallbackPrice":79.00},
+      {"asin":"B0BPM52YQW","teaser":"The Blackout","meta":"100% blackout · contoured · adjustable · side sleeper friendly","fallbackName":"Sleep Eye Mask","fallbackPrice":12.99},
+      {"asin":"B07QK955LS","teaser":"The Adapter","meta":"Universal · 4 USB · type-C · covers 200+ countries · fuse protected","fallbackName":"Universal Travel Adapter","fallbackPrice":22.99}
+    ],
+    "gaming": [
+      {"asin":"B0979V6YFN","teaser":"The Party Starter","meta":"Strategy card game · 2-8 players · 15 min rounds · ages 7+","fallbackName":"Exploding Kittens Card Game","fallbackPrice":19.99},
+      {"asin":"B01JYVQP0C","teaser":"The Code Cracker","meta":"Cooperative · word game · 2-8 players · top 10 board game","fallbackName":"Codenames Board Game","fallbackPrice":14.99},
+      {"asin":"B084368LXB","teaser":"The Wavelength","meta":"Party game · team vs team · psychic guessing · 2-12 players","fallbackName":"Wavelength Board Game","fallbackPrice":29.99},
+      {"asin":"B07N5PRB5B","teaser":"The Taco Cat","meta":"Card game · fast-paced · slap game · hilarious · ages 8+","fallbackName":"Taco Cat Goat Cheese Pizza","fallbackPrice":9.99},
+      {"asin":"B0C93PXWBP","teaser":"The Throw Down","meta":"Competitive stacking · speed game · colorful cups · 2+ players","fallbackName":"Speed Cups Game","fallbackPrice":14.99}
+    ]
+  },
+  "themes": [
+    {"name":"Tech You Didn't Know You Needed","tagline":"Five gadgets that will make you wonder how you lived without them","emoji":"⚡","categories":["tech"],"cantMiss":"something that will blow your mind"},
+    {"name":"Backyard Games Bundle","tagline":"Everything you need to dominate the backyard this summer","emoji":"🏆","categories":["outdoor"],"cantMiss":"a game that ruins friendships (in the best way)"},
+    {"name":"Chill Vibes Only","tagline":"The ultimate setup for doing absolutely nothing — productively","emoji":"😎","categories":["outdoor","home"],"cantMiss":"something you'll never want to leave"},
+    {"name":"Party Starter Pack","tagline":"Show up with this and you're instantly the best host","emoji":"🎉","categories":["party"],"cantMiss":"the thing that makes you the fun friend"},
+    {"name":"The Tech Shelf","tagline":"The gadgets you didn't know you needed until right now","emoji":"🔌","categories":["tech"],"cantMiss":"a gadget that changes everything"},
+    {"name":"Amazon at 2 AM","tagline":"The stuff that ends up in your cart at 2am","emoji":"🌙","categories":["kitchen","home"],"cantMiss":"something you'll wonder how you lived without"},
+    {"name":"Hydration Station","tagline":"Stay cold, stay refreshed, stay winning all summer long","emoji":"💧","categories":["fitness"],"cantMiss":"the coldest drink setup you've ever seen"},
+    {"name":"Dog Parent Starter Pack","tagline":"Because your dog deserves the good life too","emoji":"🐶","categories":["pets"],"cantMiss":"something your dog will love more than you"},
+    {"name":"Self Care Sunday","tagline":"You deserve this. All of it. No explanation needed","emoji":"🧘","categories":["selfcare"],"cantMiss":"pure relaxation in a box"},
+    {"name":"Kitchen Upgrade","tagline":"The tools that turn your kitchen from meh to chef's kiss","emoji":"👨‍🍳","categories":["kitchen"],"cantMiss":"a kitchen gadget that slaps"},
+    {"name":"Gamer's Night","tagline":"Board games, card games, and zero screens required","emoji":"🎲","categories":["gaming"],"cantMiss":"a game you'll play 10 times this week"},
+    {"name":"Travel Essentials","tagline":"Pack smart, travel smarter, flex hardest","emoji":"✈️","categories":["travel"],"cantMiss":"the one thing seasoned travelers always pack"},
+    {"name":"Home Glow Up","tagline":"Small upgrades that make your space actually feel like you","emoji":"✨","categories":["home"],"cantMiss":"a vibe upgrade for under $50"},
+    {"name":"Fitness & Fuel","tagline":"Gear up, hydrate, recover, repeat","emoji":"💪","categories":["fitness"],"cantMiss":"a fitness hack you haven't tried yet"},
+    {"name":"Pet Paradise","tagline":"Treats, toys, and tail-wagging tech for your fur baby","emoji":"🐾","categories":["pets","outdoor"],"cantMiss":"something that'll get the zoomies going"},
+    {"name":"The Gift Guide","tagline":"Stuck on what to get? These solve every occasion","emoji":"🎁","categories":["tech","home","selfcare"],"cantMiss":"a gift they'll actually use"},
+    {"name":"Summer Survival Kit","tagline":"Beat the heat and own the season","emoji":"☀️","categories":["outdoor","fitness"],"cantMiss":"the ultimate summer flex"},
+    {"name":"Cozy Night In","tagline":"Cancel plans. Light candles. This is your evening now","emoji":"🕯️","categories":["selfcare","home"],"cantMiss":"pure comfort you can buy"},
+    {"name":"Under $25 Finds","tagline":"Proof that the best things in life are surprisingly affordable","emoji":"💰","categories":["kitchen","home","selfcare","pets"],"cantMiss":"a steal you won't believe"},
+    {"name":"Weird But Genius","tagline":"Looks odd in the cart. Makes total sense in your life","emoji":"🤯","categories":["kitchen","tech","home"],"cantMiss":"something weird that actually works"}
+  ]
+}
