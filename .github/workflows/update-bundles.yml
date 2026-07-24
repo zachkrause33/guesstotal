@@ -3,7 +3,12 @@ name: Update Bundles
 on:
   schedule:
     - cron: '0 6 * * *'  # 6 AM UTC daily (1 AM CT / 2 AM ET)
-  workflow_dispatch:       # Manual trigger from GitHub UI
+  workflow_dispatch:
+    inputs:
+      scraper_api_key:
+        description: 'ScraperAPI key (leave blank if already saved as secret)'
+        required: false
+        type: string
 
 jobs:
   update:
@@ -21,10 +26,10 @@ jobs:
       - run: npm install
 
       - name: Refresh prices and images
-        if: env.SCRAPER_API_KEY != ''
         env:
-          SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY }}
+          SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY || inputs.scraper_api_key }}
           AMAZON_PARTNER_TAG: guesstotal-20
+        if: env.SCRAPER_API_KEY != ''
         run: npm run refresh-prices
 
       - name: Generate bundles
@@ -61,10 +66,10 @@ jobs:
       - run: npm install
 
       - name: Discover new products
-        if: env.SCRAPER_API_KEY != ''
         env:
-          SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY }}
+          SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY || inputs.scraper_api_key }}
           AMAZON_PARTNER_TAG: guesstotal-20
+        if: env.SCRAPER_API_KEY != ''
         run: npm run discover
 
       - name: Commit and push if changed
