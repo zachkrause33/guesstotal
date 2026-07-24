@@ -31,7 +31,7 @@
       {"asin":"B08R8YVH9G","teaser":"The Coaster Set","meta":"Absorbent ceramic · cork back · 6-pack · modern patterns","fallbackName":"Ceramic Coasters Set of 6","fallbackPrice":11.99},
       {"asin":"B0D1SQPV27","teaser":"The Ice Queen","meta":"Nugget ice · countertop · self-cleaning · 26 lbs/day","fallbackName":"Nugget Ice Maker Countertop","fallbackPrice":159.99},
       {"asin":"B07PJV3JPR","teaser":"The Chop Master","meta":"Electric food processor · 2 cup · stainless blades · one-touch","fallbackName":"Hamilton Beach Food Chopper","fallbackPrice":19.99},
-      {"asin":"B0BN23GZWN","teaser":"The Air Fryer","meta":"6 quart · 8 presets · digital display · easy clean · compact","fallbackName":"COSORI Air Fryer 6 Quart","fallbackPrice":79.99},
+      {"asin":"B0BN23GZWN","teaser":"The Air Fryer","meta":"6 quart · 8 presets · digital display · easy clean · compact","fallbackName":"COSORI Air Fryer 6 Quart","fallbackPrice":99.99},
       {"asin":"B07S85TPLG","teaser":"The Cold Brew King","meta":"64oz · fine mesh filter · airtight lid · dishwasher safe","fallbackName":"Cold Brew Coffee Maker","fallbackPrice":24.99}
     ],
     "fitness": [
@@ -83,7 +83,7 @@
       {"asin":"B09WMHFKJR","teaser":"The Photo Booth","meta":"Instant print · filters · frames · party mode · rechargeable","fallbackName":"Instant Print Camera","fallbackPrice":59.99}
     ],
     "travel": [
-      {"asin":"B07RKRZB8C","teaser":"The Neck Saver","meta":"Memory foam · adjustable · washable cover · carry bag · ergonomic","fallbackName":"Travel Neck Pillow","fallbackPrice":24.99},
+      {"asin":"B07SRRQS5B","teaser":"The Neck Saver","meta":"Memory foam · adjustable · washable cover · carry bag · ergonomic","fallbackName":"napfun Travel Neck Pillow","fallbackPrice":19.99},
       {"asin":"B07VJYZFLL","teaser":"The Packing Pro","meta":"6 piece set · compression · waterproof · see-through · color coded","fallbackName":"Packing Cubes Set of 6","fallbackPrice":19.99},
       {"asin":"B0BSHF7WHW","teaser":"The Juice Box","meta":"20000mAh · 65W · USB-C · laptop compatible · airline approved","fallbackName":"Anker Power Bank 20000mAh","fallbackPrice":99.99},
       {"asin":"B07XJ8C8F5","teaser":"The Lockdown","meta":"TSA approved · combination · 4 digit · zinc alloy · 2-pack","fallbackName":"TSA Luggage Lock 2-Pack","fallbackPrice":10.99},

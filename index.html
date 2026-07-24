@@ -377,9 +377,12 @@ function fireConfetti(n=60){
 function goldPulse(){const el=document.createElement('div');el.className='gold-pulse';document.body.appendChild(el);setTimeout(()=>el.remove(),900);}
 
 function productImg(p){
-  if(!p.img)return'<span style="font-size:52px">📦</span>';
-  const src=p.img.startsWith('/')?p.img:p.img;
-  return`<img src="${src}" alt="${p.name}" loading="lazy"/>`;
+  if(p.img){
+    const src=p.img.startsWith('/')?p.img:p.img;
+    return`<img src="${src}" alt="${p.name}" loading="lazy"/>`;
+  }
+  const initials=p.name?p.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase():'?';
+  return`<div style="width:80px;height:80px;border-radius:12px;background:linear-gradient(135deg,var(--gold),#e8a800);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#1a1a2e;letter-spacing:1px">${initials}</div>`;
 }
 
 function initLanding(){

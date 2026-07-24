@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "generate": "node scripts/generate-bundles.js",
+    "download-images": "node scripts/download-images.js",
     "bootstrap": "node scripts/bootstrap.js"
   },
-  "dependencies": {
-    "aws4": "^1.13.2"
-  }
+  "dependencies": {}
 }

@@ -22,9 +22,6 @@ jobs:
 
       - name: Generate bundles
         env:
-          AMAZON_ACCESS_KEY: ${{ secrets.AMAZON_ACCESS_KEY }}
-          AMAZON_SECRET_KEY: ${{ secrets.AMAZON_SECRET_KEY }}
-          AMAZON_PARTNER_TAG: ${{ secrets.AMAZON_PARTNER_TAG }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: npm run generate
 
@@ -36,6 +33,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update bundle prices and images $(date -u +%Y-%m-%d)"
+            git commit -m "Update bundles $(date -u +%Y-%m-%d)"
             git push
           fi
