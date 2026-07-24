@@ -1,96 +1,37 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require('child_process');
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const key = process.env.SCRAPER_API_KEY;
 
-const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/);
-if (!scriptMatch) { console.error('Could not find script block'); process.exit(1); }
+console.log('=== GuessTotal Bootstrap ===\n');
 
-const js = scriptMatch[1];
-
-const bundlesStart = js.indexOf('const BUNDLES=[');
-if (bundlesStart === -1) { console.error('Could not find BUNDLES array'); process.exit(1); }
-
-let depth = 0, start = js.indexOf('[', bundlesStart), i = start;
-for (; i < js.length; i++) {
-  if (js[i] === '[') depth++;
-  else if (js[i] === ']') { depth--; if (depth === 0) break; }
-}
-const bundlesStr = js.substring(start, i + 1);
-
-const BUNDLES = eval(bundlesStr);
-console.log(`Found ${BUNDLES.length} bundles with ${BUNDLES.reduce((a, b) => a + b.products.length, 0)} products total`);
-
-const imagesDir = path.join(__dirname, '..', 'public', 'images');
-fs.mkdirSync(imagesDir, { recursive: true });
-
-const config = { bundles: [] };
-
-for (const bundle of BUNDLES) {
-  const configBundle = {
-    id: bundle.id,
-    theme: bundle.theme,
-    tagline: bundle.tagline,
-    emoji: bundle.emoji,
-    tease: bundle.tease,
-    products: []
-  };
-
-  for (const p of bundle.products) {
-    let imgPath = null;
-
-    if (p.img && p.img.startsWith('data:')) {
-      const match = p.img.match(/^data:image\/(\w+);base64,(.+)$/);
-      if (match) {
-        const ext = match[1] === 'jpeg' ? 'jpg' : match[1];
-        const filename = `${p.asin}.${ext}`;
-        const buffer = Buffer.from(match[2], 'base64');
-        fs.writeFileSync(path.join(imagesDir, filename), buffer);
-        imgPath = `/images/${filename}`;
-        console.log(`  Extracted ${filename} (${(buffer.length / 1024).toFixed(0)} KB)`);
-      }
-    }
-
-    configBundle.products.push({
-      asin: p.asin,
-      teaser: p.teaser,
-      meta: p.meta,
-      fallbackName: p.name,
-      fallbackPrice: p.price,
-      fallbackImg: imgPath,
-      comments: p.comments
-    });
-  }
-
-  config.bundles.push(configBundle);
+if (!key) {
+  console.log('No SCRAPER_API_KEY found.\n');
+  console.log('Usage:');
+  console.log('  SCRAPER_API_KEY=your_key npm run bootstrap\n');
+  console.log('Get a free key at https://www.scraperapi.com (1,000 requests/month)\n');
+  console.log('Running generate with fallback data only...\n');
+  execSync('node scripts/generate-bundles.js', { stdio: 'inherit' });
+  return;
 }
 
-fs.writeFileSync(
-  path.join(__dirname, '..', 'bundles.config.json'),
-  JSON.stringify(config, null, 2)
-);
-console.log(`\nWrote bundles.config.json with ${config.bundles.length} bundles`);
+console.log('Step 1/3: Refreshing prices via ScraperAPI...\n');
+try {
+  execSync('node scripts/refresh-prices.js', { stdio: 'inherit', env: { ...process.env } });
+} catch (e) {
+  console.log('\nPrice refresh had errors (continuing anyway)\n');
+}
 
-const bundles = config.bundles.map(b => ({
-  id: b.id,
-  theme: b.theme,
-  tagline: b.tagline,
-  emoji: b.emoji,
-  tease: b.tease,
-  products: b.products.map(p => ({
-    name: p.fallbackName,
-    teaser: p.teaser,
-    meta: p.meta,
-    price: p.fallbackPrice,
-    asin: p.asin,
-    img: p.fallbackImg,
-    comments: p.comments
-  }))
-}));
+console.log('\nStep 2/3: Discovering new products...\n');
+try {
+  execSync('node scripts/discover-products.js', { stdio: 'inherit', env: { ...process.env } });
+} catch (e) {
+  console.log('\nProduct discovery had errors (continuing anyway)\n');
+}
 
-fs.writeFileSync(
-  path.join(__dirname, '..', 'public', 'bundles.json'),
-  JSON.stringify(bundles)
-);
-console.log(`Wrote public/bundles.json (${(JSON.stringify(bundles).length / 1024).toFixed(0)} KB)`);
+console.log('\nStep 3/3: Generating bundles...\n');
+execSync('node scripts/generate-bundles.js', { stdio: 'inherit', env: { ...process.env } });
+
+console.log('\n=== Bootstrap Complete ===');
+console.log('Your site now has real prices, images, and affiliate links!');
+console.log('Deploy to Vercel or run a local server to see it.');
