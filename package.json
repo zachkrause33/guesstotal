@@ -1,0 +1,12 @@
+{
+  "name": "guesstotal",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "generate": "node scripts/generate-bundles.js",
+    "bootstrap": "node scripts/bootstrap.js"
+  },
+  "dependencies": {
+    "aws4": "^1.13.2"
+  }
+}

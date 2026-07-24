@@ -9,6 +9,18 @@
     {
       "source": "/api/subscribe",
       "destination": "/api/subscribe.js"
+    },
+    {
+      "source": "/bundles.json",
+      "destination": "/public/bundles.json"
+    },
+    {
+      "source": "/bundles.meta.json",
+      "destination": "/public/bundles.meta.json"
+    },
+    {
+      "source": "/images/:path*",
+      "destination": "/public/images/:path*"
     }
   ]
 }
