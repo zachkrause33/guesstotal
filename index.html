@@ -4,11 +4,11 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>Guess Total — Daily Lifestyle Price Game</title>
-<meta name="description" content="Can you guess the price? Daily themed lifestyle bundles. How close is your total?"/>
+<meta name="description" content="Can you guess the price? One product at a time. How close is your guess?"/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T3D7H10NK7"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T3D7H10NK7');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -16,15 +16,11 @@
   --gold:#FFD700;--bg:#FFFFFF;--bg2:#FFF8F4;
   --text:#1A1A18;--text2:#6B6B67;--text3:#9C9A92;
   --border:rgba(255,107,53,0.15);--border2:rgba(255,107,53,0.3);
-  --green:#1D9E75;--blue:#378ADD;
+  --green:#1D9E75;--red:#E14B3C;--blue:#378ADD;
   --radius:16px;--radius-sm:10px;
 }
 html,body{height:100%;overflow:hidden;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text);display:flex;flex-direction:column;}
-.screen{display:none;flex-direction:column;height:100vh;overflow:hidden;}
-.screen.active{display:flex;}
-#landing{height:auto;min-height:100vh;overflow-x:hidden;}
-#results{height:auto;min-height:100vh;overflow-x:hidden;}
 
 .confetti-container{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
 .confetti-piece{position:absolute;top:-10px;animation:confettiFall linear forwards;}
@@ -32,229 +28,187 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text);di
 .gold-pulse{position:fixed;inset:0;pointer-events:none;z-index:998;background:radial-gradient(circle,rgba(255,215,0,0.35) 0%,transparent 70%);animation:goldFade 0.9s ease forwards;}
 @keyframes goldFade{0%{opacity:1;}100%{opacity:0;}}
 
-#landing{background:var(--orange);align-items:center;justify-content:center;text-align:center;padding:2.5rem 1.25rem 2rem;position:relative;overflow-y:auto;}
-.plc{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius);overflow:hidden;margin-bottom:0.875rem;transition:border-color 0.2s,box-shadow 0.2s;}
-.plc.filled{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,0.1);}
-.plc-img{width:100%;height:180px;background:var(--orange-light);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
-.plc-img img{max-height:160px;max-width:88%;object-fit:contain;}
-.plc-num{position:absolute;top:10px;left:10px;background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;}
-.plc-info{padding:0.875rem 1rem;}
-.plc-name{font-size:14px;font-weight:600;margin-bottom:4px;line-height:1.4;}
-.plc-teaser{font-size:11px;color:var(--text3);margin-bottom:0.75rem;font-style:italic;}
-.plc-input-row{display:flex;align-items:center;gap:6px;}
-.plc-dollar{font-size:22px;font-weight:700;color:var(--orange);}
-.plc-input{flex:1;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;padding:8px 10px;border:2px solid var(--border2);border-radius:var(--radius-sm);background:var(--orange-light);color:var(--text);outline:none;width:100%;-moz-appearance:textfield;}
-.plc-input::-webkit-inner-spin-button,.plc-input::-webkit-outer-spin-button{-webkit-appearance:none;}
-.plc-input:focus{border-color:var(--orange);background:#fff;}
+/* Header */
+#app-header{background:var(--orange);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;overflow:hidden;z-index:5;}
+#app-header::before{content:'';position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.06);top:-70px;right:-40px;}
+.header-left{display:flex;align-items:center;gap:8px;min-width:0;position:relative;z-index:1;}
+.header-emoji{font-size:22px;flex-shrink:0;}
+.header-theme{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px;color:#fff;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0;position:relative;z-index:1;}
+.streak-chip{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:999px;padding:4px 10px;font-size:12px;color:#fff;font-weight:700;}
+.progress-dots{display:flex;gap:5px;}
+.pdot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.3s;}
+.pdot.done{background:var(--gold);}
+.pdot.current{background:#fff;width:9px;height:9px;box-shadow:0 0 0 3px rgba(255,255,255,0.25);}
 
-.rt-total{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--orange);transition:all 0.2s;}
-.rt-total.pop{animation:rtPop 0.3s ease;}
-@keyframes rtPop{0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
-.submit-btn{width:100%;padding:15px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;background:var(--text);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.2s;}
-.submit-btn:disabled{opacity:0.3;cursor:not-allowed;}
-.submit-btn.ready{background:var(--orange);animation:btnPulse 1s ease infinite alternate;}
+/* Game view */
+#game-view{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+.item-label{text-align:center;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);padding:8px 0 2px;flex-shrink:0;}
+.product-image-wrap{height:52vh;flex-shrink:0;background:linear-gradient(180deg,var(--orange-light),#fff);display:flex;align-items:center;justify-content:center;position:relative;padding:1rem;}
+.product-image-wrap img{max-height:100%;max-width:82%;object-fit:contain;filter:drop-shadow(0 12px 20px rgba(0,0,0,0.12));}
+.pimg-initials{width:140px;height:140px;border-radius:20px;background:linear-gradient(135deg,var(--gold),#e8a800);display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:800;color:#1a1a2e;letter-spacing:1px;box-shadow:0 12px 20px rgba(0,0,0,0.12);}
+.shop-now-btn{position:absolute;bottom:14px;right:14px;background:rgba(26,26,24,0.82);backdrop-filter:blur(4px);color:#fff;font-size:12px;font-weight:700;padding:9px 14px;border-radius:999px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+
+.product-info{padding:0.75rem 1.25rem 0.25rem;text-align:center;flex-shrink:0;}
+.product-name{font-size:17px;font-weight:700;line-height:1.3;margin-bottom:3px;}
+.product-teaser{font-size:12px;color:var(--orange);font-style:italic;font-weight:600;margin-bottom:2px;}
+.product-meta{font-size:11px;color:var(--text3);}
+
+.guess-panel{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0.75rem 1.25rem 1.25rem;gap:0.75rem;min-height:0;}
+.price-input-row{display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:2px solid var(--border2);border-radius:var(--radius);padding:10px 18px;}
+.price-input-row.filled{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,0.1);}
+.pi-dollar{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--orange);}
+.price-input{flex:1;font-family:'Bebas Neue',sans-serif;font-size:44px;letter-spacing:1px;border:none;outline:none;background:transparent;color:var(--text);width:100%;text-align:left;-moz-appearance:textfield;}
+.price-input::-webkit-inner-spin-button,.price-input::-webkit-outer-spin-button{-webkit-appearance:none;}
+.price-input::placeholder{color:var(--text3);}
+.lock-btn{width:100%;padding:16px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:800;letter-spacing:0.3px;background:var(--text);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.2s;opacity:0.35;}
+.lock-btn.ready{background:var(--orange);opacity:1;animation:btnPulse 1s ease infinite alternate;}
 @keyframes btnPulse{from{box-shadow:0 0 0 0 rgba(255,107,53,0.4);}to{box-shadow:0 0 0 8px rgba(255,107,53,0);}}
 
-.result-card{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;animation:cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;}
-@keyframes cardIn{from{transform:translateY(40px) scale(0.95);opacity:0;}to{transform:translateY(0) scale(1);opacity:1;}}
-.rc-img-row{display:flex;align-items:center;gap:10px;padding:0.875rem;}
-.rc-thumb{width:64px;height:64px;background:var(--orange-light);border-radius:10px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.rc-thumb img{width:64px;height:64px;object-fit:contain;}
-.rc-name-wrap{flex:1;min-width:0;}
-.rc-name{font-size:13px;font-weight:600;line-height:1.3;margin-bottom:2px;}
-.rc-link{display:block;text-align:center;background:var(--orange);color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;padding:14px;border-radius:var(--radius-sm);text-decoration:none;margin:0.875rem 0 0.25rem;letter-spacing:0.3px;}
-.rc-link:hover{background:var(--orange-dark);}
+/* Full screen flash */
+#flash-layer{position:fixed;inset:0;pointer-events:none;z-index:900;opacity:0;}
+#flash-layer.active{animation:flashPulse 0.65s ease-out forwards;}
+@keyframes flashPulse{0%{opacity:0.92;}100%{opacity:0;}}
 
-.verdict-banner{padding:10px 14px;display:flex;align-items:center;gap:10px;}
-.verdict-big-emoji{font-size:40px;flex-shrink:0;animation:emojiSpin 0.6s cubic-bezier(0.34,1.56,0.64,1);}
-@keyframes emojiSpin{from{transform:scale(0) rotate(-30deg);}to{transform:scale(1) rotate(0deg);}}
-.verdict-right{flex:1;}
-.verdict-word{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;line-height:1;}
-.verdict-comment{font-size:13px;line-height:1.4;margin-top:3px;opacity:0.9;}
+/* Reveal overlay */
+#reveal-overlay{position:fixed;inset:0;z-index:950;display:none;align-items:center;justify-content:center;background:rgba(10,8,7,0.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:1.25rem;overflow-y:auto;}
+#reveal-overlay.active{display:flex;}
+.tension-box{text-align:center;color:#fff;}
+.tension-text{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;margin-bottom:1rem;}
+.tension-bar{width:220px;height:8px;background:rgba(255,255,255,0.2);border-radius:5px;overflow:hidden;margin:0 auto;}
+.tension-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:5px;transition:width 1.5s linear;}
+
+.reveal-result{display:none;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:360px;}
+.reveal-result.show{display:flex;}
+.revealed-price{font-family:'Bebas Neue',sans-serif;font-size:64px;color:#fff;line-height:1;opacity:0;transform:scale(2.4) rotate(-6deg);}
+.revealed-price.slam{animation:priceSlam 0.55s cubic-bezier(0.22,1.6,0.36,1) forwards;}
+@keyframes priceSlam{0%{opacity:0;transform:scale(2.6) rotate(-8deg);}55%{opacity:1;transform:scale(0.9) rotate(2deg);}78%{transform:scale(1.08) rotate(-1deg);}100%{opacity:1;transform:scale(1) rotate(0deg);}}
+.revealed-actual-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:4px;}
+
+.verdict-crash{margin-top:14px;width:100%;border-radius:var(--radius);padding:14px 16px;opacity:0;transform:translateY(-120%) rotate(-2deg);}
+.verdict-crash.crash{animation:verdictCrash 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;}
+@keyframes verdictCrash{0%{opacity:0;transform:translateY(-140%) rotate(-3deg);}70%{opacity:1;transform:translateY(6px) rotate(0.5deg);}100%{opacity:1;transform:translateY(0) rotate(0deg);}}
+.vc-emoji{font-size:36px;margin-bottom:4px;display:block;}
+.vc-word{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;line-height:1;}
+.vc-comment{font-size:12px;line-height:1.4;margin-top:4px;opacity:0.9;}
 .h-perfect{background:#E1F5EE;color:#085041;}
 .h-hot{background:#EAF3DE;color:#27500A;}
 .h-warm{background:#FAEEDA;color:#633806;}
 .h-cold{background:#FAECE7;color:#712B13;}
 .h-ice{background:#EEF2F7;color:#2C3E5D;}
 
-.vibe-card{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius);padding:1.25rem;text-align:center;margin-bottom:1rem;}
+.points-fly{margin-top:20px;font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gold);opacity:0;text-shadow:0 2px 8px rgba(0,0,0,0.4);}
+.points-fly.fly{animation:pointsFly 1s cubic-bezier(0.22,1,0.36,1) forwards;}
+@keyframes pointsFly{0%{opacity:0;transform:translateY(14px) scale(0.7);}30%{opacity:1;transform:translateY(-2px) scale(1.15);}100%{opacity:1;transform:translateY(-12px) scale(1);}}
+
+.reveal-actions{margin-top:18px;width:100%;opacity:0;transform:translateY(10px);}
+.reveal-actions.reveal-in{animation:actionsIn 0.4s ease forwards;}
+@keyframes actionsIn{to{opacity:1;transform:translateY(0);}}
+.shop-after-btn{display:block;width:100%;text-align:center;background:var(--orange);color:#fff;font-size:15px;font-weight:700;padding:14px;border-radius:var(--radius-sm);text-decoration:none;margin-bottom:8px;}
+.shop-after-btn:hover{background:var(--orange-dark);}
+.next-btn{width:100%;padding:14px;font-size:15px;font-weight:800;font-family:'DM Sans',sans-serif;background:#fff;color:var(--text);border:none;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:0.3px;}
+
+/* Final screen */
+#final-view{flex:1;display:none;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:1.5rem 1.25rem 2rem;text-align:center;}
+#final-view.show{display:flex;}
+.final-score-label{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-top:0.5rem;}
+.final-score{font-family:'Bebas Neue',sans-serif;font-size:76px;color:var(--text);line-height:1;text-shadow:0 4px 16px rgba(255,107,53,0.25);}
+.final-score-sub{font-size:12px;color:var(--text3);margin-bottom:1rem;}
+.vibe-card{background:#fff;border:1.5px solid var(--border2);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;}
 .vibe-emoji{font-size:52px;margin-bottom:8px;display:block;animation:vibeBounce 0.6s cubic-bezier(0.34,1.56,0.64,1);}
 @keyframes vibeBounce{from{transform:scale(0);}to{transform:scale(1);}}
 .vibe-title{font-family:'Bebas Neue',sans-serif;font-size:32px;margin-bottom:4px;}
-.vibe-sub{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:0.875rem;}
-.vibe-track{height:10px;background:var(--orange-light);border-radius:5px;overflow:hidden;margin-bottom:5px;}
-.vibe-fill{height:100%;border-radius:5px;transition:width 1.2s cubic-bezier(0.34,1.56,0.64,1);}
-.vibe-ends{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);}
-
-.hc{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;animation:chipPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;}
+.vibe-sub{font-size:13px;color:var(--text2);line-height:1.5;}
+.recap-chips{display:flex;gap:8px;justify-content:center;margin-bottom:1.25rem;flex-wrap:wrap;}
+.hc{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;animation:chipPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;}
 @keyframes chipPop{from{transform:scale(0);}to{transform:scale(1);}}
-
-.cart-card{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;}
-.cc-head{padding:10px 14px;background:var(--orange-light);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-.cc-title{font-size:13px;font-weight:700;color:var(--orange);}
-.cc-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);}
-.cc-row:last-child{border-bottom:none;}
-.cc-label{font-size:13px;color:var(--text2);font-weight:500;}
-.cc-val{font-family:'Bebas Neue',sans-serif;font-size:24px;}
-.cc-diff{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--orange-light);}
-.cc-diff-label{font-size:13px;font-weight:700;color:var(--orange);}
-.diff-pill{font-size:12px;font-weight:700;padding:4px 14px;border-radius:999px;}
-.diff-over{background:#FCEBEB;color:#501313;}
-.diff-under{background:#E1F5EE;color:#085041;}
-.diff-exact{background:#E1F5EE;color:#085041;}
-
-.shop-bundle-btn{width:100%;padding:16px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;background:var(--text);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;margin-bottom:6px;transition:all 0.15s;letter-spacing:0.3px;}
-.shop-bundle-btn:hover{opacity:0.85;}
-
-.tease-card{background:var(--text);border-radius:var(--radius);padding:1.25rem;text-align:center;margin-bottom:1rem;overflow:hidden;position:relative;}
-.tease-card::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04);top:-60px;right:-60px;}
-.tease-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;}
-.tease-name{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:2px;margin-bottom:12px;}
-.tease-sil{font-size:60px;filter:brightness(0) invert(1);opacity:0.15;display:block;margin:0 auto;}
-.countdown-wrap{text-align:center;margin-top:8px;}
-.countdown-label{font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;}
-.countdown-time{font-family:'Bebas Neue',sans-serif;font-size:22px;color:rgba(255,255,255,0.8);letter-spacing:2px;}
-.tease-hint{font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px;}
-
-.share-btn{width:100%;padding:14px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;background:var(--orange);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;margin-bottom:8px;}
-.share-btn:hover{background:var(--orange-dark);}
-.copied-msg{text-align:center;font-size:12px;color:var(--green);margin-bottom:0.875rem;min-height:18px;font-weight:500;}
-.divider{height:1px;background:var(--border);margin:1rem 0;}
-.section-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;}
-.lb-form{display:flex;gap:7px;margin-bottom:10px;}
-.lb-input{flex:1;padding:9px 12px;font-size:13px;font-family:'DM Sans',sans-serif;border:2px solid var(--border2);border-radius:var(--radius-sm);background:var(--orange-light);color:var(--text);outline:none;}
-.lb-input:focus{border-color:var(--orange);background:#fff;}
-.lb-btn{padding:9px 14px;font-size:13px;font-weight:700;font-family:'DM Sans',sans-serif;background:var(--orange);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;}
-.lb-list{display:flex;flex-direction:column;gap:5px;margin-bottom:1.25rem;}
-.lb-row{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);}
-.lb-rank{font-family:'Bebas Neue',sans-serif;font-size:20px;width:24px;text-align:center;color:var(--text2);}
-.lb-rank.gold{color:#BA7517;}
-.lb-rank.silver{color:#888780;}
-.lb-rank.bronze{color:#993C1D;}
-.lb-name{flex:1;font-weight:600;font-size:13px;}
-.lb-score{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--orange);}
-.lb-you{border-color:var(--orange);background:var(--orange-light);}
-
-.email-card{background:var(--text);border-radius:var(--radius);padding:1.25rem;text-align:center;margin-bottom:1rem;}
-.email-card-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff;letter-spacing:1px;margin-bottom:4px;}
-.email-card-sub{font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:1rem;line-height:1.5;}
-.email-form{display:flex;gap:7px;}
-.email-input{flex:1;padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;border:none;border-radius:var(--radius-sm);background:rgba(255,255,255,0.1);color:#fff;outline:none;}
-.email-input::placeholder{color:rgba(255,255,255,0.4);}
-.email-input:focus{background:rgba(255,255,255,0.15);}
-.email-submit-btn{padding:10px 16px;font-size:13px;font-weight:700;font-family:'DM Sans',sans-serif;background:var(--gold);color:var(--text);border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap;}
-.email-success{font-size:13px;color:var(--gold);font-weight:500;margin-top:8px;min-height:20px;}
-.affiliate-note{font-size:10px;color:var(--text3);text-align:center;margin-top:0.875rem;padding-bottom:1rem;}
-.streak-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:999px;padding:4px 12px;font-size:12px;color:#fff;font-weight:600;}
+.share-btn{width:100%;padding:15px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:800;background:var(--text);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;margin-bottom:8px;}
+.copied-msg{font-size:12px;color:var(--green);margin-bottom:0.5rem;min-height:18px;font-weight:600;}
+.streak-line{margin:0.75rem 0 1.25rem;}
+.affiliate-note{font-size:10px;color:var(--text3);text-align:center;margin-top:1rem;}
 </style>
 </head>
 <body>
 <div class="confetti-container" id="confetti-container"></div>
+<div id="flash-layer"></div>
 
-<!-- LANDING -->
-<div class="screen active" id="landing" style="display:block;height:auto;min-height:100vh;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg2);">
-  <div style="background:var(--orange);padding:1.25rem 1.25rem 1.25rem;text-align:center;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;color:#fff;line-height:1;padding:0.5rem 0.5rem 0;text-align:center;width:100%;">GUESS <span style="color:var(--gold);">TOTAL</span></div>
-    <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0 4px;">
-      <span style="font-size:26px;" id="land-emoji"></span>
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff;letter-spacing:2px;line-height:1.1;text-align:left;" id="land-theme-name">Loading...</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.8);text-align:left;line-height:1.3;" id="land-theme-tagline"></div>
-      </div>
-    </div>
-    <div style="font-size:11px;color:rgba(255,255,255,0.7);margin:4px 0 8px;">Guess the price of each product · closer = more points · new theme daily</div>
-    <div id="streak-display" style="margin-bottom:8px;"></div>
-    <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:8px 14px;display:inline-block;max-width:320px;width:100%;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;">Can't Miss Today</div>
-      <div style="font-size:12px;color:#fff;opacity:0.9;" id="cant-miss-text">Loading...</div>
-    </div>
+<header id="app-header">
+  <div class="header-left">
+    <span class="header-emoji" id="header-emoji"></span>
+    <span class="header-theme" id="header-theme">Loading...</span>
+  </div>
+  <div class="header-right">
+    <div class="progress-dots" id="progress-dots"></div>
+    <span class="streak-chip" id="streak-chip" style="display:none;"></span>
+  </div>
+</header>
+
+<!-- GAME VIEW -->
+<div id="game-view">
+  <div class="item-label" id="item-label"></div>
+
+  <div class="product-image-wrap" id="product-image-wrap">
+    <a class="shop-now-btn" id="shop-now-btn" href="#" target="_blank" rel="noopener">🛒 Shop Now</a>
   </div>
 
-  <div style="padding:0.875rem;">
-    <div id="land-body"></div>
-    <div style="background:#fff;border:1.5px solid var(--border2);border-radius:var(--radius);padding:1rem;margin-bottom:0.875rem;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
-        <span style="font-size:13px;color:var(--text2);font-weight:500;">Your total guess</span>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--orange);" id="rt-total" class="rt-total">$0.00</span>
-      </div>
-      <button class="submit-btn ready" id="submit-btn" onclick="submitAll()">Submit My Guesses</button>
-      <p style="font-size:10px;color:var(--text3);text-align:center;margin-top:8px;">Leave any input blank to skip · zeros count</p>
-    </div>
-    <p style="font-size:10px;color:var(--text3);text-align:center;padding-bottom:1.5rem;">As an Associate I earn from qualifying purchases.</p>
-  </div>
-</div>
-
-<!-- RESULTS -->
-<div class="screen" id="results" style="height:auto;min-height:100vh;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg2);">
-  <div style="background:var(--orange);padding:1rem 1.25rem;text-align:center;position:relative;overflow:hidden;">
-    <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.06);top:-60px;right:-40px;"></div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:#fff;">GUESS <span style="color:var(--gold);">TOTAL</span></div>
-    <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:2px;" id="rh-theme"></div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:64px;color:var(--gold);line-height:1;text-shadow:0 4px 16px rgba(255,215,0,0.5);" id="fh-score">0</div>
-    <div style="font-size:12px;color:rgba(255,255,255,0.75);">points out of 5,000</div>
-    <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;" id="heat-chips"></div>
+  <div class="product-info">
+    <div class="product-name" id="product-name"></div>
+    <div class="product-teaser" id="product-teaser"></div>
+    <div class="product-meta" id="product-meta"></div>
   </div>
 
-  <div style="padding:0.875rem;">
-    <div class="vibe-card" id="vibe-card" style="margin-bottom:1rem;">
-      <span class="vibe-emoji" id="vibe-emoji"></span>
-      <div class="vibe-title" id="vibe-title"></div>
-      <div class="vibe-sub" id="vibe-sub"></div>
-      <div class="vibe-track"><div class="vibe-fill" id="vibe-fill" style="width:0%"></div></div>
-      <div class="vibe-ends"><span>Lost</span><span>Genius</span></div>
+  <div class="guess-panel">
+    <div class="price-input-row" id="price-input-row">
+      <span class="pi-dollar">$</span>
+      <input class="price-input" type="number" id="price-input" placeholder="0.00" min="0" step="0.01" inputmode="decimal"/>
     </div>
-
-    <div id="results-body"></div>
-
-    <div class="cart-card" style="margin-bottom:1rem;">
-      <div class="cc-head"><span class="cc-title">Cart Total</span><span style="font-size:11px;color:var(--text2);" id="cc-theme"></span></div>
-      <div class="cc-row" style="background:var(--orange-light);"><span class="cc-label" style="font-weight:700;">Actual total</span><span class="cc-val" id="cc-actual"></span></div>
-      <div class="cc-row"><span class="cc-label" style="font-weight:700;">Your total</span><span class="cc-val" id="cc-yours"></span></div>
-      <div class="cc-diff"><span class="cc-diff-label">Difference</span><span class="diff-pill" id="cc-diff"></span></div>
-    </div>
-
-    <button class="shop-bundle-btn" onclick="shopBundle()" style="margin-bottom:6px;">Shop Today's Full Bundle</button>
-    <p style="font-size:10px;color:var(--text3);text-align:center;margin-bottom:1rem;">Opens all 5 products · affiliate links</p>
-
-    <button class="share-btn" onclick="shareResults()">Share My Results</button>
-    <div class="copied-msg" id="copied-msg"></div>
-    <div class="divider"></div>
-
-    <div class="section-label">Today's Leaderboard</div>
-    <div class="lb-list" id="lb-list"></div>
-    <div class="lb-form">
-      <input class="lb-input" type="text" id="lb-name" placeholder="Your name or initials" maxlength="20"/>
-      <button class="lb-btn" id="lb-btn" onclick="submitLB()">Add My Score</button>
-    </div>
-    <div class="divider"></div>
-
-    <div class="email-card">
-      <div class="email-card-title">Get Tomorrow's Theme</div>
-      <div class="email-card-sub">Daily reminder + exclusive deals. No spam ever.</div>
-      <div class="email-form">
-        <input class="email-input" type="email" id="email-input" placeholder="your@email.com"/>
-        <button class="email-submit-btn" onclick="submitEmail()">Notify Me</button>
-      </div>
-      <div class="email-success" id="email-success"></div>
-    </div>
-    <div class="divider"></div>
-
-    <div class="tease-card" style="margin-bottom:1rem;">
-      <div class="tease-label">Coming Tomorrow</div>
-      <div class="tease-name" id="tease-name"></div>
-      <span class="tease-sil" id="tease-sil"></span>
-      <div class="tease-hint">Can you handle it?</div>
-      <div class="countdown-wrap">
-        <div class="countdown-label">New theme in</div>
-        <div class="countdown-time" id="countdown-time">--:--:--</div>
-      </div>
-    </div>
-
-    <p class="affiliate-note">As an Associate I earn from qualifying purchases.</p>
+    <button class="lock-btn" id="lock-btn">Lock In</button>
   </div>
 </div>
 
-<div class="screen" id="final" style="display:none;"></div>
+<!-- REVEAL OVERLAY -->
+<div id="reveal-overlay">
+  <div class="tension-box" id="tension-box">
+    <div class="tension-text">REVEALING...</div>
+    <div class="tension-bar"><div class="tension-fill" id="tension-fill"></div></div>
+  </div>
+  <div class="reveal-result" id="reveal-result">
+    <div class="revealed-actual-label">Actual Price</div>
+    <div class="revealed-price" id="revealed-price"></div>
+    <div class="verdict-crash" id="verdict-crash">
+      <span class="vc-emoji" id="vc-emoji"></span>
+      <div class="vc-word" id="vc-word"></div>
+      <div class="vc-comment" id="vc-comment"></div>
+    </div>
+    <div class="points-fly" id="points-fly"></div>
+    <div class="reveal-actions" id="reveal-actions">
+      <a class="shop-after-btn" id="shop-after-btn" href="#" target="_blank" rel="noopener"></a>
+      <button class="next-btn" id="next-btn">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL VIEW -->
+<div id="final-view">
+  <div class="final-score-label">Final Score</div>
+  <div class="final-score" id="final-score">0</div>
+  <div class="final-score-sub">out of <span id="final-score-max">5,000</span> points</div>
+
+  <div class="vibe-card">
+    <span class="vibe-emoji" id="vibe-emoji"></span>
+    <div class="vibe-title" id="vibe-title"></div>
+    <div class="vibe-sub" id="vibe-sub"></div>
+  </div>
+
+  <div class="recap-chips" id="recap-chips"></div>
+
+  <div class="streak-line" id="streak-line"></div>
+
+  <button class="share-btn" id="share-btn">Share My Story</button>
+  <div class="copied-msg" id="copied-msg"></div>
+
+  <p class="affiliate-note">As an Associate I earn from qualifying purchases. Come back tomorrow for a new theme.</p>
+</div>
 
 <script>
 const TAG='guesstotal-20';
@@ -272,6 +226,12 @@ const HEAT=[
 ];
 function getHeat(pct){if(pct===0)return HEAT[0];for(const h of HEAT.slice(1))if(pct<=h.max)return h;return HEAT[HEAT.length-1];}
 
+const FLASH_COLOR={exact:'radial-gradient(circle,rgba(255,215,0,0.9) 0%,rgba(255,215,0,0.3) 55%,transparent 80%)',
+                    hot:'radial-gradient(circle,rgba(29,158,117,0.85) 0%,rgba(29,158,117,0.3) 55%,transparent 80%)',
+                    warm:'radial-gradient(circle,rgba(225,75,60,0.75) 0%,rgba(225,75,60,0.25) 55%,transparent 80%)',
+                    cold:'radial-gradient(circle,rgba(225,75,60,0.75) 0%,rgba(225,75,60,0.25) 55%,transparent 80%)',
+                    ice:'radial-gradient(circle,rgba(225,75,60,0.75) 0%,rgba(225,75,60,0.25) 55%,transparent 80%)'};
+
 const VIBES=[
   {min:88,emoji:'🏆',title:'PRICE GENIUS',    color:'#1D9E75',sub:'Absolutely elite. You know what everything costs and we are slightly scared of you.'},
   {min:72,emoji:'😎',title:'SHARP EYE',        color:'#3B6D11',sub:'Very impressive. You clearly pay attention to what things actually cost.'},
@@ -283,7 +243,7 @@ function getVibe(acc){for(const v of VIBES)if(acc>=v.min)return v;return VIBES[V
 function affLink(asin){return`https://www.amazon.com/dp/${asin}?tag=${TAG}`;}
 
 let BUNDLES=[];
-let todayBundle=null,guesses=[],score=0;
+let todayBundle=null,idx=0,guesses=[],score=0,locked=false;
 
 function getDailySeed(){const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();}
 
@@ -298,23 +258,8 @@ function getTodayBundle(){
   if(overrides[key])return overrides[key];
   return BUNDLES[getDailySeed()%BUNDLES.length];
 }
-
-function getTomorrowBundle(){
-  if(!BUNDLES.length)return null;
-  const d=new Date();
-  const tomorrow=new Date(d);tomorrow.setDate(d.getDate()+1);
-  const key=`${tomorrow.getFullYear()}-${tomorrow.getMonth()+1}-${tomorrow.getDate()}`;
-  const overrides={
-    '2026-5-25':getBundleById('hydration'),
-    '2026-5-26':getBundleById('things_from_future')
-  };
-  if(overrides[key])return overrides[key];
-  return BUNDLES[(getDailySeed()+1)%BUNDLES.length];
-}
-
 function getBundleById(id){return BUNDLES.find(b=>b.id===id)||BUNDLES[0];}
 
-function getTodayKey(){const d=new Date();return`gt3_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;}
 function getPlayedKey(){const d=new Date();return`gt_played_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;}
 
 function getStreak(){
@@ -327,42 +272,6 @@ function getStreak(){
     d.setDate(d.getDate()-1);
   }
   return streak;
-}
-
-async function loadLB(){
-  try{
-    const r=await window.storage.get(getTodayKey(),true);
-    return r?JSON.parse(r.value):[];
-  }catch(e){
-    try{return JSON.parse(localStorage.getItem(getTodayKey())||'[]');}catch{return[];}
-  }
-}
-async function saveLB(lb){
-  try{
-    await window.storage.set(getTodayKey(),JSON.stringify(lb),true);
-    localStorage.setItem(getTodayKey(),JSON.stringify(lb));
-  }catch(e){
-    try{localStorage.setItem(getTodayKey(),JSON.stringify(lb));}catch{}
-  }
-}
-
-function showScreen(id){
-  if(id==='final') id='results';
-  document.querySelectorAll('.screen').forEach(s=>{
-    s.classList.remove('active');
-    s.style.visibility='hidden';
-    s.style.position='absolute';
-    s.style.top='-9999px';
-  });
-  const el=document.getElementById(id);
-  if(el){
-    el.classList.add('active');
-    el.style.visibility='visible';
-    el.style.position='relative';
-    el.style.top='0';
-    el.scrollTop=0;
-    window.scrollTo(0,0);
-  }
 }
 
 function fireConfetti(n=60){
@@ -378,169 +287,190 @@ function goldPulse(){const el=document.createElement('div');el.className='gold-p
 
 function productImg(p){
   if(p.img){
-    const src=p.img.startsWith('/')?p.img:p.img;
-    return`<img src="${src}" alt="${p.name}" loading="lazy"/>`;
+    return`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`;
   }
   const initials=p.name?p.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase():'?';
-  return`<div style="width:80px;height:80px;border-radius:12px;background:linear-gradient(135deg,var(--gold),#e8a800);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#1a1a2e;letter-spacing:1px">${initials}</div>`;
+  return`<div class="pimg-initials">${initials}</div>`;
 }
 
-function initLanding(){
-  todayBundle=getTodayBundle();
-  if(!todayBundle)return;
-
-  const saved=localStorage.getItem(getPlayedKey());
-  if(saved){
-    try{
-      const data=JSON.parse(saved);
-      guesses=data.guesses;score=data.score;
-      buildResultsScreen();
-      showFinal();
-      return;
-    }catch{}
-  }
-
-  document.getElementById('land-emoji').textContent=todayBundle.emoji;
-  document.getElementById('land-theme-name').textContent=todayBundle.theme;
-  document.getElementById('land-theme-tagline').textContent=todayBundle.tagline;
-  const cantMiss=document.getElementById('cant-miss-text');
-  if(cantMiss){
-    const p=todayBundle.products[Math.floor(Math.random()*todayBundle.products.length)];
-    cantMiss.textContent=`Today includes ${p.teaser} — and the price will surprise you.`;
-  }
-
+function renderHeader(){
+  document.getElementById('header-emoji').textContent=todayBundle.emoji;
+  document.getElementById('header-theme').textContent=todayBundle.theme;
   const streak=getStreak();
-  const streakEl=document.getElementById('streak-display');
-  if(streak>0&&streakEl){
-    streakEl.innerHTML=`<span class="streak-badge">🔥 ${streak} day streak</span>`;
-  }
-
-  buildLandingProducts();
-}
-
-function buildLandingProducts(){
-  const body=document.getElementById('land-body');
-  if(!body)return;
-  body.innerHTML='';
-  todayBundle.products.forEach((p,i)=>{
-    const card=document.createElement('div');
-    card.className='plc';
-    card.id=`plc-${i}`;
-    card.innerHTML=`
-      <div class="plc-img">
-        ${productImg(p)}
-        <div class="plc-num">Item ${i+1}</div>
-      </div>
-      <div class="plc-info">
-        <div class="plc-name">${p.name}</div>
-        <div class="plc-teaser">Make your guess to discover this product</div>
-        <div class="plc-input-row">
-          <span class="plc-dollar">$</span>
-          <input class="plc-input" type="number" id="inp-${i}" placeholder="0.00" min="0" step="0.01" oninput="onInput()"/>
-        </div>
-      </div>`;
-    body.appendChild(card);
-  });
-}
-
-function onInput(){
-  updateTotal();
-  if(!todayBundle)return;
+  const chip=document.getElementById('streak-chip');
+  if(streak>0){chip.style.display='inline-flex';chip.textContent=`🔥 ${streak}`;}
+  else chip.style.display='none';
+  const dotsWrap=document.getElementById('progress-dots');
+  dotsWrap.innerHTML='';
   todayBundle.products.forEach((_,i)=>{
-    const v=document.getElementById(`inp-${i}`)?.value;
-    document.getElementById(`plc-${i}`)?.classList.toggle('filled',v&&v!=='');
+    const d=document.createElement('div');
+    d.className='pdot';
+    dotsWrap.appendChild(d);
   });
 }
 
-function updateTotal(){
-  let t=0;todayBundle.products.forEach((_,i)=>{t+=parseFloat(document.getElementById(`inp-${i}`)?.value)||0;});
-  const el=document.getElementById('rt-total');el.textContent=`$${t.toFixed(2)}`;
-  el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),300);
+function updateDots(){
+  const dots=document.querySelectorAll('#progress-dots .pdot');
+  dots.forEach((d,i)=>{
+    d.classList.toggle('done',i<idx);
+    d.classList.toggle('current',i===idx);
+  });
 }
 
-function submitAll(){
-  guesses=[];score=0;
-  todayBundle.products.forEach((p,i)=>{
-    const raw=document.getElementById(`inp-${i}`)?.value;
-    const val=raw&&raw!==''?parseFloat(raw):0;
-    const diff=Math.abs(val-p.price);
-    const pct=(diff/p.price)*100;
-    const heat=getHeat(pct);
-    score+=heat.pts;
-    guesses.push({product:p,guess:val,pts:heat.pts,heat,pct});
-    if(typeof gtag!=='undefined'){
-      gtag('event','product_guess',{
-        'product_name':p.name,'actual_price':p.price,
-        'guessed_price':val,'difference_pct':Math.round(pct),
-        'heat_result':heat.key,'points_earned':heat.pts,
-        'bundle_theme':todayBundle.theme
-      });
-    }
+function renderProduct(i){
+  locked=false;
+  const p=todayBundle.products[i];
+
+  document.getElementById('item-label').textContent=`Item ${i+1} of ${todayBundle.products.length}`;
+  document.getElementById('product-image-wrap').innerHTML=productImg(p)+`<a class="shop-now-btn" id="shop-now-btn" href="${affLink(p.asin)}" target="_blank" rel="noopener">🛒 Shop Now</a>`;
+  document.getElementById('shop-now-btn').addEventListener('click',()=>{
+    if(typeof gtag!=='undefined')gtag('event','shop_now_click',{'product_name':p.name,'bundle_theme':todayBundle.theme});
   });
+  document.getElementById('product-name').textContent=p.name;
+  document.getElementById('product-teaser').textContent=p.teaser||'';
+  document.getElementById('product-meta').textContent=p.meta||'';
+
+  const input=document.getElementById('price-input');
+  input.value='';
+  input.disabled=false;
+  document.getElementById('price-input-row').classList.remove('filled');
+  const lockBtn=document.getElementById('lock-btn');
+  lockBtn.classList.remove('ready');
+  lockBtn.disabled=true;
+
+  const overlay=document.getElementById('reveal-overlay');
+  overlay.classList.remove('active');
+  resetRevealDom();
+
+  updateDots();
+  setTimeout(()=>input.focus(),300);
+}
+
+function resetRevealDom(){
+  document.getElementById('tension-box').style.display='block';
+  document.getElementById('reveal-result').classList.remove('show');
+  document.getElementById('tension-fill').style.width='0%';
+  const rp=document.getElementById('revealed-price');rp.classList.remove('slam');rp.textContent='';
+  const vc=document.getElementById('verdict-crash');vc.classList.remove('crash');vc.className='verdict-crash';
+  const pf=document.getElementById('points-fly');pf.classList.remove('fly');pf.textContent='';
+  const ra=document.getElementById('reveal-actions');ra.classList.remove('reveal-in');
+  const flash=document.getElementById('flash-layer');flash.classList.remove('active');flash.style.background='';
+}
+
+document.getElementById('price-input').addEventListener('input',()=>{
+  const v=document.getElementById('price-input').value;
+  const has=v!==''&&v!==null;
+  document.getElementById('price-input-row').classList.toggle('filled',has);
+  const lockBtn=document.getElementById('lock-btn');
+  lockBtn.disabled=!has;
+  lockBtn.classList.toggle('ready',has);
+});
+document.getElementById('price-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!document.getElementById('lock-btn').disabled)lockInGuess();
+});
+document.getElementById('lock-btn').addEventListener('click',lockInGuess);
+document.getElementById('next-btn').addEventListener('click',nextProduct);
+
+function lockInGuess(){
+  if(locked)return;
+  const input=document.getElementById('price-input');
+  const raw=input.value;
+  if(raw===''||raw===null)return;
+  locked=true;
+  input.disabled=true;
+  document.getElementById('lock-btn').disabled=true;
+
+  const p=todayBundle.products[idx];
+  const val=parseFloat(raw);
+  const diff=Math.abs(val-p.price);
+  const pct=(diff/p.price)*100;
+  const heat=getHeat(pct);
+
+  document.getElementById('reveal-overlay').classList.add('active');
+  const fill=document.getElementById('tension-fill');
+  requestAnimationFrame(()=>{requestAnimationFrame(()=>{fill.style.width='100%';});});
+
+  setTimeout(()=>showRevealResult(p,val,heat,pct),1500);
+}
+
+function showRevealResult(p,val,heat,pct){
+  document.getElementById('tension-box').style.display='none';
+  const resultWrap=document.getElementById('reveal-result');
+  resultWrap.classList.add('show');
+
+  const flash=document.getElementById('flash-layer');
+  flash.style.background=FLASH_COLOR[heat.key]||FLASH_COLOR.warm;
+  flash.classList.add('active');
+  setTimeout(()=>flash.classList.remove('active'),700);
+
+  const rp=document.getElementById('revealed-price');
+  rp.textContent=`$${p.price.toFixed(2)}`;
+  rp.classList.add('slam');
+
+  const commentArr=p.comments&&p.comments[heat.key]||['😅','NOT BAD.','Decent guess!'];
+  const vc=document.getElementById('verdict-crash');
+  document.getElementById('vc-emoji').textContent=commentArr[0];
+  document.getElementById('vc-word').textContent=commentArr[1];
+  document.getElementById('vc-comment').textContent=commentArr[2];
+  vc.className='verdict-crash '+heat.cls;
+  setTimeout(()=>vc.classList.add('crash'),220);
+
+  const pf=document.getElementById('points-fly');
+  pf.textContent=`${heat.emoji} +${heat.pts.toLocaleString()} pts`;
+  setTimeout(()=>pf.classList.add('fly'),480);
+
+  const shopBtn=document.getElementById('shop-after-btn');
+  shopBtn.href=affLink(p.asin);
+  shopBtn.textContent=`🛒 Shop This Item — $${p.price.toFixed(2)}`;
+  shopBtn.onclick=()=>{if(typeof gtag!=='undefined')gtag('event','shop_after_click',{'product_name':p.name,'bundle_theme':todayBundle.theme});};
+  setTimeout(()=>document.getElementById('reveal-actions').classList.add('reveal-in'),650);
+
+  if(heat.pts>=850){setTimeout(()=>{fireConfetti(heat.pts>=950?80:40);if(heat.pts>=950)goldPulse();},300);}
+
+  score+=heat.pts;
+  guesses.push({product:p,guess:val,pts:heat.pts,heat,pct});
+
   if(typeof gtag!=='undefined'){
-    gtag('event','game_complete',{'bundle_theme':todayBundle.theme,'final_score':score});
+    gtag('event','product_guess',{
+      'product_name':p.name,'actual_price':p.price,
+      'guessed_price':val,'difference_pct':Math.round(pct),
+      'heat_result':heat.key,'points_earned':heat.pts,
+      'bundle_theme':todayBundle.theme
+    });
   }
+}
 
+function nextProduct(){
+  idx++;
+  if(idx<todayBundle.products.length){
+    renderProduct(idx);
+  }else{
+    finalizeGame();
+  }
+}
+
+function finalizeGame(){
+  document.getElementById('reveal-overlay').classList.remove('active');
   localStorage.setItem(getPlayedKey(),JSON.stringify({guesses,score}));
-
-  buildResultsScreen();
-  showFinal();
+  if(typeof gtag!=='undefined')gtag('event','game_complete',{'bundle_theme':todayBundle.theme,'final_score':score});
+  showFinal(true);
 }
 
-function buildResultsScreen(){
-  document.getElementById('rh-theme')&&(document.getElementById('rh-theme').textContent=todayBundle.theme+' '+todayBundle.emoji);
-  const body=document.getElementById('results-body');body.innerHTML='';
-  const bgMap={'h-perfect':'#E1F5EE','h-hot':'#EAF3DE','h-warm':'#FAEEDA','h-cold':'#FAECE7','h-ice':'#EEF2F7'};
-  guesses.forEach((g,i)=>{
-    const p=g.product;const heat=g.heat;
-    const commentArr=p.comments[heat.key]||['😅','NOT BAD.','Decent guess!'];
-    const card=document.createElement('div');
-    card.className='result-card';
-    card.style.animationDelay=(i*0.12)+'s';
-    card.innerHTML=`
-      <div class="rc-img-row">
-        <div class="rc-thumb">${p.img?`<img src="${p.img}" alt="${p.name}"/>`:'<span style="font-size:28px">📦</span>'}</div>
-        <div class="rc-name-wrap">
-          <div class="rc-name">${p.name}</div>
-          <div style="font-size:12px;color:var(--text2);margin-top:2px;">Actual: <strong style="color:var(--orange);">$${p.price.toFixed(2)}</strong> · Your guess: <strong>$${g.guess.toFixed(2)}</strong></div>
-        </div>
-      </div>
-      <div class="verdict-banner ${heat.cls}">
-        <div class="verdict-big-emoji">${commentArr[0]}</div>
-        <div class="verdict-right">
-          <div class="verdict-word">${commentArr[1]}</div>
-          <div class="verdict-comment">${commentArr[2]}</div>
-        </div>
-      </div>
-      <div style="padding:0 0.875rem 0.875rem;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);">+${g.pts.toLocaleString()} pts ${heat.emoji}</span>
-          <span style="font-size:12px;color:var(--text2);">${Math.round(Math.max(0,100-g.pct))}% accuracy</span>
-        </div>
-        <a class="rc-link" href="${affLink(p.asin)}" target="_blank">Shop This Item — $${p.price.toFixed(2)}</a>
-      </div>`;
-    body.appendChild(card);
-    if(heat.pts>=850){setTimeout(()=>{fireConfetti(heat.pts>=950?80:40);if(heat.pts>=950)goldPulse();},i*120+300);}
-  });
-}
+function showFinal(animate){
+  document.getElementById('game-view').style.display='none';
+  document.getElementById('progress-dots').style.display='none';
+  const finalView=document.getElementById('final-view');
+  finalView.classList.add('show');
 
-async function showFinal(){
-  showScreen('results');
-  fireConfetti(70);
-  document.getElementById('rh-theme').textContent=todayBundle.theme+' '+todayBundle.emoji;
-  document.getElementById('fh-score').textContent=score.toLocaleString();
-  const realTotal=todayBundle.products.reduce((a,p)=>a+p.price,0);
-  const guessTotal=guesses.reduce((a,g)=>a+g.guess,0);
-  const avgAcc=guesses.reduce((a,g)=>a+Math.max(0,100-g.pct),0)/5;
+  document.getElementById('final-score-max').textContent=(todayBundle.products.length*1000).toLocaleString();
+
+  const avgAcc=guesses.reduce((a,g)=>a+Math.max(0,100-g.pct),0)/guesses.length;
   const vibe=getVibe(avgAcc);
   document.getElementById('vibe-emoji').textContent=vibe.emoji;
   document.getElementById('vibe-title').textContent=vibe.title;
   document.getElementById('vibe-sub').textContent=vibe.sub;
-  setTimeout(()=>{
-    document.getElementById('vibe-fill').style.width=Math.min(100,avgAcc)+'%';
-    document.getElementById('vibe-fill').style.background=vibe.color;
-  },200);
-  const chips=document.getElementById('heat-chips');chips.innerHTML='';
+
+  const chips=document.getElementById('recap-chips');chips.innerHTML='';
   const bgMap={'h-perfect':'#E1F5EE','h-hot':'#EAF3DE','h-warm':'#FAEEDA','h-cold':'#FAECE7','h-ice':'#EEF2F7'};
   guesses.forEach((g,i)=>{
     const c=document.createElement('div');c.className='hc';
@@ -548,113 +478,66 @@ async function showFinal(){
     c.style.background=bgMap[g.heat.cls]||'#F1EFE8';
     c.textContent=g.heat.emoji;chips.appendChild(c);
   });
-  document.getElementById('cc-theme').textContent=todayBundle.theme;
-  document.getElementById('cc-actual').textContent=`$${realTotal.toFixed(2)}`;
-  document.getElementById('cc-yours').textContent=`$${guessTotal.toFixed(2)}`;
-  const diff=guessTotal-realTotal;
-  const dAbs=Math.abs(diff).toFixed(2);
-  const pill=document.getElementById('cc-diff');
-  pill.textContent=diff===0?'Exact match!':diff>0?`$${dAbs} over`:`$${dAbs} under`;
-  pill.className='diff-pill '+(diff===0?'diff-exact':diff>0?'diff-over':'diff-under');
-  const tom=getTomorrowBundle();
-  if(tom){
-    document.getElementById('tease-name').textContent=tom.theme;
-    document.getElementById('tease-sil').textContent=tom.emoji;
+
+  const streak=getStreak();
+  const streakLine=document.getElementById('streak-line');
+  streakLine.innerHTML=streak>1?`<span class="streak-chip" style="background:var(--orange-light);color:var(--orange-dark);border-color:var(--border2);">🔥 ${streak} day streak</span>`:'';
+
+  const scoreEl=document.getElementById('final-score');
+  if(animate){
+    fireConfetti(70);
+    const dur=1100,start=performance.now();
+    function tick(now){
+      const t=Math.min(1,(now-start)/dur);
+      const eased=1-Math.pow(1-t,3);
+      scoreEl.textContent=Math.round(eased*score).toLocaleString();
+      if(t<1)requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }else{
+    scoreEl.textContent=score.toLocaleString();
   }
-  await renderLB();
 }
 
-async function renderLB(h){
-  const lb=await loadLB();lb.sort((a,b)=>b.score-a.score);
-  const list=document.getElementById('lb-list');list.innerHTML='';
-  if(!lb.length){list.innerHTML='<div style="font-size:13px;color:var(--text2);text-align:center;padding:1rem;">No entries yet — be the first!</div>';return;}
-  lb.slice(0,10).forEach((e,i)=>{
-    const r=document.createElement('div');
-    const rc=i===0?'gold':i===1?'silver':i===2?'bronze':'';
-    const you=h&&e.name===h;
-    r.className='lb-row'+(you?' lb-you':'');
-    r.innerHTML=`<div class="lb-rank ${rc}">${i+1}</div><div class="lb-name">${e.name}${you?' (you)':''}</div><div class="lb-score">${e.score.toLocaleString()}</div>`;
-    list.appendChild(r);
-  });
-}
-
-async function submitLB(){
-  const name=document.getElementById('lb-name').value.trim();if(!name)return;
-  const lb=await loadLB();const ex=lb.findIndex(e=>e.name===name);
-  if(ex>=0){if(score>lb[ex].score)lb[ex]={name,score};}else lb.push({name,score});
-  await saveLB(lb);
-  document.getElementById('lb-btn').textContent='Saved!';
-  document.getElementById('lb-btn').disabled=true;
-  await renderLB(name);
-}
-
-function shareResults(){
-  const vibe=getVibe(guesses.reduce((a,g)=>a+Math.max(0,100-g.pct),0)/5);
+function buildShareText(){
   const d=new Date();
-  const lines=guesses.map(g=>`${g.heat.emoji} ${g.product.teaser}`).join('\n');
-  const streakStr=getStreak()>1?`\n🔥 ${getStreak()} day streak`:'';
-  const text=`Guess Total ${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}\n${todayBundle.theme} ${todayBundle.emoji}\n\n${lines}\n\n${vibe.emoji} ${vibe.title} — ${score.toLocaleString()} pts${streakStr}\nguesstotal.com`;
+  const avgAcc=guesses.reduce((a,g)=>a+Math.max(0,100-g.pct),0)/guesses.length;
+  const vibe=getVibe(avgAcc);
+  const storyLines=guesses.map((g,i)=>`${i+1}. ${g.heat.emoji} ${g.product.teaser||g.product.name}`).join('\n');
+  const streak=getStreak();
+  const streakStr=streak>1?`\n🔥 ${streak} day streak`:'';
+  return `📖 MY GUESS TOTAL STORY\n${todayBundle.theme} ${todayBundle.emoji} — ${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}\n\n${storyLines}\n\n${vibe.emoji} ${vibe.title} · ${score.toLocaleString()} pts${streakStr}\n\nguesstotal.com`;
+}
+
+document.getElementById('share-btn').addEventListener('click',()=>{
+  const text=buildShareText();
   if(navigator.share){
     navigator.share({title:'Guess Total',text:text,url:'https://guesstotal.com'})
       .then(()=>{document.getElementById('copied-msg').textContent='Shared!';setTimeout(()=>document.getElementById('copied-msg').textContent='',2500);})
       .catch(()=>{});
-  } else {
+  }else{
     navigator.clipboard.writeText(text)
-      .then(()=>{document.getElementById('copied-msg').textContent='Copied!';setTimeout(()=>document.getElementById('copied-msg').textContent='',2500);})
+      .then(()=>{document.getElementById('copied-msg').textContent='Copied to clipboard!';setTimeout(()=>document.getElementById('copied-msg').textContent='',2500);})
       .catch(()=>{document.getElementById('copied-msg').textContent='Could not copy.';});
   }
-}
+  if(typeof gtag!=='undefined')gtag('event','share_results',{'bundle_theme':todayBundle.theme,'final_score':score});
+});
 
-async function submitEmail(){
-  const email=document.getElementById('email-input').value.trim();
-  if(!email||!email.includes('@')){
-    document.getElementById('email-success').textContent='Please enter a valid email.';
-    return;
+function startGame(){
+  const saved=localStorage.getItem(getPlayedKey());
+  if(saved){
+    try{
+      const data=JSON.parse(saved);
+      guesses=data.guesses;score=data.score;
+      renderHeader();
+      showFinal(false);
+      return;
+    }catch{}
   }
-  try{
-    const r=await fetch('/api/subscribe',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email})
-    });
-    if(r.ok){
-      document.getElementById('email-success').textContent="You're in! See you tomorrow.";
-      document.getElementById('email-input').value='';
-    }else{
-      const url='https://guesstotal.us9.list-manage.com/subscribe/post?u=010aa02dbe2725380a129894e&id=a0549dd1da&EMAIL='+encodeURIComponent(email);
-      window.open(url,'_blank');
-      document.getElementById('email-success').textContent="You're in! See you tomorrow.";
-      document.getElementById('email-input').value='';
-    }
-  }catch{
-    const url='https://guesstotal.us9.list-manage.com/subscribe/post?u=010aa02dbe2725380a129894e&id=a0549dd1da&EMAIL='+encodeURIComponent(email);
-    window.open(url,'_blank');
-    document.getElementById('email-success').textContent="You're in! See you tomorrow.";
-    document.getElementById('email-input').value='';
-  }
-  if(typeof gtag!=='undefined')gtag('event','email_signup',{'bundle_theme':todayBundle.theme});
-}
-
-function updateCountdown(){
-  const now=new Date();
-  const tomorrow=new Date(now);
-  tomorrow.setDate(tomorrow.getDate()+1);
-  tomorrow.setHours(0,0,0,0);
-  const diff=tomorrow-now;
-  const h=Math.floor(diff/3600000);
-  const m=Math.floor((diff%3600000)/60000);
-  const s=Math.floor((diff%60000)/1000);
-  const el=document.getElementById('countdown-time');
-  if(el)el.textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-}
-setInterval(updateCountdown,1000);
-updateCountdown();
-
-function shopBundle(){
-  if(typeof gtag!=='undefined')gtag('event','shop_bundle',{'bundle_theme':todayBundle.theme});
-  todayBundle.products.forEach((p,i)=>{
-    setTimeout(()=>{window.open(affLink(p.asin),'_blank');},i*300);
-  });
+  idx=0;guesses=[];score=0;
+  renderHeader();
+  renderProduct(0);
+  if(typeof gtag!=='undefined')gtag('event','game_start',{'bundle_theme':todayBundle.theme});
 }
 
 async function loadBundles(){
@@ -669,10 +552,11 @@ async function loadBundles(){
     }catch{}
   }
   if(!BUNDLES.length){
-    document.getElementById('land-theme-name').textContent='Could not load today\'s game';
+    document.getElementById('header-theme').textContent='Could not load today\'s game';
     return;
   }
-  initLanding();
+  todayBundle=getTodayBundle();
+  startGame();
 }
 
 loadBundles();
