@@ -66,7 +66,8 @@ function downloadImage(url, filepath) {
     const mod = url.startsWith('https') ? https : require('http');
     mod.get(url, { timeout: 15000 }, (res) => {
       if (res.statusCode === 301 || res.statusCode === 302) {
-        return downloadImage(res.headers.location, filepath).then(resolve).catch(reject);
+        const nextUrl = new URL(res.headers.location, url).toString();
+        return downloadImage(nextUrl, filepath).then(resolve).catch(reject);
       }
       if (res.statusCode !== 200) return reject(new Error(`HTTP ${res.statusCode}`));
       const ws = fs.createWriteStream(filepath);

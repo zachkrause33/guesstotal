@@ -36,7 +36,8 @@ function fetchPage(url, attempt = 0) {
       timeout: 20000,
     }, (res) => {
       if (res.statusCode === 301 || res.statusCode === 302 || res.statusCode === 307) {
-        return fetchPage(res.headers.location, attempt).then(resolve).catch(reject);
+        const nextUrl = new URL(res.headers.location, url).toString();
+        return fetchPage(nextUrl, attempt).then(resolve).catch(reject);
       }
       if (res.statusCode === 503 && attempt < 2) {
         const delay = (attempt + 1) * 3000;
@@ -136,7 +137,8 @@ function downloadImage(url, filepath) {
       timeout: 15000,
     }, (res) => {
       if (res.statusCode === 301 || res.statusCode === 302) {
-        return downloadImage(res.headers.location, filepath).then(resolve).catch(reject);
+        const nextUrl = new URL(res.headers.location, url).toString();
+        return downloadImage(nextUrl, filepath).then(resolve).catch(reject);
       }
       if (res.statusCode !== 200) return reject(new Error(`HTTP ${res.statusCode}`));
       const fs = require('fs');
