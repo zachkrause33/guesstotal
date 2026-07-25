@@ -1,4 +1,6 @@
 {
+  "framework": null,
+  "outputDirectory": ".",
   "functions": {
     "api/subscribe.js": {
       "memory": 128,
