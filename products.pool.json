@@ -78,14 +78,12 @@
       {"asin":"B0CTKR7JSK","teaser":"The Magnet Battle","meta":"Magnetic darts · rollable board · 12 darts · safe for kids · portable","fallbackName":"Magnetic Dart Board","fallbackPrice":17.97},
       {"asin":"B0B5B8P36W","teaser":"The Net Boss","meta":"4-way volleyball · adjustable net · all ages · portable · pro level","fallbackName":"CROSSNET Four Way Volleyball","fallbackPrice":109.99},
       {"asin":"B08R6ZY4F2","teaser":"The Tower Toppler","meta":"Giant tumbling tower · 54 blocks · carry bag · builds to 5 ft","fallbackName":"Giant Tumbling Tower Game","fallbackPrice":41.99},
-      {"asin":"B0C68LM827","teaser":"The Glow String","meta":"Solar powered · 100 LED · 8 modes · waterproof · warm white","fallbackName":"Solar String Lights","fallbackPrice":34.99},
       {"asin":"B0BWKP58SH","teaser":"The Karaoke Box","meta":"Bluetooth · wireless mic · LED lights · portable · USB-C charge","fallbackName":"Karaoke Machine with Wireless Mic","fallbackPrice":49.99},
       {"asin":"B09WMHFKJR","teaser":"The Photo Booth","meta":"Instant print · filters · frames · party mode · rechargeable","fallbackName":"Instant Print Camera","fallbackPrice":59.99}
     ],
     "travel": [
       {"asin":"B07SRRQS5B","teaser":"The Neck Saver","meta":"Memory foam · adjustable · washable cover · carry bag · ergonomic","fallbackName":"napfun Travel Neck Pillow","fallbackPrice":19.99},
       {"asin":"B07VJYZFLL","teaser":"The Packing Pro","meta":"6 piece set · compression · waterproof · see-through · color coded","fallbackName":"Packing Cubes Set of 6","fallbackPrice":19.99},
-      {"asin":"B0BSHF7WHW","teaser":"The Juice Box","meta":"20000mAh · 65W · USB-C · laptop compatible · airline approved","fallbackName":"Anker Power Bank 20000mAh","fallbackPrice":99.99},
       {"asin":"B07XJ8C8F5","teaser":"The Lockdown","meta":"TSA approved · combination · 4 digit · zinc alloy · 2-pack","fallbackName":"TSA Luggage Lock 2-Pack","fallbackPrice":10.99},
       {"asin":"B09GFQKH42","teaser":"The Tag Along","meta":"Apple Find My · replaceable battery · water resistant · key ring","fallbackName":"AirTag 4-Pack","fallbackPrice":79.00},
       {"asin":"B0BPM52YQW","teaser":"The Blackout","meta":"100% blackout · contoured · adjustable · side sleeper friendly","fallbackName":"Sleep Eye Mask","fallbackPrice":12.99},
