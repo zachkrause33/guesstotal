@@ -6,14 +6,14 @@
         "teaser": "The Floating World",
         "meta": "Defies gravity · LED light base · slow spin · conversation starter",
         "fallbackName": "MOKOQI Magnetic Levitation Globe",
-        "fallbackPrice": 36.99
+        "fallbackPrice": 35.14
       },
       {
         "asin": "B0F18BBHCC",
         "teaser": "The Glow Up",
         "meta": "Red light LED · wireless · spa-level treatment at home",
         "fallbackName": "LED Face Mask Light Therapy",
-        "fallbackPrice": 89.99
+        "fallbackPrice": 76.49
       },
       {
         "asin": "B082F13J55",
@@ -27,35 +27,35 @@
         "teaser": "The Vibe Setter",
         "meta": "16 million colors · app controlled · music sync · adhesive mount",
         "fallbackName": "Govee Smart LED Neon Rope Lights",
-        "fallbackPrice": 49.99
+        "fallbackPrice": 54.99
       },
       {
         "asin": "B0C535NZQ8",
         "teaser": "The Command Center",
         "meta": "4 ports · fast charge · LED display · compact design",
         "fallbackName": "Charging Station for Multiple Devices",
-        "fallbackPrice": 39.99
+        "fallbackPrice": 44.99
       },
       {
         "asin": "B0DCM34GXX",
         "teaser": "The Content Machine",
         "meta": "Waterproof · 5.3K video · HyperSmooth stabilization · rugged",
         "fallbackName": "GoPro HERO 13 Black",
-        "fallbackPrice": 349
+        "fallbackPrice": 494
       },
       {
         "asin": "B0BWP15J1P",
         "teaser": "The Instant Classic",
         "meta": "Instant film · auto exposure · selfie mirror · compact",
         "fallbackName": "Fujifilm Instax Mini 12 Camera",
-        "fallbackPrice": 86.74
+        "fallbackPrice": 79.95
       },
       {
         "asin": "B0CTNMJL8G",
         "teaser": "The Party Speaker",
         "meta": "Bluetooth 5.3 · IP67 waterproof · 12hr battery · bass boost",
         "fallbackName": "JBL Clip 5 Portable Speaker",
-        "fallbackPrice": 59.95
+        "fallbackPrice": 79.95
       },
       {
         "asin": "B09G9FPHY6",
@@ -92,14 +92,14 @@
         "teaser": "The Backyard Weapon",
         "meta": "Pro kit · 3 balls included · foldable legs · intense rallies",
         "fallbackName": "Spikeball 3-Ball Kit",
-        "fallbackPrice": 59.99
+        "fallbackPrice": 74.99
       },
       {
         "asin": "B0F5G8BVVJ",
         "teaser": "The Disc Duel",
         "meta": "Flying disc + slam can · all ages · portable · instant setup",
         "fallbackName": "Kan Jam Original Disc Toss Game",
-        "fallbackPrice": 39.99
+        "fallbackPrice": 32.99
       },
       {
         "asin": "B07G3VFB12",
@@ -113,7 +113,7 @@
         "teaser": "The Ladder Launcher",
         "meta": "Wrap-around scoring · indoor/outdoor · includes bolas · folding frame",
         "fallbackName": "Ladder Toss Game Set",
-        "fallbackPrice": 34.99
+        "fallbackPrice": 52.88
       },
       {
         "asin": "B00IZCFTSG",
@@ -134,14 +134,14 @@
         "teaser": "The Pool Party",
         "meta": "Foldable · PVC · drain plug · non-slip · 63\" diameter",
         "fallbackName": "Foldable Dog Pool",
-        "fallbackPrice": 22.99
+        "fallbackPrice": 19.99
       },
       {
         "asin": "B0F1T8XL4G",
         "teaser": "The Ring Master",
         "meta": "Glow in dark · indoor/outdoor · suction cup or lawn · travel bag",
         "fallbackName": "Ring Toss Game Set",
-        "fallbackPrice": 19.99
+        "fallbackPrice": 39.99
       }
     ],
     "kitchen": [
@@ -157,7 +157,7 @@
         "teaser": "The Drainer",
         "meta": "Collapsible · BPA-free · space-saving · dishwasher safe · no mess",
         "fallbackName": "Collapsible Colander",
-        "fallbackPrice": 16.99
+        "fallbackPrice": 17.99
       },
       {
         "asin": "B094NTCSDJ",
@@ -208,7 +208,7 @@
         "teaser": "The Portable Blender",
         "meta": "USB-C rechargeable · 20oz · 6 blades · self-cleaning · travel-ready",
         "fallbackName": "Portable Blender",
-        "fallbackPrice": 19.95
+        "fallbackPrice": 24.95
       },
       {
         "asin": "B08YWVJNNV",
@@ -222,21 +222,21 @@
         "teaser": "The Stay Cold",
         "meta": "40oz · vacuum insulated · straw lid · fits cup holder · sweat-proof",
         "fallbackName": "RTIC Tumbler 40oz",
-        "fallbackPrice": 18.39
+        "fallbackPrice": 22.99
       },
       {
         "asin": "B0DFM59KY7",
         "teaser": "The Fold-Up",
         "meta": "Collapsible · BPA-free · leak-proof · clip-on · 20oz",
         "fallbackName": "Collapsible Water Bottle",
-        "fallbackPrice": 12.99
+        "fallbackPrice": 13.99
       },
       {
         "asin": "B07BSWDTBK",
         "teaser": "The Adventure Bag",
         "meta": "Waterproof dry bag · 20L · roll-top · shoulder strap · floating",
         "fallbackName": "Waterproof Dry Bag 20L",
-        "fallbackPrice": 18.99
+        "fallbackPrice": 16.14
       },
       {
         "asin": "B0BSFBPXQ4",
@@ -266,14 +266,14 @@
         "teaser": "The Splash Pad",
         "meta": "Non-slip · auto spray · 60\" · adjustable pressure · easy connect",
         "fallbackName": "Dog Splash Pad",
-        "fallbackPrice": 29.99
+        "fallbackPrice": 37.99
       },
       {
         "asin": "B0GT3SRF8Q",
         "teaser": "The Solar Fountain",
         "meta": "Solar powered · 6 nozzles · bird bath · no wiring · floating",
         "fallbackName": "Solar Fountain for Bird Bath",
-        "fallbackPrice": 19.99
+        "fallbackPrice": 12.99
       },
       {
         "asin": "B07Y5FC2HB",
@@ -317,14 +317,14 @@
         "teaser": "The Brain Freeze",
         "meta": "Full coverage · gel bead · hot/cold therapy · adjustable strap",
         "fallbackName": "Migraine Relief Cap",
-        "fallbackPrice": 19.99
+        "fallbackPrice": 16.99
       },
       {
         "asin": "B0F531JR4Z",
         "teaser": "The Chop Block",
         "meta": "Bamboo · juice groove · handle · antimicrobial · reversible",
         "fallbackName": "Premium Bamboo Cutting Board",
-        "fallbackPrice": 24.99
+        "fallbackPrice": 29.99
       },
       {
         "asin": "B07TZF5HKZ",
@@ -375,28 +375,28 @@
         "teaser": "The Lazy Hang",
         "meta": "Portable · holds 450 lbs · easy setup · no trees needed · carry bag",
         "fallbackName": "Portable Hammock with Stand",
-        "fallbackPrice": 39.99
+        "fallbackPrice": 85.99
       },
       {
         "asin": "B0C411QF65",
         "teaser": "The Cool Table",
         "meta": "Built-in cooler · outdoor table · patio · drink holder · 28 quart",
         "fallbackName": "Keter Outdoor Cooler Table",
-        "fallbackPrice": 89.99
+        "fallbackPrice": 119.99
       },
       {
         "asin": "B0C68LM827",
         "teaser": "The Glow String",
         "meta": "Solar powered · 100 LED · 8 modes · waterproof · warm white",
         "fallbackName": "Solar String Lights",
-        "fallbackPrice": 34.99
+        "fallbackPrice": 22.99
       },
       {
         "asin": "B07DR7MB48",
         "teaser": "The Party Stakes",
         "meta": "Outdoor drink holders · set of 6 · stake in ground · fits cans",
         "fallbackName": "Outdoor Drink Stake Holders",
-        "fallbackPrice": 16.99
+        "fallbackPrice": 28.99
       },
       {
         "asin": "B0CMVTHVJ6",
@@ -426,35 +426,35 @@
         "teaser": "The S'more Machine",
         "meta": "Electric · indoor · 6 servings · easy clean · no flame needed",
         "fallbackName": "Indoor Electric S'mores Maker",
-        "fallbackPrice": 35.99
+        "fallbackPrice": 32.39
       },
       {
         "asin": "B0C6QJK9SP",
         "teaser": "The Bubble Show",
         "meta": "Giant bubble wands · 2-pack · refill mix · outdoor magic",
         "fallbackName": "Giant Bubble Wands 2-Pack",
-        "fallbackPrice": 19.99
+        "fallbackPrice": 18.99
       },
       {
         "asin": "B0CTKR7JSK",
         "teaser": "The Magnet Battle",
         "meta": "Magnetic darts · rollable board · 12 darts · safe for kids · portable",
         "fallbackName": "Magnetic Dart Board",
-        "fallbackPrice": 17.97
+        "fallbackPrice": 12.49
       },
       {
         "asin": "B0B5B8P36W",
         "teaser": "The Net Boss",
         "meta": "4-way volleyball · adjustable net · all ages · portable · pro level",
         "fallbackName": "CROSSNET Four Way Volleyball",
-        "fallbackPrice": 109.99
+        "fallbackPrice": 122.99
       },
       {
         "asin": "B08R6ZY4F2",
         "teaser": "The Tower Toppler",
         "meta": "Giant tumbling tower · 54 blocks · carry bag · builds to 5 ft",
         "fallbackName": "Giant Tumbling Tower Game",
-        "fallbackPrice": 41.99
+        "fallbackPrice": 33.89
       },
       {
         "asin": "B0BWKP58SH",
@@ -477,7 +477,7 @@
         "teaser": "The Neck Saver",
         "meta": "Memory foam · adjustable · washable cover · carry bag · ergonomic",
         "fallbackName": "napfun Travel Neck Pillow",
-        "fallbackPrice": 19.99
+        "fallbackPrice": 15.86
       },
       {
         "asin": "B07VJYZFLL",
