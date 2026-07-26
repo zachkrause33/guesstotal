@@ -46,6 +46,7 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Update bundles $(date -u +%Y-%m-%d)"
+            git pull --rebase origin main
             git push
           fi
 
@@ -81,5 +82,6 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Discover new products $(date -u +%Y-%m-%d)"
+            git pull --rebase origin main
             git push
           fi

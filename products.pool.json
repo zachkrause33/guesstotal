@@ -56,34 +56,6 @@
         "meta": "Bluetooth 5.3 · IP67 waterproof · 12hr battery · bass boost",
         "fallbackName": "JBL Clip 5 Portable Speaker",
         "fallbackPrice": 79.95
-      },
-      {
-        "asin": "B09G9FPHY6",
-        "teaser": "The Night Owl",
-        "meta": "4K monitor light bar · auto dimming · USB powered · no glare",
-        "fallbackName": "BenQ ScreenBar Monitor Light",
-        "fallbackPrice": 109
-      },
-      {
-        "asin": "B0BSHF7WHW",
-        "teaser": "The Power Bank",
-        "meta": "20000mAh · 65W fast charge · laptop compatible · USB-C",
-        "fallbackName": "Anker Prime 20000mAh Power Bank",
-        "fallbackPrice": 99.99
-      },
-      {
-        "asin": "B0D5C4KXD6",
-        "teaser": "The Ear Upgrade",
-        "meta": "Active noise cancelling · 50hr battery · spatial audio · USB-C",
-        "fallbackName": "Sony WH-1000XM5 Headphones",
-        "fallbackPrice": 298
-      },
-      {
-        "asin": "B0CX23V2ZK",
-        "teaser": "The Tracker",
-        "meta": "Fitness tracking · GPS · 10 day battery · always-on display",
-        "fallbackName": "Fitbit Charge 6",
-        "fallbackPrice": 99.95
       }
     ],
     "outdoor": [
@@ -102,25 +74,11 @@
         "fallbackPrice": 32.99
       },
       {
-        "asin": "B07G3VFB12",
-        "teaser": "The Toss Boss",
-        "meta": "All-weather · LED option · regulation size · carrying case",
-        "fallbackName": "GoSports Cornhole Set",
-        "fallbackPrice": 59.99
-      },
-      {
         "asin": "B0DGGBV13B",
         "teaser": "The Ladder Launcher",
         "meta": "Wrap-around scoring · indoor/outdoor · includes bolas · folding frame",
         "fallbackName": "Ladder Toss Game Set",
         "fallbackPrice": 52.88
-      },
-      {
-        "asin": "B00IZCFTSG",
-        "teaser": "The Lawn Legend",
-        "meta": "Bocce ball · 8 balls + pallino · carrying case · regulation size",
-        "fallbackName": "AmazonBasics Bocce Ball Set",
-        "fallbackPrice": 29.99
       },
       {
         "asin": "B0CHRPQ952",
@@ -172,34 +130,6 @@
         "meta": "Absorbent ceramic · cork back · 6-pack · modern patterns",
         "fallbackName": "Ceramic Coasters Set of 6",
         "fallbackPrice": 11.99
-      },
-      {
-        "asin": "B0D1SQPV27",
-        "teaser": "The Ice Queen",
-        "meta": "Nugget ice · countertop · self-cleaning · 26 lbs/day",
-        "fallbackName": "Nugget Ice Maker Countertop",
-        "fallbackPrice": 159.99
-      },
-      {
-        "asin": "B07PJV3JPR",
-        "teaser": "The Chop Master",
-        "meta": "Electric food processor · 2 cup · stainless blades · one-touch",
-        "fallbackName": "Hamilton Beach Food Chopper",
-        "fallbackPrice": 19.99
-      },
-      {
-        "asin": "B0BN23GZWN",
-        "teaser": "The Air Fryer",
-        "meta": "6 quart · 8 presets · digital display · easy clean · compact",
-        "fallbackName": "COSORI Air Fryer 6 Quart",
-        "fallbackPrice": 99.99
-      },
-      {
-        "asin": "B07S85TPLG",
-        "teaser": "The Cold Brew King",
-        "meta": "64oz · fine mesh filter · airtight lid · dishwasher safe",
-        "fallbackName": "Cold Brew Coffee Maker",
-        "fallbackPrice": 24.99
       }
     ],
     "fitness": [
@@ -237,27 +167,6 @@
         "meta": "Waterproof dry bag · 20L · roll-top · shoulder strap · floating",
         "fallbackName": "Waterproof Dry Bag 20L",
         "fallbackPrice": 16.14
-      },
-      {
-        "asin": "B0BSFBPXQ4",
-        "teaser": "The Home Gym",
-        "meta": "Adjustable · 5-25 lbs · space-saving · quick change · grip comfort",
-        "fallbackName": "Adjustable Dumbbell Set",
-        "fallbackPrice": 149.99
-      },
-      {
-        "asin": "B07K3BKKN3",
-        "teaser": "The Roller",
-        "meta": "High-density foam · 18 inch · textured surface · recovery tool",
-        "fallbackName": "Foam Roller for Muscle Recovery",
-        "fallbackPrice": 16.99
-      },
-      {
-        "asin": "B09KHLTQNJ",
-        "teaser": "The Smart Scale",
-        "meta": "Body fat % · muscle mass · BMI · Bluetooth · app sync",
-        "fallbackName": "RENPHO Smart Body Scale",
-        "fallbackPrice": 24.99
       }
     ],
     "pets": [
@@ -274,41 +183,6 @@
         "meta": "Solar powered · 6 nozzles · bird bath · no wiring · floating",
         "fallbackName": "Solar Fountain for Bird Bath",
         "fallbackPrice": 12.99
-      },
-      {
-        "asin": "B07Y5FC2HB",
-        "teaser": "The Paw Cleaner",
-        "meta": "Portable · soft bristles · one-hand use · muddy paw solution",
-        "fallbackName": "Dog Paw Cleaner",
-        "fallbackPrice": 14.99
-      },
-      {
-        "asin": "B08JCM6VK6",
-        "teaser": "The Puzzle Pro",
-        "meta": "Interactive · slow feeder · mental stimulation · non-slip base",
-        "fallbackName": "Dog Puzzle Toy",
-        "fallbackPrice": 12.99
-      },
-      {
-        "asin": "B074RG4HCH",
-        "teaser": "The Treat Launcher",
-        "meta": "Auto ball launcher · 3 distance settings · standard tennis balls",
-        "fallbackName": "Automatic Dog Ball Launcher",
-        "fallbackPrice": 39.99
-      },
-      {
-        "asin": "B07D3GWNQL",
-        "teaser": "The Cat Castle",
-        "meta": "Multi-level · sisal scratching posts · hammock · condo · 50 inch",
-        "fallbackName": "Cat Tree Tower",
-        "fallbackPrice": 49.99
-      },
-      {
-        "asin": "B08GKC7DFG",
-        "teaser": "The Slow Feeder",
-        "meta": "Anti-gulp · non-slip base · dishwasher safe · fun maze pattern",
-        "fallbackName": "Slow Feeder Dog Bowl",
-        "fallbackPrice": 9.99
       }
     ],
     "selfcare": [
@@ -325,41 +199,6 @@
         "meta": "Bamboo · juice groove · handle · antimicrobial · reversible",
         "fallbackName": "Premium Bamboo Cutting Board",
         "fallbackPrice": 29.99
-      },
-      {
-        "asin": "B07TZF5HKZ",
-        "teaser": "The Zen Den",
-        "meta": "Essential oil diffuser · 400ml · color changing LED · auto shutoff",
-        "fallbackName": "Essential Oil Diffuser",
-        "fallbackPrice": 23.99
-      },
-      {
-        "asin": "B0B4N1MMJM",
-        "teaser": "The Silk Slide",
-        "meta": "Mulberry silk · 22 momme · hidden zipper · cooling · hair care",
-        "fallbackName": "Silk Pillowcase",
-        "fallbackPrice": 23.99
-      },
-      {
-        "asin": "B09DKWGLHK",
-        "teaser": "The Eye Mask",
-        "meta": "Heated · USB rechargeable · lavender scented · sleep aid · timer",
-        "fallbackName": "Heated Eye Mask",
-        "fallbackPrice": 29.99
-      },
-      {
-        "asin": "B07PXLF6KS",
-        "teaser": "The Glow Drops",
-        "meta": "Vitamin C serum · hyaluronic acid · anti-aging · brightening",
-        "fallbackName": "TruSkin Vitamin C Serum",
-        "fallbackPrice": 19.99
-      },
-      {
-        "asin": "B09KMDJNM7",
-        "teaser": "The Scalp Spa",
-        "meta": "Electric · IPX7 waterproof · 4 massage heads · rechargeable",
-        "fallbackName": "Electric Scalp Massager",
-        "fallbackPrice": 27.99
       }
     ],
     "home": [
@@ -397,27 +236,6 @@
         "meta": "Outdoor drink holders · set of 6 · stake in ground · fits cans",
         "fallbackName": "Outdoor Drink Stake Holders",
         "fallbackPrice": 28.99
-      },
-      {
-        "asin": "B0CMVTHVJ6",
-        "teaser": "The Sunrise Alarm",
-        "meta": "Wake-up light · sunrise simulation · FM radio · nature sounds",
-        "fallbackName": "Sunrise Alarm Clock",
-        "fallbackPrice": 34.99
-      },
-      {
-        "asin": "B07RKRZB8C",
-        "teaser": "The Neon Sign",
-        "meta": "Custom LED neon · USB powered · wall mount · dimmable · acrylic",
-        "fallbackName": "LED Neon Light Sign",
-        "fallbackPrice": 24.99
-      },
-      {
-        "asin": "B09CFVFBXG",
-        "teaser": "The Smart Plug",
-        "meta": "WiFi · Alexa/Google · timer · energy monitor · 4-pack",
-        "fallbackName": "Smart Plug 4-Pack",
-        "fallbackPrice": 22.99
       }
     ],
     "party": [
@@ -455,20 +273,6 @@
         "meta": "Giant tumbling tower · 54 blocks · carry bag · builds to 5 ft",
         "fallbackName": "Giant Tumbling Tower Game",
         "fallbackPrice": 33.89
-      },
-      {
-        "asin": "B0BWKP58SH",
-        "teaser": "The Karaoke Box",
-        "meta": "Bluetooth · wireless mic · LED lights · portable · USB-C charge",
-        "fallbackName": "Karaoke Machine with Wireless Mic",
-        "fallbackPrice": 49.99
-      },
-      {
-        "asin": "B09WMHFKJR",
-        "teaser": "The Photo Booth",
-        "meta": "Instant print · filters · frames · party mode · rechargeable",
-        "fallbackName": "Instant Print Camera",
-        "fallbackPrice": 59.99
       }
     ],
     "travel": [
@@ -478,79 +282,9 @@
         "meta": "Memory foam · adjustable · washable cover · carry bag · ergonomic",
         "fallbackName": "napfun Travel Neck Pillow",
         "fallbackPrice": 15.86
-      },
-      {
-        "asin": "B07VJYZFLL",
-        "teaser": "The Packing Pro",
-        "meta": "6 piece set · compression · waterproof · see-through · color coded",
-        "fallbackName": "Packing Cubes Set of 6",
-        "fallbackPrice": 19.99
-      },
-      {
-        "asin": "B07XJ8C8F5",
-        "teaser": "The Lockdown",
-        "meta": "TSA approved · combination · 4 digit · zinc alloy · 2-pack",
-        "fallbackName": "TSA Luggage Lock 2-Pack",
-        "fallbackPrice": 10.99
-      },
-      {
-        "asin": "B09GFQKH42",
-        "teaser": "The Tag Along",
-        "meta": "Apple Find My · replaceable battery · water resistant · key ring",
-        "fallbackName": "AirTag 4-Pack",
-        "fallbackPrice": 79
-      },
-      {
-        "asin": "B0BPM52YQW",
-        "teaser": "The Blackout",
-        "meta": "100% blackout · contoured · adjustable · side sleeper friendly",
-        "fallbackName": "Sleep Eye Mask",
-        "fallbackPrice": 12.99
-      },
-      {
-        "asin": "B07QK955LS",
-        "teaser": "The Adapter",
-        "meta": "Universal · 4 USB · type-C · covers 200+ countries · fuse protected",
-        "fallbackName": "Universal Travel Adapter",
-        "fallbackPrice": 22.99
       }
     ],
     "gaming": [
-      {
-        "asin": "B0979V6YFN",
-        "teaser": "The Party Starter",
-        "meta": "Strategy card game · 2-8 players · 15 min rounds · ages 7+",
-        "fallbackName": "Exploding Kittens Card Game",
-        "fallbackPrice": 19.99
-      },
-      {
-        "asin": "B01JYVQP0C",
-        "teaser": "The Code Cracker",
-        "meta": "Cooperative · word game · 2-8 players · top 10 board game",
-        "fallbackName": "Codenames Board Game",
-        "fallbackPrice": 14.99
-      },
-      {
-        "asin": "B084368LXB",
-        "teaser": "The Wavelength",
-        "meta": "Party game · team vs team · psychic guessing · 2-12 players",
-        "fallbackName": "Wavelength Board Game",
-        "fallbackPrice": 29.99
-      },
-      {
-        "asin": "B07N5PRB5B",
-        "teaser": "The Taco Cat",
-        "meta": "Card game · fast-paced · slap game · hilarious · ages 8+",
-        "fallbackName": "Taco Cat Goat Cheese Pizza",
-        "fallbackPrice": 9.99
-      },
-      {
-        "asin": "B0C93PXWBP",
-        "teaser": "The Throw Down",
-        "meta": "Competitive stacking · speed game · colorful cups · 2+ players",
-        "fallbackName": "Speed Cups Game",
-        "fallbackPrice": 14.99
-      },
       {
         "asin": "B09S3ZJJRM",
         "teaser": "The The Chameleon Social",
