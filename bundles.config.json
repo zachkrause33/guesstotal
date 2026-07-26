@@ -262,41 +262,6 @@
           }
         },
         {
-          "asin": "B07G3VFB12",
-          "teaser": "The Hole Chaser 🎯",
-          "meta": "Regulation size · includes bags · great for backyard & tailgating",
-          "fallbackName": "Cornhole Boards Set",
-          "fallbackPrice": 59.99,
-          "fallbackImg": "/images/B07G3VFB12.webp",
-          "comments": {
-            "exact": [
-              "👑",
-              "NAILED IT.",
-              "You nailed the cornhole set price AND the bag toss. Truly a person of culture."
-            ],
-            "hot": [
-              "🔥",
-              "CLOSE.",
-              "Very close on the cornhole boards. Tailgate royalty spotted."
-            ],
-            "warm": [
-              "😅",
-              "FAIR.",
-              "Cornhole boards — you got close enough to still win the cookout trophy."
-            ],
-            "cold": [
-              "❄️",
-              "MISSED.",
-              "You missed the hole on that one. Not even close to the board."
-            ],
-            "ice": [
-              "💀",
-              "AIR BALL.",
-              "You threw that guess and it didn't even hit the board. Complete air ball on cornhole."
-            ]
-          }
-        },
-        {
           "asin": "B0DGGBV13B",
           "teaser": "The Bola Launcher 🪢",
           "meta": "Foldable · easy assembly · includes bolas & scoresheet",
@@ -328,41 +293,6 @@
               "💀",
               "COMPLETELY OFF.",
               "You completely whiffed on ladder toss. Didn't even hit the ladder."
-            ]
-          }
-        },
-        {
-          "asin": "B00IZCFTSG",
-          "teaser": "The Italian Classic 🇮🇹",
-          "meta": "8 resin balls · carrying bag · measuring rope included",
-          "fallbackName": "Bocce Ball Set",
-          "fallbackPrice": 29.99,
-          "fallbackImg": "/images/B00IZCFTSG.webp",
-          "comments": {
-            "exact": [
-              "👑",
-              "PERFETTO.",
-              "Perfect on bocce! You are practically Italian at this point. Mamma mia."
-            ],
-            "hot": [
-              "🔥",
-              "CLOSE.",
-              "Really close on bocce. You appreciate the finer lawn games. Respect."
-            ],
-            "warm": [
-              "😅",
-              "NOT BAD.",
-              "Decent bocce guess. Not tournament ready but you're in the game."
-            ],
-            "cold": [
-              "❄️",
-              "WIDE.",
-              "The bocce balls rolled right past your estimate. Way wide."
-            ],
-            "ice": [
-              "💀",
-              "NOWHERE CLOSE.",
-              "You were nowhere near the pallino on bocce. Not even on the court."
             ]
           }
         }
@@ -442,41 +372,6 @@
               "💀",
               "EVAPORATED.",
               "Your estimate on the cooler table just evaporated. Completely gone."
-            ]
-          }
-        },
-        {
-          "asin": "B0F5C9466M",
-          "teaser": "The Ice Fortress 🧊",
-          "meta": "Extra thick insulation · portable · great for camping",
-          "fallbackName": "Coleman Heavy-Duty Cooler",
-          "fallbackPrice": 49.99,
-          "fallbackImg": "/images/B0F5C9466M.webp",
-          "comments": {
-            "exact": [
-              "👑",
-              "LEGENDARY.",
-              "Perfect on the Coleman cooler! A true outdoor legend in every sense."
-            ],
-            "hot": [
-              "🔥",
-              "COLD.",
-              "Really close on the cooler. You know your camping gear cold. Literally."
-            ],
-            "warm": [
-              "😅",
-              "CHILLY.",
-              "Decent guess on the Coleman. Not perfectly chilled but close enough."
-            ],
-            "cold": [
-              "❄️",
-              "MELTING.",
-              "The cooler price had your estimate melting away like ice on a hot day."
-            ],
-            "ice": [
-              "💀",
-              "WARM.",
-              "You had a very warm guess for something called a cooler. Ironic."
             ]
           }
         },
@@ -880,41 +775,6 @@
               "💀",
               "DEAD.",
               "Your estimate on the charging station is at 0%. Completely dead."
-            ]
-          }
-        },
-        {
-          "asin": "B016I5FHXU",
-          "teaser": "The Floating World 🌍",
-          "meta": "Mysteriously floating globe · LED light base · conversation starter",
-          "fallbackName": "MOKOQI Magnetic Levitation Globe",
-          "fallbackPrice": 31.44,
-          "fallbackImg": "/images/B016I5FHXU.webp",
-          "comments": {
-            "exact": [
-              "👑",
-              "OUT OF THIS WORLD.",
-              "Perfect on the levitating globe! That accuracy is literally out of this world."
-            ],
-            "hot": [
-              "🔥",
-              "ORBITING.",
-              "Really close on the levitating globe! You clearly have refined and expensive taste."
-            ],
-            "warm": [
-              "😅",
-              "HOVERING.",
-              "Your guess was hovering around the right orbit on the globe."
-            ],
-            "cold": [
-              "❄️",
-              "UNGROUNDED.",
-              "The levitating globe had your estimate completely ungrounded."
-            ],
-            "ice": [
-              "💀",
-              "LAUNCHED.",
-              "Your estimate got launched into space on the globe. Way out there."
             ]
           }
         }
