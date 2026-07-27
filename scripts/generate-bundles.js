@@ -167,6 +167,16 @@ async function main() {
 
   if (staleAsins.length === 0) {
     console.log('All ASINs have fresh cached data — skipping fetch\n');
+  } else if (process.env.RAINFOREST_API_KEY) {
+    console.log(`Fetching ${staleAsins.length} ASINs via Rainforest API...`);
+    const { fetchProduct } = require('./lib/rainforest');
+    for (const asin of staleAsins) {
+      const r = await fetchProduct(asin);
+      amazonData[asin] = { title: r.title, price: r.price, imgUrl: r.imgUrl, scraped: r.scraped };
+      console.log(r.scraped && r.price ? `  ✓ ${asin} $${r.price}` : `  ✗ ${asin} ${r.error || 'no data'}`);
+      await sleep(500);
+    }
+    console.log();
   } else if (browserScrape) {
     console.log(`Scraping ${staleAsins.length} ASINs via headless browser...`);
     amazonData = await browserScrape(staleAsins, IMAGES_DIR);
