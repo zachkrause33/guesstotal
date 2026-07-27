@@ -52,7 +52,7 @@ async function main() {
     }
   }
 
-  const CACHE_MAX_AGE_MS = 3 * 24 * 60 * 60 * 1000;
+  const CACHE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
   const now = Date.now();
   const stale = allAsins.filter(asin => {
     const c = cache[asin];
@@ -61,7 +61,7 @@ async function main() {
   });
 
   console.log(`Total products: ${allAsins.length}`);
-  console.log(`Stale (>3 days): ${stale.length}`);
+  console.log(`Stale (>7 days): ${stale.length}`);
   console.log(`Fresh: ${allAsins.length - stale.length}\n`);
 
   if (stale.length === 0) {
