@@ -5,8 +5,8 @@ on:
     - cron: '0 6 * * *'  # 6 AM UTC daily (1 AM CT / 2 AM ET)
   workflow_dispatch:
     inputs:
-      scraper_api_key:
-        description: 'ScraperAPI key (leave blank if already saved as secret)'
+      rainforest_api_key:
+        description: 'Rainforest API key (leave blank if already saved as secret)'
         required: false
         type: string
 
@@ -27,13 +27,14 @@ jobs:
 
       - name: Refresh prices and images
         env:
-          SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY || inputs.scraper_api_key }}
+          RAINFOREST_API_KEY: ${{ secrets.RAINFOREST_API_KEY || inputs.rainforest_api_key }}
           AMAZON_PARTNER_TAG: guesstotal-20
-        if: env.SCRAPER_API_KEY != ''
+        if: env.RAINFOREST_API_KEY != ''
         run: npm run refresh-prices
 
       - name: Generate bundles
         env:
+          RAINFOREST_API_KEY: ${{ secrets.RAINFOREST_API_KEY || inputs.rainforest_api_key }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: npm run generate
 
@@ -68,9 +69,9 @@ jobs:
 
       - name: Discover new products
         env:
-          SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY || inputs.scraper_api_key }}
+          RAINFOREST_API_KEY: ${{ secrets.RAINFOREST_API_KEY || inputs.rainforest_api_key }}
           AMAZON_PARTNER_TAG: guesstotal-20
-        if: env.SCRAPER_API_KEY != ''
+        if: env.RAINFOREST_API_KEY != ''
         run: npm run discover
 
       - name: Commit and push if changed

@@ -2,69 +2,20 @@
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
-const { sleep } = require('./lib/scraper');
+const { fetchProduct } = require('./lib/rainforest');
 
-const SCRAPER_API_KEY = process.env.SCRAPER_API_KEY;
+const RAINFOREST_API_KEY = process.env.RAINFOREST_API_KEY;
 const POOL_PATH = path.join(__dirname, '..', 'products.pool.json');
 const CACHE_PATH = path.join(__dirname, '..', 'public', 'scrape-cache.json');
+const IMAGES_DIR = path.join(__dirname, '..', 'public', 'images');
 
-function scraperApiFetch(url) {
-  if (!SCRAPER_API_KEY) throw new Error('SCRAPER_API_KEY not set');
-  const apiUrl = `https://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(url)}&country_code=us`;
-
-  return new Promise((resolve, reject) => {
-    const mod = apiUrl.startsWith('https') ? https : require('http');
-    const req = mod.get(apiUrl, { timeout: 60000 }, (res) => {
-      if (res.statusCode !== 200) return reject(new Error(`ScraperAPI ${res.statusCode}`));
-      let data = '';
-      res.on('data', c => data += c);
-      res.on('end', () => resolve(data));
-    });
-    req.on('error', reject);
-    req.on('timeout', () => { req.destroy(); reject(new Error('Timeout')); });
-  });
-}
-
-function extractPrice(html) {
-  const patterns = [
-    /"priceAmount"\s*:\s*"?([\d.]+)"?/,
-    /class="a-price-whole">(\d+)<.*?class="a-price-fraction">(\d+)/s,
-    /data-asin-price="([\d.]+)"/,
-    /"lowPrice"\s*:\s*"?([\d.]+)"?/,
-  ];
-  for (const p of patterns) {
-    const m = html.match(p);
-    if (m) {
-      const val = m[2] !== undefined ? parseFloat(`${m[1]}.${m[2]}`) : parseFloat(m[1]);
-      if (val > 0 && val < 10000) return val;
-    }
-  }
-  return null;
-}
-
-function extractImage(html) {
-  const patterns = [
-    /"hiRes"\s*:\s*"([^"]+\.(?:jpg|png|webp)[^"]*)"/,
-    /id="landingImage"[^>]*src="([^"]+)"/,
-    /property="og:image"[^>]*content="([^"]+)"/,
-  ];
-  for (const p of patterns) {
-    const m = html.match(p);
-    if (m) {
-      let url = m[1].replace(/\\u002F/g, '/');
-      if (url.includes('_SX') || url.includes('_SY') || url.includes('_AC_')) {
-        url = url.replace(/\._[^.]+\./, '._AC_SL500_.');
-      }
-      return url;
-    }
-  }
-  return null;
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
 }
 
 function downloadImage(url, filepath) {
   return new Promise((resolve, reject) => {
-    const mod = url.startsWith('https') ? https : require('http');
-    mod.get(url, { timeout: 15000 }, (res) => {
+    https.get(url, { timeout: 15000 }, (res) => {
       if (res.statusCode === 301 || res.statusCode === 302) {
         const nextUrl = new URL(res.headers.location, url).toString();
         return downloadImage(nextUrl, filepath).then(resolve).catch(reject);
@@ -79,30 +30,25 @@ function downloadImage(url, filepath) {
 }
 
 async function main() {
-  if (!SCRAPER_API_KEY) {
-    console.error('Error: SCRAPER_API_KEY environment variable is required.');
-    console.error('Sign up free at https://www.scraperapi.com (1,000 requests/month)');
-    console.error('Then run: SCRAPER_API_KEY=your_key npm run refresh-prices');
+  if (!RAINFOREST_API_KEY) {
+    console.error('Error: RAINFOREST_API_KEY environment variable is required.');
+    console.error('Sign up at https://www.rainforestapi.com');
+    console.error('Then run: RAINFOREST_API_KEY=your_key npm run refresh-prices');
     process.exit(1);
   }
 
-  console.log('=== Price & Image Refresh ===\n');
+  console.log('=== Price & Image Refresh (Rainforest API) ===\n');
 
   const pool = JSON.parse(fs.readFileSync(POOL_PATH, 'utf8'));
   let cache = {};
   try { cache = JSON.parse(fs.readFileSync(CACHE_PATH, 'utf8')); } catch {}
 
-  const IMAGES_DIR = path.join(__dirname, '..', 'public', 'images');
   fs.mkdirSync(IMAGES_DIR, { recursive: true });
 
   const allAsins = [];
-  const asinToCategory = {};
-  for (const [cat, products] of Object.entries(pool.categories)) {
+  for (const products of Object.values(pool.categories)) {
     for (const p of products) {
-      if (!allAsins.includes(p.asin)) {
-        allAsins.push(p.asin);
-        asinToCategory[p.asin] = cat;
-      }
+      if (!allAsins.includes(p.asin)) allAsins.push(p.asin);
     }
   }
 
@@ -126,50 +72,49 @@ async function main() {
   let updated = 0;
   let images = 0;
   let failed = 0;
+  let deadAsins = [];
 
   for (let i = 0; i < stale.length; i++) {
     const asin = stale[i];
     console.log(`[${i + 1}/${stale.length}] ${asin}...`);
 
-    try {
-      const html = await scraperApiFetch(`https://www.amazon.com/dp/${asin}`);
-      const price = extractPrice(html);
-      const imgUrl = extractImage(html);
+    const result = await fetchProduct(asin);
 
-      if (price) {
-        const oldPrice = cache[asin]?.price;
-        cache[asin] = { ...cache[asin], price, imgUrl, lastUpdated: new Date().toISOString() };
+    if (result.scraped && result.price) {
+      const oldPrice = cache[asin]?.price;
+      cache[asin] = { title: result.title, price: result.price, imgUrl: result.imgUrl, lastUpdated: new Date().toISOString() };
 
-        for (const products of Object.values(pool.categories)) {
-          for (const p of products) {
-            if (p.asin === asin) p.fallbackPrice = price;
-          }
+      for (const products of Object.values(pool.categories)) {
+        for (const p of products) {
+          if (p.asin === asin) p.fallbackPrice = result.price;
         }
-
-        const diff = oldPrice ? ` (was $${oldPrice})` : '';
-        console.log(`  ✓ $${price}${diff}`);
-        updated++;
-      } else {
-        console.log(`  ~ Page loaded but no price found`);
       }
 
-      if (imgUrl) {
-        const ext = imgUrl.match(/\.(jpg|png|webp|jpeg)/i)?.[1] || 'jpg';
+      const diff = oldPrice ? ` (was $${oldPrice})` : '';
+      console.log(`  ✓ $${result.price}${diff}`);
+      updated++;
+
+      if (result.imgUrl) {
+        const ext = result.imgUrl.match(/\.(jpg|png|webp|jpeg)/i)?.[1] || 'jpg';
         const filepath = path.join(IMAGES_DIR, `${asin}.${ext}`);
         if (!fs.existsSync(filepath)) {
           try {
-            await downloadImage(imgUrl, filepath);
+            await downloadImage(result.imgUrl, filepath);
             images++;
             console.log(`  ↓ Image: ${asin}.${ext}`);
           } catch {}
         }
       }
-    } catch (err) {
+    } else if (result.notFound) {
+      console.log(`  ✗ Invalid/delisted ASIN: ${result.error}`);
+      deadAsins.push(asin);
       failed++;
-      console.log(`  ✗ ${err.message}`);
+    } else {
+      console.log(`  ✗ ${result.error}`);
+      failed++;
     }
 
-    if (i < stale.length - 1) await sleep(2000);
+    if (i < stale.length - 1) await sleep(500);
   }
 
   fs.writeFileSync(POOL_PATH, JSON.stringify(pool, null, 2));
@@ -179,6 +124,10 @@ async function main() {
   console.log(`Prices updated: ${updated}`);
   console.log(`Images downloaded: ${images}`);
   console.log(`Failed: ${failed}`);
+  if (deadAsins.length) {
+    console.log(`\nConfirmed invalid ASINs (consider removing from products.pool.json):`);
+    deadAsins.forEach(a => console.log(`  - ${a}`));
+  }
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
