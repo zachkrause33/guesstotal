@@ -79,7 +79,7 @@
     "backyard-games": {
       "name": "Backyard Games Bundle",
       "emoji": "🏆",
-      "tagline": "Everything you need to dominate the backyard this summer",
+      "tagline": "Everything you need to dominate the backyard",
       "products": [
         {"asin": "B002V7A7MQ", "name": "Spikeball 3-Ball Kit", "price": 74.99, "img": null, "teaser": "Spikeball"},
         {"asin": "B0F5G8BVVJ", "name": "Kan Jam Original Disc Toss", "price": 32.99, "img": null, "teaser": "Kan Jam"},
@@ -133,7 +133,7 @@
         {"asin": "B084D2XQ9F", "name": "Hues & Cues Color Guessing Game", "price": 24.97, "img": null, "teaser": "Hues & Cues"},
         {"asin": "B0FJMQB63N", "name": "Codenames Board Game 2nd Edition", "price": 24.97, "img": null, "teaser": "Codenames"},
         {"asin": "B09S3ZJJRM", "name": "The Chameleon Social Deduction Game", "price": 24.99, "img": null, "teaser": "The Chameleon"},
-        {"asin": "B01JKD4HYC", "name": "Secret Hitler Board Game", "price": 45.00, "img": null, "teaser": "Secret Hitler"}
+        {"asin": "B07G2VHPRW", "name": "Blank Slate Word Association Game", "price": 22.69, "img": null, "teaser": "Blank Slate"}
       ]
     },
     "self-care": {
@@ -165,7 +165,7 @@
       "emoji": "🐾",
       "tagline": "Because your dog deserves the good life too",
       "products": [
-        {"asin": "B08S1QK8YX", "name": "Nestpark Doggy Doobie Plush Squeaky Toy", "price": 11.95, "img": null, "teaser": "doggy doobie toy"},
+        {"asin": "B0CL3WC4MT", "name": "Best Pet Supplies Crinkle Chicken Squeaky Toy", "price": 7.53, "img": null, "teaser": "crinkle chicken toy"},
         {"asin": "B09XXPCB4T", "name": "PETSTA Dog Puzzle Toy Treat Dispenser", "price": 11.99, "img": null, "teaser": "dog puzzle toy"},
         {"asin": "B0DK42TDSK", "name": "Interactive Electric Rolling Dog Ball", "price": 19.99, "img": null, "teaser": "rolling dog ball"},
         {"asin": "B088LG4FPD", "name": "Peteast Dog & Kids Splash Pad 67in", "price": 19.99, "img": null, "teaser": "dog splash pad"},
@@ -193,7 +193,7 @@
         {"asin": "B0714F11JK", "name": "Banfeng Giant 9.5in Dog Tennis Ball", "price": 11.99, "img": null, "teaser": "giant tennis ball"},
         {"asin": "B0D4V9V39Y", "name": "BoYoYo Dog Puzzle Toy Yellow", "price": 9.99, "img": null, "teaser": "dog puzzle toy"},
         {"asin": "B00PQ5UH0C", "name": "Wobble Wag Giggle Ball", "price": 14.99, "img": null, "teaser": "giggle ball"},
-        {"asin": "B0FJYN7SL1", "name": "Nestpark Muttboro Doggy Cigs Toy", "price": 14.95, "img": null, "teaser": "dog cig toy"}
+        {"asin": "B0B1LVKG8D", "name": "Fuufome Octopus Squeaky Dog Toy", "price": 8.99, "img": null, "teaser": "octopus dog toy"}
       ]
     },
     "party-games": {
@@ -202,9 +202,9 @@
       "tagline": "The games everyone actually wants to play",
       "products": [
         {"asin": "B0DWGVM7RY", "name": "USAOPOLY Flip 7 Card Game", "price": 7.97, "img": null, "teaser": "Flip 7"},
-        {"asin": "B07QSCQMXV", "name": "Incohearent Party Game 300 Cards", "price": 15.99, "img": null, "teaser": "Incohearent"},
+        {"asin": "B07P6MZPK3", "name": "UNO Classic Card Game", "price": 11.43, "img": null, "teaser": "UNO"},
         {"asin": "B093HBBMPT", "name": "Herd Mentality Family Board Game", "price": 24.99, "img": null, "teaser": "Herd Mentality"},
-        {"asin": "B0D2JG7873", "name": "Horrible Therapist Card Game", "price": 12.48, "img": null, "teaser": "Horrible Therapist"},
+        {"asin": "B0BFG4JVC5", "name": "Scattergories Classic Game", "price": 19.82, "img": null, "teaser": "Scattergories"},
         {"asin": "B07T446163", "name": "Wavelength Mind Reading Game", "price": 33.19, "img": null, "teaser": "Wavelength"}
       ]
     },
@@ -215,7 +215,8 @@
       "products": [
         {"asin": "B0CJF7KSHK", "name": "TrendPlain Green Olive Oil Sprayer", "price": 8.99, "img": null, "teaser": "oil sprayer"},
         {"asin": "B0BQCSGC64", "name": "Vegetable Chopper Dicer with Container", "price": 25.99, "img": null, "teaser": "veggie dicer"},
-        {"asin": "B0DNMN6VXJ", "name": "Fofeadm Drinking Board Game Rubber Mat", "price": 9.99, "img": null, "teaser": "game mat"},
+        {"asin": "B00KBJUOBI", "name": "Brieftons 5-Blade Spiralizer", "price": 29.99, "img": null, "teaser": "spiralizer"},
+        {"asin": "B0088LR592", "name": "OXO Good Grips Avocado Slicer", "price": 12.99, "img": null, "teaser": "avocado slicer"},
         {"asin": "B0CWW4TGRM", "name": "FIRST TO WORST Party Ranking Card Game", "price": 19.99, "img": null, "teaser": "First to Worst"}
       ]
     }
