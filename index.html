@@ -2,586 +2,728 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Guess Total — Daily Lifestyle Price Game</title>
-<meta name="description" content="Can you guess the price? One product at a time. How close is your guess?"/>
+<meta name="description" content="Can you guess the price? Daily themed lifestyle bundles. New theme every day."/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T3D7H10NK7"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T3D7H10NK7');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
 <style>
+/* ─── RESET & ROOT ─────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --orange:#FF6B35;--orange-dark:#CC4E1A;--orange-light:#FFF1EB;
-  --gold:#FFD700;--bg:#FFFFFF;--bg2:#FFF8F4;
-  --text:#1A1A18;--text2:#6B6B67;--text3:#9C9A92;
-  --border:rgba(255,107,53,0.15);--border2:rgba(255,107,53,0.3);
-  --green:#1D9E75;--red:#E14B3C;--blue:#378ADD;
-  --radius:16px;--radius-sm:10px;
+  --orange:#FF6B35;
+  --orange-dk:#CC4E1A;
+  --orange-lt:#FFF1EB;
+  --gold:#FFD700;
+  --gold-dk:#C9A800;
+  --green:#1DB87A;
+  --red:#E8403A;
+  --blue:#3B82F6;
+  --bg:#FAFAF8;
+  --white:#FFFFFF;
+  --text:#1A1A18;
+  --text2:#5C5C58;
+  --text3:#9C9A92;
+  --border:#E8E6DF;
+  --r:16px;
+  --r-sm:10px;
+  --r-xs:6px;
 }
-html,body{height:100%;overflow:hidden;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text);display:flex;flex-direction:column;}
+html,body{height:100%;overflow:hidden;background:var(--bg);}
+body{font-family:'DM Sans',sans-serif;color:var(--text);}
 
-.confetti-container{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
-.confetti-piece{position:absolute;top:-10px;animation:confettiFall linear forwards;}
-@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
-.gold-pulse{position:fixed;inset:0;pointer-events:none;z-index:998;background:radial-gradient(circle,rgba(255,215,0,0.35) 0%,transparent 70%);animation:goldFade 0.9s ease forwards;}
-@keyframes goldFade{0%{opacity:1;}100%{opacity:0;}}
+/* ─── SCREENS ──────────────────────────────────── */
+.screen{display:none;position:fixed;inset:0;flex-direction:column;}
+.screen.active{display:flex;}
+#scorecard{overflow-y:auto;-webkit-overflow-scrolling:touch;}
 
-/* Header */
-#app-header{background:var(--orange);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;overflow:hidden;z-index:5;}
-#app-header::before{content:'';position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.06);top:-70px;right:-40px;}
-.header-left{display:flex;align-items:center;gap:8px;min-width:0;position:relative;z-index:1;}
-.header-emoji{font-size:22px;flex-shrink:0;}
-.header-theme{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px;color:#fff;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0;position:relative;z-index:1;}
-.streak-chip{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:999px;padding:4px 10px;font-size:12px;color:#fff;font-weight:700;}
-.progress-dots{display:flex;gap:5px;}
-.pdot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.3s;}
-.pdot.done{background:var(--gold);}
-.pdot.current{background:#fff;width:9px;height:9px;box-shadow:0 0 0 3px rgba(255,255,255,0.25);}
+/* ─── PARTICLES / CONFETTI ─────────────────────── */
+#fx-layer{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
+.confetti{position:absolute;top:-12px;border-radius:2px;animation:fall linear forwards;}
+@keyframes fall{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1;}100%{transform:translateY(105vh) rotate(600deg) scale(0.6);opacity:0;}}
+.pts-fly{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:38px;font-weight:700;pointer-events:none;animation:ptsFly 1.1s cubic-bezier(.22,.68,0,1.4) forwards;}
+@keyframes ptsFly{0%{transform:translateY(0) scale(0.5);opacity:1;}60%{transform:translateY(-90px) scale(1.15);opacity:1;}100%{transform:translateY(-140px) scale(1);opacity:0;}}
 
-/* Game view */
-#game-view{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;}
-.item-label{text-align:center;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);padding:8px 0 2px;flex-shrink:0;}
-.product-image-wrap{height:52vh;flex-shrink:0;background:linear-gradient(180deg,var(--orange-light),#fff);display:flex;align-items:center;justify-content:center;position:relative;padding:1rem;}
-.product-image-wrap img{max-height:100%;max-width:82%;object-fit:contain;filter:drop-shadow(0 12px 20px rgba(0,0,0,0.12));}
-.pimg-initials{width:140px;height:140px;border-radius:20px;background:linear-gradient(135deg,var(--gold),#e8a800);display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:800;color:#1a1a2e;letter-spacing:1px;box-shadow:0 12px 20px rgba(0,0,0,0.12);}
-.shop-now-btn{position:absolute;bottom:14px;right:14px;background:rgba(26,26,24,0.82);backdrop-filter:blur(4px);color:#fff;font-size:12px;font-weight:700;padding:9px 14px;border-radius:999px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+/* ─── FLASH ─────────────────────────────────────── */
+#flash{position:fixed;inset:0;pointer-events:none;z-index:990;opacity:0;}
+#flash.go{animation:flashPop .55s ease forwards;}
+@keyframes flashPop{0%{opacity:0}25%{opacity:.45}100%{opacity:0}}
 
-.product-info{padding:0.75rem 1.25rem 0.25rem;text-align:center;flex-shrink:0;}
-.product-name{font-size:17px;font-weight:700;line-height:1.3;margin-bottom:3px;}
-.product-teaser{font-size:12px;color:var(--orange);font-style:italic;font-weight:600;margin-bottom:2px;}
-.product-meta{font-size:11px;color:var(--text3);}
+/* ─── THEME INTRO ───────────────────────────────── */
+#intro{background:var(--orange);align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem;position:relative;overflow:hidden;}
+.intro-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.07);}
+.intro-logo{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:#fff;line-height:1;}
+.intro-logo span{color:var(--gold);}
+.intro-emoji{font-size:56px;margin:1.25rem 0 .5rem;animation:popIn .5s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.intro-theme{font-family:'Bebas Neue',sans-serif;font-size:30px;color:#fff;letter-spacing:2px;line-height:1.15;margin-bottom:.5rem;}
+.intro-tag{font-size:13px;color:rgba(255,255,255,.8);margin-bottom:2rem;line-height:1.5;}
+.intro-rules{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:2rem;text-align:left;max-width:340px;width:100%;}
+.intro-rule{display:flex;align-items:center;gap:10px;font-size:13px;color:#fff;margin-bottom:8px;}
+.intro-rule:last-child{margin-bottom:0;}
+.intro-rule-icon{font-size:18px;flex-shrink:0;width:26px;text-align:center;}
+.intro-btn{background:var(--gold);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;border:none;border-radius:999px;padding:15px 40px;cursor:pointer;letter-spacing:.3px;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 16px rgba(255,215,0,.4);}
+.intro-btn:active{transform:scale(.96);}
+.intro-streak{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;color:#fff;}
 
-.guess-panel{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0.75rem 1.25rem 1.25rem;gap:0.75rem;min-height:0;}
-.price-input-row{display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:2px solid var(--border2);border-radius:var(--radius);padding:10px 18px;}
-.price-input-row.filled{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,0.1);}
-.pi-dollar{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--orange);}
-.price-input{flex:1;font-family:'Bebas Neue',sans-serif;font-size:44px;letter-spacing:1px;border:none;outline:none;background:transparent;color:var(--text);width:100%;text-align:left;-moz-appearance:textfield;}
+/* ─── GAME SCREEN ───────────────────────────────── */
+#game{background:var(--bg);}
+.game-header{background:var(--orange);padding:.75rem 1rem .6rem;flex-shrink:0;}
+.gh-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.gh-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#fff;}
+.gh-logo span{color:var(--gold);}
+.gh-score-wrap{display:flex;align-items:center;gap:8px;}
+.gh-streak{font-size:11px;font-weight:700;color:rgba(255,255,255,.85);background:rgba(255,255,255,.12);padding:2px 9px;border-radius:999px;}
+.gh-score{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold);transition:transform .2s;}
+.gh-score.bump{animation:scoreBump .35s cubic-bezier(.34,1.56,.64,1);}
+@keyframes scoreBump{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
+.gh-theme{font-size:11px;color:rgba(255,255,255,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gh-progress{height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin-top:6px;overflow:hidden;}
+.gh-bar{height:100%;background:var(--gold);border-radius:2px;transition:width .6s ease;}
+
+/* TIMER */
+.timer-ring-wrap{display:flex;flex-direction:column;align-items:center;padding:.75rem 1rem .5rem;flex-shrink:0;}
+.timer-row{display:flex;align-items:center;gap:10px;width:100%;}
+.timer-label{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);}
+.timer-bar-outer{flex:1;height:10px;background:var(--border);border-radius:5px;overflow:hidden;}
+.timer-bar-inner{height:100%;width:100%;background:var(--green);border-radius:5px;transition:width 1s linear,background .5s;}
+.timer-num{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);min-width:28px;text-align:right;}
+.timer-num.warn{color:var(--red);}
+
+/* PRODUCT AREA */
+.product-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.product-img-wrap{position:relative;background:var(--orange-lt);display:flex;align-items:center;justify-content:center;flex:0 0 48%;overflow:hidden;}
+.product-img-wrap img{max-height:90%;max-width:88%;object-fit:contain;transition:transform .3s;}
+.product-num-pill{position:absolute;top:10px;left:10px;background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:3px 11px;border-radius:999px;letter-spacing:.3px;}
+
+/* PRODUCT NAME + INPUT */
+.product-bottom{padding:.875rem 1rem 1rem;flex:1;display:flex;flex-direction:column;justify-content:space-between;}
+.product-name{font-size:15px;font-weight:600;line-height:1.35;margin-bottom:3px;}
+.product-meta{font-size:12px;color:var(--text2);margin-bottom:.875rem;line-height:1.4;}
+.input-label{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:6px;}
+.input-row{display:flex;align-items:center;gap:6px;margin-bottom:.75rem;}
+.dollar{font-size:32px;font-weight:700;color:var(--orange);}
+.price-input{flex:1;font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:1px;border:2px solid var(--border);border-radius:var(--r-sm);background:var(--orange-lt);color:var(--text);outline:none;padding:6px 10px;-moz-appearance:textfield;width:100%;}
 .price-input::-webkit-inner-spin-button,.price-input::-webkit-outer-spin-button{-webkit-appearance:none;}
-.price-input::placeholder{color:var(--text3);}
-.lock-btn{width:100%;padding:16px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:800;letter-spacing:0.3px;background:var(--text);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.2s;opacity:0.35;}
-.lock-btn.ready{background:var(--orange);opacity:1;animation:btnPulse 1s ease infinite alternate;}
-@keyframes btnPulse{from{box-shadow:0 0 0 0 rgba(255,107,53,0.4);}to{box-shadow:0 0 0 8px rgba(255,107,53,0);}}
+.price-input:focus{border-color:var(--orange);background:#fff;}
+.lock-btn{width:100%;padding:15px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;background:var(--orange);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;letter-spacing:.3px;transition:transform .12s,box-shadow .12s;box-shadow:0 4px 12px rgba(255,107,53,.35);}
+.lock-btn:active{transform:scale(.97);}
+.lock-btn.locked{background:#888;box-shadow:none;}
 
-/* Full screen flash */
-#flash-layer{position:fixed;inset:0;pointer-events:none;z-index:900;opacity:0;}
-#flash-layer.active{animation:flashPulse 0.65s ease-out forwards;}
-@keyframes flashPulse{0%{opacity:0.92;}100%{opacity:0;}}
+/* ─── REVEAL SCREEN ─────────────────────────────── */
+#reveal{background:var(--bg);}
+.reveal-header{background:var(--orange);padding:.75rem 1rem;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;}
+.rh-left{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#fff;}
+.rh-left span{color:var(--gold);}
+.rh-score{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold);}
+.reveal-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.reveal-img-wrap{height:220px;background:var(--orange-lt);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;flex-shrink:0;}
+.reveal-img-wrap img{max-height:90%;max-width:88%;object-fit:contain;}
+.reveal-product-name{font-size:14px;font-weight:600;text-align:center;padding:.6rem 1rem .25rem;line-height:1.35;}
 
-/* Reveal overlay */
-#reveal-overlay{position:fixed;inset:0;z-index:950;display:none;align-items:center;justify-content:center;background:rgba(10,8,7,0.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:1.25rem;overflow-y:auto;}
-#reveal-overlay.active{display:flex;}
-.tension-box{text-align:center;color:#fff;}
-.tension-text{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;margin-bottom:1rem;}
-.tension-bar{width:220px;height:8px;background:rgba(255,255,255,0.2);border-radius:5px;overflow:hidden;margin:0 auto;}
-.tension-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:5px;transition:width 1.5s linear;}
+/* PRICE SLAM */
+.price-slam-wrap{text-align:center;padding:.5rem 1rem .75rem;}
+.price-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:3px;}
+.price-actual{font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:1;animation:priceSLAM .55s cubic-bezier(.34,1.56,.64,1);}
+@keyframes priceSLAM{0%{transform:scale(2.5);opacity:0;}60%{transform:scale(.88);}100%{transform:scale(1);opacity:1;}}
+.your-guess-row{display:flex;justify-content:center;gap:20px;font-size:12px;color:var(--text2);margin-bottom:.75rem;}
 
-.reveal-result{display:none;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:360px;}
-.reveal-result.show{display:flex;}
-.revealed-price{font-family:'Bebas Neue',sans-serif;font-size:64px;color:#fff;line-height:1;opacity:0;transform:scale(2.4) rotate(-6deg);}
-.revealed-price.slam{animation:priceSlam 0.55s cubic-bezier(0.22,1.6,0.36,1) forwards;}
-@keyframes priceSlam{0%{opacity:0;transform:scale(2.6) rotate(-8deg);}55%{opacity:1;transform:scale(0.9) rotate(2deg);}78%{transform:scale(1.08) rotate(-1deg);}100%{opacity:1;transform:scale(1) rotate(0deg);}}
-.revealed-actual-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:4px;}
+/* VERDICT */
+.verdict-wrap{margin:0 1rem .875rem;border-radius:var(--r);padding:.875rem 1rem;display:flex;align-items:center;gap:12px;animation:verdictDROP .5s cubic-bezier(.34,1.56,.64,1);}
+@keyframes verdictDROP{0%{transform:translateY(-60px) scale(.85);opacity:0;}60%{transform:translateY(5px);}100%{transform:translateY(0);opacity:1;}}
+.verdict-emoji{font-size:40px;flex-shrink:0;}
+.verdict-text{flex:1;}
+.verdict-word{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;line-height:1;}
+.verdict-comment{font-size:12px;line-height:1.5;margin-top:2px;opacity:.9;}
+.v-perfect{background:#D1FAE5;color:#065F46;}
+.v-hot{background:#DCFCE7;color:#14532D;}
+.v-warm{background:#FEF9C3;color:#713F12;}
+.v-cold{background:#FEE2E2;color:#7F1D1D;}
+.v-ice{background:#F1F5F9;color:#1E293B;}
 
-.verdict-crash{margin-top:14px;width:100%;border-radius:var(--radius);padding:14px 16px;opacity:0;transform:translateY(-120%) rotate(-2deg);}
-.verdict-crash.crash{animation:verdictCrash 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;}
-@keyframes verdictCrash{0%{opacity:0;transform:translateY(-140%) rotate(-3deg);}70%{opacity:1;transform:translateY(6px) rotate(0.5deg);}100%{opacity:1;transform:translateY(0) rotate(0deg);}}
-.vc-emoji{font-size:36px;margin-bottom:4px;display:block;}
-.vc-word{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;line-height:1;}
-.vc-comment{font-size:12px;line-height:1.4;margin-top:4px;opacity:0.9;}
-.h-perfect{background:#E1F5EE;color:#085041;}
-.h-hot{background:#EAF3DE;color:#27500A;}
-.h-warm{background:#FAEEDA;color:#633806;}
-.h-cold{background:#FAECE7;color:#712B13;}
-.h-ice{background:#EEF2F7;color:#2C3E5D;}
+/* PTS ROW */
+.pts-row{display:flex;align-items:center;justify-content:space-between;padding:0 1rem .875rem;}
+.pts-earned{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);animation:ptsPop .6s cubic-bezier(.34,1.56,.64,1);}
+@keyframes ptsPop{0%{transform:translateY(20px);opacity:0}100%{transform:translateY(0);opacity:1}}
+.pts-of{font-size:12px;color:var(--text2);}
 
-.points-fly{margin-top:20px;font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gold);opacity:0;text-shadow:0 2px 8px rgba(0,0,0,0.4);}
-.points-fly.fly{animation:pointsFly 1s cubic-bezier(0.22,1,0.36,1) forwards;}
-@keyframes pointsFly{0%{opacity:0;transform:translateY(14px) scale(0.7);}30%{opacity:1;transform:translateY(-2px) scale(1.15);}100%{opacity:1;transform:translateY(-12px) scale(1);}}
+/* SHOP BUTTON */
+.shop-reveal-btn{display:block;margin:0 1rem .875rem;padding:14px;text-align:center;background:var(--orange);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;border-radius:var(--r-sm);text-decoration:none;letter-spacing:.3px;transition:opacity .15s;}
+.shop-reveal-btn:active{opacity:.85;}
 
-.reveal-actions{margin-top:18px;width:100%;opacity:0;transform:translateY(10px);}
-.reveal-actions.reveal-in{animation:actionsIn 0.4s ease forwards;}
-@keyframes actionsIn{to{opacity:1;transform:translateY(0);}}
-.shop-after-btn{display:block;width:100%;text-align:center;background:var(--orange);color:#fff;font-size:15px;font-weight:700;padding:14px;border-radius:var(--radius-sm);text-decoration:none;margin-bottom:8px;}
-.shop-after-btn:hover{background:var(--orange-dark);}
-.next-btn{width:100%;padding:14px;font-size:15px;font-weight:800;font-family:'DM Sans',sans-serif;background:#fff;color:var(--text);border:none;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:0.3px;}
+/* NEXT */
+.next-btn{width:calc(100% - 2rem);margin:0 1rem 1rem;padding:14px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;background:var(--text);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;transition:opacity .15s;}
+.next-btn:active{opacity:.8;}
 
-/* Final screen */
-#final-view{flex:1;display:none;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:1.5rem 1.25rem 2rem;text-align:center;}
-#final-view.show{display:flex;}
-.final-score-label{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-top:0.5rem;}
-.final-score{font-family:'Bebas Neue',sans-serif;font-size:76px;color:var(--text);line-height:1;text-shadow:0 4px 16px rgba(255,107,53,0.25);}
-.final-score-sub{font-size:12px;color:var(--text3);margin-bottom:1rem;}
-.vibe-card{background:#fff;border:1.5px solid var(--border2);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;}
-.vibe-emoji{font-size:52px;margin-bottom:8px;display:block;animation:vibeBounce 0.6s cubic-bezier(0.34,1.56,0.64,1);}
-@keyframes vibeBounce{from{transform:scale(0);}to{transform:scale(1);}}
-.vibe-title{font-family:'Bebas Neue',sans-serif;font-size:32px;margin-bottom:4px;}
-.vibe-sub{font-size:13px;color:var(--text2);line-height:1.5;}
-.recap-chips{display:flex;gap:8px;justify-content:center;margin-bottom:1.25rem;flex-wrap:wrap;}
-.hc{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;animation:chipPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;}
-@keyframes chipPop{from{transform:scale(0);}to{transform:scale(1);}}
-.share-btn{width:100%;padding:15px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:800;background:var(--text);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;margin-bottom:8px;}
-.copied-msg{font-size:12px;color:var(--green);margin-bottom:0.5rem;min-height:18px;font-weight:600;}
-.streak-line{margin:0.75rem 0 1.25rem;}
-.affiliate-note{font-size:10px;color:var(--text3);text-align:center;margin-top:1rem;}
+/* ─── SCORECARD ──────────────────────────────────── */
+#scorecard{background:var(--bg);}
+.sc-header{background:var(--orange);padding:1.25rem 1rem 1rem;text-align:center;flex-shrink:0;position:relative;overflow:hidden;}
+.sc-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.06);}
+.sc-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:#fff;}
+.sc-logo span{color:var(--gold);}
+.sc-theme{font-size:12px;color:rgba(255,255,255,.8);margin-top:2px;}
+.sc-score-big{font-family:'Bebas Neue',sans-serif;font-size:80px;color:var(--gold);line-height:1;text-shadow:0 6px 24px rgba(255,215,0,.4);}
+.sc-score-label{font-size:12px;color:rgba(255,255,255,.75);margin-bottom:.75rem;}
+.sc-chips{display:flex;gap:8px;justify-content:center;margin-bottom:.5rem;}
+.sc-chip{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;animation:chipPop .4s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes chipPop{from{transform:scale(0)}to{transform:scale(1)}}
+.sc-body{padding:1rem;}
+.sc-vibe{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1.25rem;text-align:center;margin-bottom:1rem;}
+.sc-vibe-emoji{font-size:52px;display:block;margin-bottom:8px;animation:popIn .5s cubic-bezier(.34,1.56,.64,1);}
+.sc-vibe-title{font-family:'Bebas Neue',sans-serif;font-size:34px;margin-bottom:4px;}
+.sc-vibe-sub{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:1rem;}
+.sc-vibe-bar-outer{height:10px;background:var(--orange-lt);border-radius:5px;overflow:hidden;margin-bottom:5px;}
+.sc-vibe-bar-inner{height:100%;border-radius:5px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1);}
+.sc-vibe-ends{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);}
+
+/* SCORECARD TABLE */
+.sc-section-label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);margin-bottom:10px;margin-top:1rem;}
+.sc-row{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:.75rem;animation:rowSlide .35s ease both;}
+@keyframes rowSlide{from{transform:translateX(-16px);opacity:0}to{transform:translateX(0);opacity:1}}
+.sc-row-top{display:flex;align-items:center;gap:10px;padding:.875rem;}
+.sc-thumb{width:52px;height:52px;border-radius:8px;background:var(--orange-lt);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.sc-thumb img{width:52px;height:52px;object-fit:contain;}
+.sc-info{flex:1;min-width:0;}
+.sc-teaser{font-size:13px;font-weight:600;line-height:1.3;}
+.sc-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+.sc-heat{font-size:22px;flex-shrink:0;}
+.sc-pts-badge{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold);flex-shrink:0;}
+.sc-shop-row{padding:0 .875rem .875rem;}
+.sc-shop-btn{display:block;padding:11px;text-align:center;background:var(--orange-lt);color:var(--orange);border:1.5px solid rgba(255,107,53,.25);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;border-radius:var(--r-sm);text-decoration:none;transition:all .15s;}
+.sc-shop-btn:active{background:var(--orange);color:#fff;}
+
+/* SHARE / PLAY AGAIN */
+.sc-share-btn{width:100%;padding:15px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;background:var(--orange);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;margin-bottom:10px;transition:opacity .15s;box-shadow:0 4px 12px rgba(255,107,53,.3);}
+.sc-share-btn:active{opacity:.85;}
+.sc-copied{text-align:center;font-size:12px;color:var(--green);font-weight:500;min-height:20px;margin-bottom:10px;}
+.sc-affiliate{font-size:10px;color:var(--text3);text-align:center;padding-bottom:2rem;}
+
+/* ─── REVEALING OVERLAY ────────────────────────── */
+.revealing-overlay{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:20;animation:overlayIn .2s ease;}
+@keyframes overlayIn{from{opacity:0}to{opacity:1}}
+.revealing-text{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--text2);animation:revealPulse .7s ease infinite alternate;}
+@keyframes revealPulse{from{opacity:.35}to{opacity:1}}
+.revealing-bar-outer{width:180px;height:6px;background:var(--orange-lt);border-radius:3px;overflow:hidden;}
+.revealing-bar-inner{height:100%;background:var(--orange);border-radius:3px;animation:revealFill 1.4s ease forwards;}
+@keyframes revealFill{from{width:0}to{width:100%}}
 </style>
 </head>
 <body>
-<div class="confetti-container" id="confetti-container"></div>
-<div id="flash-layer"></div>
 
-<header id="app-header">
-  <div class="header-left">
-    <span class="header-emoji" id="header-emoji"></span>
-    <span class="header-theme" id="header-theme">Loading...</span>
+<div id="fx-layer"></div>
+<div id="flash"></div>
+
+<!-- ── INTRO SCREEN ───────────────────────────── -->
+<div class="screen active" id="intro">
+  <div class="intro-blob" style="width:260px;height:260px;top:-80px;right:-70px;"></div>
+  <div class="intro-blob" style="width:160px;height:160px;bottom:-50px;left:-40px;"></div>
+  <div class="intro-streak" id="intro-streak" style="display:none;">🔥 <span id="intro-streak-num">0</span> day streak</div>
+  <div class="intro-logo">GUESS <span>TOTAL</span></div>
+  <div class="intro-emoji" id="intro-emoji">🛒</div>
+  <div class="intro-theme" id="intro-theme">Loading...</div>
+  <div class="intro-tag" id="intro-tag"></div>
+  <div class="intro-rules">
+    <div class="intro-rule"><div class="intro-rule-icon">🎯</div><span>Guess the price of each item</span></div>
+    <div class="intro-rule"><div class="intro-rule-icon">⏱️</div><span>30 seconds per product</span></div>
+    <div class="intro-rule"><div class="intro-rule-icon">🏆</div><span>Get as close as you can to win points</span></div>
   </div>
-  <div class="header-right">
-    <div class="progress-dots" id="progress-dots"></div>
-    <span class="streak-chip" id="streak-chip" style="display:none;"></span>
-  </div>
-</header>
+  <button class="intro-btn" onclick="startGame()">Let's Play ⚡</button>
+</div>
 
-<!-- GAME VIEW -->
-<div id="game-view">
-  <div class="item-label" id="item-label"></div>
-
-  <div class="product-image-wrap" id="product-image-wrap">
-    <a class="shop-now-btn" id="shop-now-btn" href="#" target="_blank" rel="noopener">🛒 Shop Now</a>
-  </div>
-
-  <div class="product-info">
-    <div class="product-name" id="product-name"></div>
-    <div class="product-teaser" id="product-teaser"></div>
-    <div class="product-meta" id="product-meta"></div>
-  </div>
-
-  <div class="guess-panel">
-    <div class="price-input-row" id="price-input-row">
-      <span class="pi-dollar">$</span>
-      <input class="price-input" type="number" id="price-input" placeholder="0.00" min="0" step="0.01" inputmode="decimal"/>
+<!-- ── GAME SCREEN ────────────────────────────── -->
+<div class="screen" id="game">
+  <div class="game-header">
+    <div class="gh-row1">
+      <div class="gh-logo">GUESS <span>TOTAL</span></div>
+      <div class="gh-score-wrap">
+        <div class="gh-streak" id="gh-streak" style="display:none;">🔥 <span id="gh-streak-num">0</span></div>
+        <div class="gh-score" id="gh-score">0 pts</div>
+      </div>
     </div>
-    <button class="lock-btn" id="lock-btn">Lock In</button>
+    <div class="gh-theme" id="gh-theme"></div>
+    <div class="gh-progress"><div class="gh-bar" id="gh-bar" style="width:0%"></div></div>
+  </div>
+  <!-- Timer -->
+  <div class="timer-ring-wrap">
+    <div class="timer-row">
+      <div class="timer-label">Time</div>
+      <div class="timer-bar-outer"><div class="timer-bar-inner" id="timer-bar"></div></div>
+      <div class="timer-num" id="timer-num">30</div>
+    </div>
+  </div>
+  <!-- Product -->
+  <div class="product-area" id="product-area">
+    <!-- injected by JS -->
   </div>
 </div>
 
-<!-- REVEAL OVERLAY -->
-<div id="reveal-overlay">
-  <div class="tension-box" id="tension-box">
-    <div class="tension-text">REVEALING...</div>
-    <div class="tension-bar"><div class="tension-fill" id="tension-fill"></div></div>
+<!-- ── REVEAL SCREEN ──────────────────────────── -->
+<div class="screen" id="reveal">
+  <div class="reveal-header">
+    <div class="rh-left">GUESS <span>TOTAL</span></div>
+    <div class="rh-score" id="rh-score">0 pts</div>
   </div>
-  <div class="reveal-result" id="reveal-result">
-    <div class="revealed-actual-label">Actual Price</div>
-    <div class="revealed-price" id="revealed-price"></div>
-    <div class="verdict-crash" id="verdict-crash">
-      <span class="vc-emoji" id="vc-emoji"></span>
-      <div class="vc-word" id="vc-word"></div>
-      <div class="vc-comment" id="vc-comment"></div>
-    </div>
-    <div class="points-fly" id="points-fly"></div>
-    <div class="reveal-actions" id="reveal-actions">
-      <a class="shop-after-btn" id="shop-after-btn" href="#" target="_blank" rel="noopener"></a>
-      <button class="next-btn" id="next-btn">Next →</button>
-    </div>
+  <div class="reveal-body" id="reveal-body">
+    <!-- injected -->
   </div>
 </div>
 
-<!-- FINAL VIEW -->
-<div id="final-view">
-  <div class="final-score-label">Final Score</div>
-  <div class="final-score" id="final-score">0</div>
-  <div class="final-score-sub">out of <span id="final-score-max">5,000</span> points</div>
-
-  <div class="vibe-card">
-    <span class="vibe-emoji" id="vibe-emoji"></span>
-    <div class="vibe-title" id="vibe-title"></div>
-    <div class="vibe-sub" id="vibe-sub"></div>
+<!-- ── SCORECARD ──────────────────────────────── -->
+<div class="screen" id="scorecard">
+  <div class="sc-header">
+    <div class="sc-blob" style="width:220px;height:220px;top:-70px;right:-60px;"></div>
+    <div class="sc-logo">GUESS <span>TOTAL</span></div>
+    <div class="sc-theme" id="sc-theme"></div>
+    <div class="sc-score-big" id="sc-score-big">0</div>
+    <div class="sc-score-label" id="sc-score-label">out of 500 pts</div>
+    <div class="sc-chips" id="sc-chips"></div>
   </div>
-
-  <div class="recap-chips" id="recap-chips"></div>
-
-  <div class="streak-line" id="streak-line"></div>
-
-  <button class="share-btn" id="share-btn">Share My Story</button>
-  <div class="copied-msg" id="copied-msg"></div>
-
-  <p class="affiliate-note">As an Associate I earn from qualifying purchases. Come back tomorrow for a new theme.</p>
+  <div class="sc-body">
+    <div class="sc-vibe" id="sc-vibe">
+      <span class="sc-vibe-emoji" id="sc-vibe-emoji">🏆</span>
+      <div class="sc-vibe-title" id="sc-vibe-title"></div>
+      <div class="sc-vibe-sub" id="sc-vibe-sub"></div>
+      <div class="sc-vibe-bar-outer"><div class="sc-vibe-bar-inner" id="sc-vibe-bar"></div></div>
+      <div class="sc-vibe-ends"><span>💀 Completely Lost</span><span>🏆 Price Genius</span></div>
+    </div>
+    <div class="sc-section-label">Your Results — Shop the Bundle</div>
+    <div id="sc-streak-card" style="display:none;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center;margin-bottom:1rem;">
+      <div style="font-size:36px;margin-bottom:6px;" id="sc-streak-emoji">🔥</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--orange);" id="sc-streak-num-display">1</div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Day Streak</div>
+      <div style="font-size:12px;color:var(--text2);" id="sc-streak-msg">Come back tomorrow to keep it going!</div>
+    </div>
+    <div id="sc-rows"></div>
+    <button class="sc-share-btn" onclick="shareResults()">Share My Results 📤</button>
+    <div class="sc-copied" id="sc-copied"></div>
+    <p class="sc-affiliate">As an Amazon Associate I earn from qualifying purchases. Come back tomorrow for a new theme.</p>
+  </div>
 </div>
 
 <script>
+// ─── CONFIG ────────────────────────────────────────
 const TAG='guesstotal-20';
+const TIMER_SECS=30;
 
-const HEAT=[
-  {max:0,  emoji:'🎯',label:'EXACT!',         cls:'h-perfect',color:'#1D9E75',pts:1000,key:'exact'},
-  {max:3,  emoji:'🎯',label:'BASICALLY EXACT!',cls:'h-perfect',color:'#1D9E75',pts:950, key:'exact'},
-  {max:7,  emoji:'🔥',label:'ON FIRE!',        cls:'h-hot',    color:'#3B6D11',pts:850, key:'hot'},
-  {max:12, emoji:'🔥',label:'SO CLOSE!',       cls:'h-hot',    color:'#3B6D11',pts:750, key:'hot'},
-  {max:18, emoji:'♨️',label:'VERY CLOSE!',     cls:'h-hot',    color:'#3B6D11',pts:650, key:'hot'},
-  {max:25, emoji:'😅',label:'GETTING WARM...',  cls:'h-warm',   color:'#854F0B',pts:500, key:'warm'},
-  {max:35, emoji:'😬',label:'A LITTLE OFF...',  cls:'h-warm',   color:'#854F0B',pts:350, key:'warm'},
-  {max:55, emoji:'❄️',label:'RUNNING COLD...',  cls:'h-cold',   color:'#993C1D',pts:200, key:'cold'},
-  {max:999,emoji:'🧊',label:'FREEZING!',        cls:'h-ice',    color:'#5F5E5A',pts:100, key:'ice'},
-];
-function getHeat(pct){if(pct===0)return HEAT[0];for(const h of HEAT.slice(1))if(pct<=h.max)return h;return HEAT[HEAT.length-1];}
+// ─── SCORING (100 pts max, spot-on to the cent) ────
+function calcPoints(guess, actual){
+  if(guess===actual) return 100;
+  const pct=Math.abs(guess-actual)/actual*100;
+  if(pct<=2)  return 90;
+  if(pct<=5)  return 80;
+  if(pct<=10) return 70;
+  if(pct<=15) return 60;
+  if(pct<=20) return 50;
+  if(pct<=30) return 35;
+  if(pct<=45) return 20;
+  if(pct<=60) return 10;
+  return 0;
+}
 
-const FLASH_COLOR={exact:'radial-gradient(circle,rgba(255,215,0,0.9) 0%,rgba(255,215,0,0.3) 55%,transparent 80%)',
-                    hot:'radial-gradient(circle,rgba(29,158,117,0.85) 0%,rgba(29,158,117,0.3) 55%,transparent 80%)',
-                    warm:'radial-gradient(circle,rgba(225,75,60,0.75) 0%,rgba(225,75,60,0.25) 55%,transparent 80%)',
-                    cold:'radial-gradient(circle,rgba(225,75,60,0.75) 0%,rgba(225,75,60,0.25) 55%,transparent 80%)',
-                    ice:'radial-gradient(circle,rgba(225,75,60,0.75) 0%,rgba(225,75,60,0.25) 55%,transparent 80%)'};
+function getHeat(pts){
+  if(pts===100) return{emoji:'🎯',word:'EXACT!',comment:"Spot on to the cent! That's legendary pricing knowledge.",cls:'v-perfect',color:'#1DB87A'};
+  if(pts>=90)  return{emoji:'🔥',word:'ON FIRE!',comment:"Basically perfect. You really know your prices.",cls:'v-hot',color:'#22C55E'};
+  if(pts>=70)  return{emoji:'🌶️',word:'SO CLOSE!',comment:"Really close. You're definitely a savvy shopper.",cls:'v-hot',color:'#22C55E'};
+  if(pts>=50)  return{emoji:'😅',word:'NOT BAD!',comment:"Decent guess. You had the right ballpark at least.",cls:'v-warm',color:'#EAB308'};
+  if(pts>=20)  return{emoji:'❄️',word:'COLD...',comment:"A bit off. The price might surprise you on this one.",cls:'v-cold',color:'#F97316'};
+  return       {emoji:'💀',word:'COMPLETELY LOST',comment:"Way off! That's why we're here — to discover amazing prices.",cls:'v-ice',color:'#E8403A'};
+}
 
 const VIBES=[
-  {min:88,emoji:'🏆',title:'PRICE GENIUS',    color:'#1D9E75',sub:'Absolutely elite. You know what everything costs and we are slightly scared of you.'},
-  {min:72,emoji:'😎',title:'SHARP EYE',        color:'#3B6D11',sub:'Very impressive. You clearly pay attention to what things actually cost.'},
-  {min:52,emoji:'🙂',title:'GETTING THERE',    color:'#854F0B',sub:'Not bad. A few more rounds and you\'ll be genuinely dangerous.'},
-  {min:30,emoji:'😬',title:'NEEDS WORK',       color:'#993C1D',sub:'Some of these really humbled you. Keep playing. It gets better. Maybe.'},
-  {min:0, emoji:'💀',title:'COMPLETELY LOST',  color:'#5F5E5A',sub:'The prices had absolutely no mercy on you today. See you tomorrow for redemption.'},
+  {min:90, emoji:'🏆', title:'PRICE GENIUS',   color:'#1DB87A', sub:"Absolutely elite. You knew what everything cost and it's honestly impressive."},
+  {min:72, emoji:'😎', title:'SHARP EYE',       color:'#22C55E', sub:'Very impressive. You clearly pay attention to what things actually cost.'},
+  {min:52, emoji:'🙂', title:'GETTING THERE',   color:'#EAB308', sub:"Not bad. A few more rounds and you'll be genuinely dangerous."},
+  {min:30, emoji:'😬', title:'NEEDS WORK',      color:'#F97316', sub:"Some of these really humbled you. Keep playing — it gets better. Maybe."},
+  {min:0,  emoji:'💀', title:'COMPLETELY LOST', color:'#E8403A', sub:'The prices had absolutely no mercy today. Tomorrow is a new day.'},
 ];
-function getVibe(acc){for(const v of VIBES)if(acc>=v.min)return v;return VIBES[VIBES.length-1];}
+function getVibe(avgPct){for(const v of VIBES)if(avgPct>=v.min)return v;return VIBES[VIBES.length-1];}
 function affLink(asin){return`https://www.amazon.com/dp/${asin}?tag=${TAG}`;}
 
-let CATALOG=null;
-let todayBundle=null,idx=0,guesses=[],score=0,locked=false;
+// ─── DATA ───────────────────────────────────────────
+let BUNDLES=[];
+let SCHEDULE=null;
+let bundle=null, idx=0, score=0, guesses=[], timer=null, timeLeft=TIMER_SECS, guessLocked=false;
 
+// ─── DATE HELPERS ───────────────────────────────────
 function getDailySeed(){const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();}
+function getTodayStr(){const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function todayKey(){const d=new Date();return`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;}
+function yesterdayKey(){const d=new Date();d.setDate(d.getDate()-1);return`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;}
 
-function seededRandom(seed){
-  let s=seed;
-  return function(){s=(s*1103515245+12345)&0x7fffffff;return s/0x7fffffff;};
+// ─── SCHEDULE INTEGRATION ───────────────────────────
+function buildScheduledBundle(){
+  if(!SCHEDULE)return null;
+  const themeKey=SCHEDULE.dates[getTodayStr()];
+  if(!themeKey)return null;
+  const theme=SCHEDULE.themes[themeKey];
+  if(!theme)return null;
+  return{theme:theme.name,tagline:theme.tagline,emoji:theme.emoji,products:theme.products.map(p=>({...p,meta:''}))};
 }
 
-// Deterministically picks today's theme + 5 products straight from the
-// full product catalog, using the same date-seeded algorithm the
-// generator used to run server-side. Every calendar day draws fresh
-// from the whole pool -- no pre-baked "today"/"tomorrow" slots to fall
-// out of sync with.
-function selectDailyBundle(){
-  const daySeed=getDailySeed();
-  const rand=seededRandom(daySeed);
-  const theme=CATALOG.themes[Math.floor(rand()*CATALOG.themes.length)];
-
-  const candidates=[];
-  for(const cat of theme.categories){
-    if(CATALOG.categories[cat]){
-      for(const p of CATALOG.categories[cat])candidates.push(p);
-    }
-  }
-  for(let i=candidates.length-1;i>0;i--){
-    const j=Math.floor(rand()*(i+1));
-    [candidates[i],candidates[j]]=[candidates[j],candidates[i]];
-  }
-  const selected=candidates.slice(0,5);
-
-  return{
-    theme:theme.name,
-    tagline:theme.tagline,
-    emoji:theme.emoji,
-    products:selected,
-  };
+function getTodayBundle(){
+  const scheduled=buildScheduledBundle();
+  if(scheduled)return scheduled;
+  if(!BUNDLES.length)return null;
+  return BUNDLES[getDailySeed()%BUNDLES.length];
 }
 
-function getPlayedKey(){const d=new Date();return`gt_played_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;}
-
+// ─── STREAK ─────────────────────────────────────────
 function getStreak(){
-  let streak=0;
-  const d=new Date();
-  while(true){
-    const key=`gt_played_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;
-    if(!localStorage.getItem(key))break;
-    streak++;
-    d.setDate(d.getDate()-1);
-  }
-  return streak;
+  try{
+    const d=JSON.parse(localStorage.getItem('gt_streak')||'{"count":0,"lastDate":""}');
+    if(d.lastDate===todayKey()||d.lastDate===yesterdayKey())return d.count;
+    return 0;
+  }catch{return 0;}
 }
+function saveStreak(){
+  try{
+    const d=JSON.parse(localStorage.getItem('gt_streak')||'{"count":0,"lastDate":""}');
+    const count=d.lastDate===yesterdayKey()?d.count+1:1;
+    localStorage.setItem('gt_streak',JSON.stringify({count,lastDate:todayKey()}));
+    return count;
+  }catch{return 1;}
+}
+function hasPlayedToday(){try{return localStorage.getItem('gt_played')===todayKey();}catch{return false;}}
+function markPlayedToday(){try{localStorage.setItem('gt_played',todayKey());}catch{}}
 
-function fireConfetti(n=60){
-  const colors=['#FF6B35','#FFD700','#FF6B6B','#4ECDC4','#95E1D3','#fff'];
-  const c=document.getElementById('confetti-container');
+// ─── FX ─────────────────────────────────────────────
+function confetti(n=60){
+  const colors=['#FF6B35','#FFD700','#FF6B6B','#4ECDC4','#A8E6CF','#fff','#FFB347'];
+  const layer=document.getElementById('fx-layer');
   for(let i=0;i<n;i++){
-    const el=document.createElement('div');el.className='confetti-piece';
-    el.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};width:${5+Math.random()*8}px;height:${5+Math.random()*8}px;border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.5}s`;
-    c.appendChild(el);setTimeout(()=>el.remove(),3000);
+    const el=document.createElement('div');
+    el.className='confetti';
+    const size=5+Math.random()*9;
+    el.style.cssText=`left:${Math.random()*100}vw;width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1.4+Math.random()*2}s;animation-delay:${Math.random()*.4}s;`;
+    layer.appendChild(el);
+    setTimeout(()=>el.remove(),3500);
   }
 }
-function goldPulse(){const el=document.createElement('div');el.className='gold-pulse';document.body.appendChild(el);setTimeout(()=>el.remove(),900);}
-
-function productImg(p){
-  if(p.img){
-    return`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`;
-  }
-  const initials=p.name?p.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase():'?';
-  return`<div class="pimg-initials">${initials}</div>`;
+function flash(color){
+  const el=document.getElementById('flash');
+  el.style.background=color;
+  el.className='go';
+  setTimeout(()=>el.className='',700);
+}
+function flyPts(pts,color){
+  const layer=document.getElementById('fx-layer');
+  const el=document.createElement('div');
+  el.className='pts-fly';
+  el.textContent=`+${pts}`;
+  el.style.cssText=`color:${color};left:50%;transform:translateX(-50%);top:55%;`;
+  layer.appendChild(el);
+  setTimeout(()=>el.remove(),1200);
 }
 
-function renderHeader(){
-  document.getElementById('header-emoji').textContent=todayBundle.emoji;
-  document.getElementById('header-theme').textContent=todayBundle.theme;
+// ─── SCREENS ────────────────────────────────────────
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id!=='scorecard')document.getElementById(id).scrollTop=0;
+}
+
+// ─── INIT (async — loads data first) ────────────────
+async function init(){
+  try{const sr=await fetch('/schedule.json');if(sr.ok)SCHEDULE=await sr.json();}catch{}
+  try{const r=await fetch('/bundles.json');if(r.ok)BUNDLES=await r.json();}catch{
+    try{const r=await fetch('/public/bundles.json');if(r.ok)BUNDLES=await r.json();}catch{}
+  }
+
+  bundle=getTodayBundle();
+  if(!bundle){
+    document.getElementById('intro-theme').textContent="Could not load today's game";
+    return;
+  }
+
+  document.getElementById('intro-emoji').textContent=bundle.emoji;
+  document.getElementById('intro-theme').textContent=bundle.theme;
+  document.getElementById('intro-tag').textContent=bundle.tagline||'';
+  document.getElementById('gh-theme').textContent=bundle.theme+' '+bundle.emoji;
+  document.getElementById('sc-score-label').textContent=`out of ${bundle.products.length*100} pts`;
+
   const streak=getStreak();
-  const chip=document.getElementById('streak-chip');
-  if(streak>0){chip.style.display='inline-flex';chip.textContent=`🔥 ${streak}`;}
-  else chip.style.display='none';
-  const dotsWrap=document.getElementById('progress-dots');
-  dotsWrap.innerHTML='';
-  todayBundle.products.forEach((_,i)=>{
-    const d=document.createElement('div');
-    d.className='pdot';
-    dotsWrap.appendChild(d);
-  });
+  if(streak>0){
+    document.getElementById('intro-streak').style.display='block';
+    document.getElementById('intro-streak-num').textContent=streak;
+    document.getElementById('gh-streak').style.display='flex';
+    document.getElementById('gh-streak-num').textContent=streak;
+  }
+
+  if(hasPlayedToday()){
+    const btn=document.querySelector('.intro-btn');
+    if(btn){
+      btn.textContent='Come Back Tomorrow 🌙';
+      btn.style.background='rgba(255,255,255,0.2)';
+      btn.style.color='#fff';
+      btn.style.boxShadow='none';
+      btn.style.cursor='default';
+      btn.onclick=null;
+    }
+    const tag=document.getElementById('intro-tag');
+    if(tag) tag.textContent="You've already played today. Your streak is safe 🔥 See you tomorrow!";
+  }
+
+  if(typeof gtag!=='undefined')gtag('event','game_loaded',{bundle_theme:bundle.theme});
 }
 
-function updateDots(){
-  const dots=document.querySelectorAll('#progress-dots .pdot');
-  dots.forEach((d,i)=>{
-    d.classList.toggle('done',i<idx);
-    d.classList.toggle('current',i===idx);
-  });
+// ─── GAME START ──────────────────────────────────────
+function startGame(){
+  if(!bundle)return;
+  idx=0;score=0;guesses=[];
+  markPlayedToday();
+  show('game');
+  renderProduct();
+  if(typeof gtag!=='undefined')gtag('event','game_start',{bundle_theme:bundle.theme});
 }
 
-function renderProduct(i){
-  locked=false;
-  const p=todayBundle.products[i];
+// ─── RENDER PRODUCT ──────────────────────────────────
+function renderProduct(){
+  const p=bundle.products[idx];
+  const area=document.getElementById('product-area');
 
-  document.getElementById('item-label').textContent=`Item ${i+1} of ${todayBundle.products.length}`;
-  document.getElementById('product-image-wrap').innerHTML=productImg(p)+`<a class="shop-now-btn" id="shop-now-btn" href="${affLink(p.asin)}" target="_blank" rel="noopener">🛒 Shop Now</a>`;
-  document.getElementById('shop-now-btn').addEventListener('click',()=>{
-    if(typeof gtag!=='undefined')gtag('event','shop_now_click',{'product_name':p.name,'bundle_theme':todayBundle.theme});
-  });
-  document.getElementById('product-name').textContent=p.name;
-  document.getElementById('product-teaser').textContent=p.teaser||'';
-  document.getElementById('product-meta').textContent=p.meta||'';
+  document.getElementById('gh-bar').style.width=`${(idx/bundle.products.length)*100}%`;
 
-  const input=document.getElementById('price-input');
-  input.value='';
-  input.disabled=false;
-  document.getElementById('price-input-row').classList.remove('filled');
-  const lockBtn=document.getElementById('lock-btn');
-  lockBtn.classList.remove('ready');
-  lockBtn.disabled=true;
+  area.innerHTML=`
+    <div class="product-img-wrap">
+      ${p.img?`<img src="${p.img}" alt="${p.name}"/>`:'<span style="font-size:72px">🛍</span>'}
+      <div class="product-num-pill">Item ${idx+1} of ${bundle.products.length}</div>
+    </div>
+    <div class="product-bottom">
+      <div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-meta">${p.meta||'Make your guess before the timer runs out!'}</div>
+      </div>
+      <div>
+        <div class="input-label">Your price guess</div>
+        <div class="input-row">
+          <span class="dollar">$</span>
+          <input class="price-input" type="number" id="guess-input" placeholder="0.00" min="0" step="0.01" autocomplete="off"/>
+        </div>
+        <button class="lock-btn" id="lock-btn" onclick="lockGuess()">Lock In My Guess 🔒</button>
+      </div>
+    </div>`;
 
-  const overlay=document.getElementById('reveal-overlay');
-  overlay.classList.remove('active');
-  resetRevealDom();
-
-  updateDots();
-  setTimeout(()=>input.focus(),300);
+  guessLocked=false;
+  startTimer();
+  setTimeout(()=>{
+    const inp=document.getElementById('guess-input');
+    if(inp){
+      inp.focus();
+      inp.addEventListener('keydown',e=>{if(e.key==='Enter')lockGuess();});
+    }
+  },100);
 }
 
-function resetRevealDom(){
-  document.getElementById('tension-box').style.display='block';
-  document.getElementById('reveal-result').classList.remove('show');
-  document.getElementById('tension-fill').style.width='0%';
-  const rp=document.getElementById('revealed-price');rp.classList.remove('slam');rp.textContent='';
-  const vc=document.getElementById('verdict-crash');vc.classList.remove('crash');vc.className='verdict-crash';
-  const pf=document.getElementById('points-fly');pf.classList.remove('fly');pf.textContent='';
-  const ra=document.getElementById('reveal-actions');ra.classList.remove('reveal-in');
-  const flash=document.getElementById('flash-layer');flash.classList.remove('active');flash.style.background='';
+// ─── TIMER ───────────────────────────────────────────
+function startTimer(){
+  clearInterval(timer);
+  timeLeft=TIMER_SECS;
+  updateTimerUI();
+  timer=setInterval(()=>{
+    timeLeft--;
+    updateTimerUI();
+    if(timeLeft<=0){clearInterval(timer);lockGuess(true);}
+  },1000);
 }
-
-document.getElementById('price-input').addEventListener('input',()=>{
-  const v=document.getElementById('price-input').value;
-  const has=v!==''&&v!==null;
-  document.getElementById('price-input-row').classList.toggle('filled',has);
-  const lockBtn=document.getElementById('lock-btn');
-  lockBtn.disabled=!has;
-  lockBtn.classList.toggle('ready',has);
-});
-document.getElementById('price-input').addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&!document.getElementById('lock-btn').disabled)lockInGuess();
-});
-document.getElementById('lock-btn').addEventListener('click',lockInGuess);
-document.getElementById('next-btn').addEventListener('click',nextProduct);
-
-function lockInGuess(){
-  if(locked)return;
-  const input=document.getElementById('price-input');
-  const raw=input.value;
-  if(raw===''||raw===null)return;
-  locked=true;
-  input.disabled=true;
-  document.getElementById('lock-btn').disabled=true;
-
-  const p=todayBundle.products[idx];
-  const val=parseFloat(raw);
-  const diff=Math.abs(val-p.price);
-  const pct=(diff/p.price)*100;
-  const heat=getHeat(pct);
-
-  document.getElementById('reveal-overlay').classList.add('active');
-  const fill=document.getElementById('tension-fill');
-  requestAnimationFrame(()=>{requestAnimationFrame(()=>{fill.style.width='100%';});});
-
-  setTimeout(()=>showRevealResult(p,val,heat,pct),1500);
+function updateTimerUI(){
+  const bar=document.getElementById('timer-bar');
+  const num=document.getElementById('timer-num');
+  if(!bar||!num)return;
+  bar.style.width=(timeLeft/TIMER_SECS*100)+'%';
+  if(timeLeft<=10){bar.style.background='var(--red)';num.classList.add('warn');}
+  else if(timeLeft<=20){bar.style.background='#F59E0B';num.classList.remove('warn');}
+  else{bar.style.background='var(--green)';num.classList.remove('warn');}
+  num.textContent=timeLeft;
 }
+function stopTimer(){clearInterval(timer);}
 
-function showRevealResult(p,val,heat,pct){
-  document.getElementById('tension-box').style.display='none';
-  const resultWrap=document.getElementById('reveal-result');
-  resultWrap.classList.add('show');
+// ─── LOCK GUESS ──────────────────────────────────────
+function lockGuess(auto=false){
+  if(guessLocked)return;
+  guessLocked=true;
+  stopTimer();
+  const btn=document.getElementById('lock-btn');
+  if(btn){btn.disabled=true;btn.textContent='Revealing...';btn.classList.add('locked');}
 
-  const flash=document.getElementById('flash-layer');
-  flash.style.background=FLASH_COLOR[heat.key]||FLASH_COLOR.warm;
-  flash.classList.add('active');
-  setTimeout(()=>flash.classList.remove('active'),700);
+  const inp=document.getElementById('guess-input');
+  const guess=auto?0:(parseFloat(inp?.value)||0);
 
-  const rp=document.getElementById('revealed-price');
-  rp.textContent=`$${p.price.toFixed(2)}`;
-  rp.classList.add('slam');
-
-  const commentArr=p.comments&&p.comments[heat.key]||['😅','NOT BAD.','Decent guess!'];
-  const vc=document.getElementById('verdict-crash');
-  document.getElementById('vc-emoji').textContent=commentArr[0];
-  document.getElementById('vc-word').textContent=commentArr[1];
-  document.getElementById('vc-comment').textContent=commentArr[2];
-  vc.className='verdict-crash '+heat.cls;
-  setTimeout(()=>vc.classList.add('crash'),220);
-
-  const pf=document.getElementById('points-fly');
-  pf.textContent=`${heat.emoji} +${heat.pts.toLocaleString()} pts`;
-  setTimeout(()=>pf.classList.add('fly'),480);
-
-  const shopBtn=document.getElementById('shop-after-btn');
-  shopBtn.href=affLink(p.asin);
-  shopBtn.textContent=`🛒 Shop This Item — $${p.price.toFixed(2)}`;
-  shopBtn.onclick=()=>{if(typeof gtag!=='undefined')gtag('event','shop_after_click',{'product_name':p.name,'bundle_theme':todayBundle.theme});};
-  setTimeout(()=>document.getElementById('reveal-actions').classList.add('reveal-in'),650);
-
-  if(heat.pts>=850){setTimeout(()=>{fireConfetti(heat.pts>=950?80:40);if(heat.pts>=950)goldPulse();},300);}
-
-  score+=heat.pts;
-  guesses.push({product:p,guess:val,pts:heat.pts,heat,pct});
+  const p=bundle.products[idx];
+  const area=document.getElementById('product-area');
+  const overlay=document.createElement('div');
+  overlay.className='revealing-overlay';
+  overlay.innerHTML=`<div class="revealing-text">REVEALING...</div><div class="revealing-bar-outer"><div class="revealing-bar-inner"></div></div>`;
+  area.appendChild(overlay);
 
   if(typeof gtag!=='undefined'){
-    gtag('event','product_guess',{
-      'product_name':p.name,'actual_price':p.price,
-      'guessed_price':val,'difference_pct':Math.round(pct),
-      'heat_result':heat.key,'points_earned':heat.pts,
-      'bundle_theme':todayBundle.theme
-    });
+    gtag('event','product_guess',{bundle_theme:bundle.theme,product_name:p.name,actual_price:p.price,guessed_price:guess,auto_submit:auto});
   }
+
+  setTimeout(()=>{guessLocked=false;showReveal(guess);},1500);
 }
 
+// ─── SHOW REVEAL ─────────────────────────────────────
+function showReveal(guess){
+  const p=bundle.products[idx];
+  const pts=calcPoints(guess,p.price);
+  const heat=getHeat(pts);
+  score+=pts;
+  guesses.push({product:p,guess,pts,heat});
+
+  document.getElementById('gh-score').textContent=`${score} pts`;
+  document.getElementById('gh-score').classList.add('bump');
+  setTimeout(()=>document.getElementById('gh-score').classList.remove('bump'),400);
+  document.getElementById('rh-score').textContent=`${score} pts`;
+
+  if(pts===100){flash('#1DB87A');confetti(100);}
+  else if(pts>=70){flash('#22C55E');confetti(50);}
+  else if(pts>=50){flash('#EAB308');confetti(20);}
+  else if(pts>=20){flash('#F97316');}
+  else{flash('#E8403A');}
+
+  setTimeout(()=>flyPts(pts,pts>=70?'#1DB87A':pts>=50?'#EAB308':'#E8403A'),300);
+
+  const isLast=idx===bundle.products.length-1;
+  document.getElementById('reveal-body').innerHTML=`
+    <div class="reveal-img-wrap">
+      ${p.img?`<img src="${p.img}" alt="${p.name}"/>`:'<span style="font-size:72px">🛍</span>'}
+    </div>
+    <div class="reveal-product-name">${p.name}</div>
+    <div class="price-slam-wrap">
+      <div class="price-label">Actual Price</div>
+      <div class="price-actual" style="color:${heat.color}">$${p.price.toFixed(2)}</div>
+      <div class="your-guess-row">
+        <span>Your guess: <strong>$${guess.toFixed(2)}</strong></span>
+        <span>Difference: <strong>${guess===p.price?'$0.00 🎯':'$'+Math.abs(guess-p.price).toFixed(2)}</strong></span>
+      </div>
+    </div>
+    <div class="verdict-wrap ${heat.cls}">
+      <div class="verdict-emoji">${heat.emoji}</div>
+      <div class="verdict-text">
+        <div class="verdict-word">${heat.word}</div>
+        <div class="verdict-comment">${heat.comment}</div>
+      </div>
+    </div>
+    <div class="pts-row">
+      <div class="pts-earned">+${pts} pts</div>
+      <div class="pts-of">${score} / ${(idx+1)*100} pts total</div>
+    </div>
+    <a class="shop-reveal-btn" href="${affLink(p.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_reveal_click',{product_name:'${p.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${p.price}});">🛒 Shop This Item — $${p.price.toFixed(2)}</a>
+    <p style="font-size:10px;color:var(--text3);text-align:center;margin:0 1rem .5rem;">As an Amazon Associate I earn from qualifying purchases.</p>
+    <button class="next-btn" onclick="nextProduct()">${isLast?'See My Scorecard 🏆':'Next Item →'}</button>`;
+
+  show('reveal');
+}
+
+// ─── NEXT PRODUCT ────────────────────────────────────
 function nextProduct(){
   idx++;
-  if(idx<todayBundle.products.length){
-    renderProduct(idx);
-  }else{
-    finalizeGame();
+  if(idx<bundle.products.length){show('game');renderProduct();}
+  else{showScorecard();}
+}
+
+// ─── SCORECARD ───────────────────────────────────────
+function showScorecard(){
+  const streak=saveStreak();
+  if(typeof gtag!=='undefined'){
+    gtag('event','game_complete',{bundle_theme:bundle.theme,final_score:score,max_score:bundle.products.length*100});
   }
-}
+  confetti(80);
+  show('scorecard');
 
-function finalizeGame(){
-  document.getElementById('reveal-overlay').classList.remove('active');
-  localStorage.setItem(getPlayedKey(),JSON.stringify({guesses,score}));
-  if(typeof gtag!=='undefined')gtag('event','game_complete',{'bundle_theme':todayBundle.theme,'final_score':score});
-  showFinal(true);
-}
+  const scStreakCard=document.getElementById('sc-streak-card');
+  if(scStreakCard&&streak>0){
+    scStreakCard.style.display='block';
+    document.getElementById('sc-streak-num-display').textContent=streak;
+    const emoji=streak>=10?'🔥🔥🔥':streak>=5?'🔥🔥':'🔥';
+    document.getElementById('sc-streak-emoji').textContent=emoji;
+    const msg=streak===1?'Day 1! Come back tomorrow to start a streak.':
+               streak<5?`${streak} days in a row! Keep it going tomorrow.`:
+               streak<10?`${streak} day streak! You're on a roll. Don't break it.`:
+               `${streak} days straight. Legendary. See you tomorrow.`;
+    document.getElementById('sc-streak-msg').textContent=msg;
+  }
 
-function showFinal(animate){
-  document.getElementById('game-view').style.display='none';
-  document.getElementById('progress-dots').style.display='none';
-  const finalView=document.getElementById('final-view');
-  finalView.classList.add('show');
+  document.getElementById('sc-theme').textContent=bundle.theme+' '+bundle.emoji;
 
-  document.getElementById('final-score-max').textContent=(todayBundle.products.length*1000).toLocaleString();
+  let displayed=0;
+  const el=document.getElementById('sc-score-big');
+  const iv=setInterval(()=>{
+    displayed=Math.min(displayed+Math.ceil(score/25),score);
+    el.textContent=displayed;
+    if(displayed>=score)clearInterval(iv);
+  },28);
 
-  const avgAcc=guesses.reduce((a,g)=>a+Math.max(0,100-g.pct),0)/guesses.length;
-  const vibe=getVibe(avgAcc);
-  document.getElementById('vibe-emoji').textContent=vibe.emoji;
-  document.getElementById('vibe-title').textContent=vibe.title;
-  document.getElementById('vibe-sub').textContent=vibe.sub;
+  const avgPct=guesses.reduce((a,g)=>a+g.pts,0)/guesses.length;
+  const vibe=getVibe(avgPct);
+  document.getElementById('sc-vibe-emoji').textContent=vibe.emoji;
+  document.getElementById('sc-vibe-title').textContent=vibe.title;
+  document.getElementById('sc-vibe-title').style.color=vibe.color;
+  document.getElementById('sc-vibe-sub').textContent=vibe.sub;
+  setTimeout(()=>{
+    document.getElementById('sc-vibe-bar').style.width=Math.min(100,avgPct)+'%';
+    document.getElementById('sc-vibe-bar').style.background=vibe.color;
+  },400);
 
-  const chips=document.getElementById('recap-chips');chips.innerHTML='';
-  const bgMap={'h-perfect':'#E1F5EE','h-hot':'#EAF3DE','h-warm':'#FAEEDA','h-cold':'#FAECE7','h-ice':'#EEF2F7'};
+  const chips=document.getElementById('sc-chips');
+  chips.innerHTML='';
+  const chipBg={'v-perfect':'#D1FAE5','v-hot':'#DCFCE7','v-warm':'#FEF9C3','v-cold':'#FEE2E2','v-ice':'#F1F5F9'};
   guesses.forEach((g,i)=>{
-    const c=document.createElement('div');c.className='hc';
-    c.style.animationDelay=(i*.1)+'s';
-    c.style.background=bgMap[g.heat.cls]||'#F1EFE8';
-    c.textContent=g.heat.emoji;chips.appendChild(c);
+    const c=document.createElement('div');
+    c.className='sc-chip';
+    c.style.cssText=`background:${chipBg[g.heat.cls]||'#F1F5F9'};animation-delay:${i*.1}s;`;
+    c.textContent=g.heat.emoji;
+    chips.appendChild(c);
   });
 
-  const streak=getStreak();
-  const streakLine=document.getElementById('streak-line');
-  streakLine.innerHTML=streak>1?`<span class="streak-chip" style="background:var(--orange-light);color:var(--orange-dark);border-color:var(--border2);">🔥 ${streak} day streak</span>`:'';
-
-  const scoreEl=document.getElementById('final-score');
-  if(animate){
-    fireConfetti(70);
-    const dur=1100,start=performance.now();
-    function tick(now){
-      const t=Math.min(1,(now-start)/dur);
-      const eased=1-Math.pow(1-t,3);
-      scoreEl.textContent=Math.round(eased*score).toLocaleString();
-      if(t<1)requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }else{
-    scoreEl.textContent=score.toLocaleString();
-  }
+  const rows=document.getElementById('sc-rows');
+  rows.innerHTML='';
+  guesses.forEach((g,i)=>{
+    const card=document.createElement('div');
+    card.className='sc-row';
+    card.style.animationDelay=`${i*.1}s`;
+    card.innerHTML=`
+      <div class="sc-row-top">
+        <div class="sc-thumb">${g.product.img?`<img src="${g.product.img}" alt="${g.product.teaser||g.product.name}"/>`:'🛍'}</div>
+        <div class="sc-info">
+          <div class="sc-teaser">${g.product.teaser||g.product.name}</div>
+          <div class="sc-sub">Actual: <strong>$${g.product.price.toFixed(2)}</strong> · You guessed: $${g.guess.toFixed(2)}</div>
+        </div>
+        <div class="sc-heat">${g.heat.emoji}</div>
+        <div class="sc-pts-badge">+${g.pts}</div>
+      </div>
+      <div class="sc-shop-row">
+        <a class="sc-shop-btn" href="${affLink(g.product.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_scorecard_click',{product_name:'${g.product.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${g.product.price}});">🛒 Shop This Item — $${g.product.price.toFixed(2)}</a>
+      </div>`;
+    rows.appendChild(card);
+  });
 }
 
-function buildShareText(){
+// ─── SHARE ───────────────────────────────────────────
+function shareResults(){
   const d=new Date();
-  const avgAcc=guesses.reduce((a,g)=>a+Math.max(0,100-g.pct),0)/guesses.length;
-  const vibe=getVibe(avgAcc);
-  const storyLines=guesses.map((g,i)=>`${i+1}. ${g.heat.emoji} ${g.product.teaser||g.product.name}`).join('\n');
-  const streak=getStreak();
-  const streakStr=streak>1?`\n🔥 ${streak} day streak`:'';
-  return `📖 MY GUESS TOTAL STORY\n${todayBundle.theme} ${todayBundle.emoji} — ${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}\n\n${storyLines}\n\n${vibe.emoji} ${vibe.title} · ${score.toLocaleString()} pts${streakStr}\n\nguesstotal.com`;
-}
+  const avgPct=guesses.reduce((a,g)=>a+g.pts,0)/guesses.length;
+  const vibe=getVibe(avgPct);
+  const lines=guesses.map(g=>`${g.heat.emoji} ${g.product.teaser||g.product.name}`).join('\n');
+  const max=bundle.products.length*100;
+  const text=`Guess Total ${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}\n${bundle.theme} ${bundle.emoji}\n\n${lines}\n\n${vibe.emoji} ${vibe.title} — ${score}/${max} pts\nguesstotal.com`;
 
-document.getElementById('share-btn').addEventListener('click',()=>{
-  const text=buildShareText();
   if(navigator.share){
-    navigator.share({title:'Guess Total',text:text,url:'https://guesstotal.com'})
-      .then(()=>{document.getElementById('copied-msg').textContent='Shared!';setTimeout(()=>document.getElementById('copied-msg').textContent='',2500);})
+    navigator.share({title:'Guess Total',text,url:'https://guesstotal.com'})
+      .then(()=>{document.getElementById('sc-copied').textContent='Shared! 🎉';setTimeout(()=>document.getElementById('sc-copied').textContent='',2500);})
       .catch(()=>{});
   }else{
     navigator.clipboard.writeText(text)
-      .then(()=>{document.getElementById('copied-msg').textContent='Copied to clipboard!';setTimeout(()=>document.getElementById('copied-msg').textContent='',2500);})
-      .catch(()=>{document.getElementById('copied-msg').textContent='Could not copy.';});
+      .then(()=>{document.getElementById('sc-copied').textContent='Copied to clipboard! 🎉';setTimeout(()=>document.getElementById('sc-copied').textContent='',2500);})
+      .catch(()=>{document.getElementById('sc-copied').textContent='Could not copy.';});
   }
-  if(typeof gtag!=='undefined')gtag('event','share_results',{'bundle_theme':todayBundle.theme,'final_score':score});
-});
-
-function startGame(){
-  const saved=localStorage.getItem(getPlayedKey());
-  if(saved){
-    try{
-      const data=JSON.parse(saved);
-      guesses=data.guesses;score=data.score;
-      renderHeader();
-      showFinal(false);
-      return;
-    }catch{}
-  }
-  idx=0;guesses=[];score=0;
-  renderHeader();
-  renderProduct(0);
-  if(typeof gtag!=='undefined')gtag('event','game_start',{'bundle_theme':todayBundle.theme});
+  if(typeof gtag!=='undefined')gtag('event','share_results',{bundle_theme:bundle.theme,final_score:score});
 }
 
-async function loadBundles(){
-  try{
-    const r=await fetch('/catalog.json');
-    if(!r.ok)throw new Error(r.status);
-    CATALOG=await r.json();
-  }catch{
-    try{
-      const r=await fetch('/public/catalog.json');
-      if(r.ok)CATALOG=await r.json();
-    }catch{}
-  }
-  if(!CATALOG||!Object.keys(CATALOG.categories||{}).length){
-    document.getElementById('header-theme').textContent='Could not load today\'s game';
-    return;
-  }
-  todayBundle=selectDailyBundle();
-  startGame();
-}
-
-loadBundles();
+// ─── BOOT ────────────────────────────────────────────
+init();
 </script>
 </body>
 </html>

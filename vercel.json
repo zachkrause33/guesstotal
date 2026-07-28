@@ -13,8 +13,12 @@
       "destination": "/api/subscribe.js"
     },
     {
-      "source": "/catalog.json",
-      "destination": "/public/catalog.json"
+      "source": "/bundles.json",
+      "destination": "/public/bundles.json"
+    },
+    {
+      "source": "/schedule.json",
+      "destination": "/public/schedule.json"
     },
     {
       "source": "/bundles.meta.json",

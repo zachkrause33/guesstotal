@@ -32,6 +32,13 @@ jobs:
         if: env.RAINFOREST_API_KEY != ''
         run: npm run refresh-prices
 
+      - name: Refresh scheduled products
+        env:
+          RAINFOREST_API_KEY: ${{ secrets.RAINFOREST_API_KEY || inputs.rainforest_api_key }}
+          AMAZON_PARTNER_TAG: guesstotal-20
+        if: env.RAINFOREST_API_KEY != ''
+        run: npm run refresh-schedule
+
       - name: Generate bundles
         env:
           RAINFOREST_API_KEY: ${{ secrets.RAINFOREST_API_KEY || inputs.rainforest_api_key }}
@@ -42,7 +49,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add products.pool.json public/bundles.json public/bundles.meta.json public/scrape-cache.json public/images/
+          git add products.pool.json public/bundles.json public/bundles.meta.json public/scrape-cache.json public/schedule.json public/images/
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
