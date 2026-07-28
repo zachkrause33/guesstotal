@@ -10,8 +10,7 @@ try {
 } catch { browserScrape = null; }
 
 const POOL_PATH = path.join(__dirname, '..', 'products.pool.json');
-const CONFIG_PATH = path.join(__dirname, '..', 'bundles.config.json');
-const OUTPUT_PATH = path.join(__dirname, '..', 'public', 'bundles.json');
+const OUTPUT_PATH = path.join(__dirname, '..', 'public', 'catalog.json');
 const CACHE_PATH = path.join(__dirname, '..', 'public', 'scrape-cache.json');
 const IMAGES_DIR = path.join(__dirname, '..', 'public', 'images');
 
@@ -61,65 +60,17 @@ function defaultComments(name) {
   };
 }
 
-// ── Bundle selection from pool ──
-
-function seededRandom(seed) {
-  let s = seed;
-  return function () {
-    s = (s * 1103515245 + 12345) & 0x7fffffff;
-    return s / 0x7fffffff;
-  };
-}
-
-function selectBundlesFromPool(pool, count) {
-  const today = new Date();
-  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-
-  const themes = pool.themes;
-  const bundles = [];
-  const usedProducts = new Set();
-
-  for (let d = 0; d < count; d++) {
-    const daySeed = seed + d;
-    const dayRand = seededRandom(daySeed);
-    const theme = themes[Math.floor(dayRand() * themes.length)];
-
-    const candidates = [];
-    for (const cat of theme.categories) {
-      if (pool.categories[cat]) {
-        for (const p of pool.categories[cat]) {
-          if (!usedProducts.has(p.asin)) candidates.push(p);
-        }
-      }
-    }
-
-    for (let i = candidates.length - 1; i > 0; i--) {
-      const j = Math.floor(dayRand() * (i + 1));
-      [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
-    }
-
-    const selected = candidates.slice(0, 5);
-    selected.forEach(p => usedProducts.add(p.asin));
-
-    const nextTheme = themes[Math.floor(seededRandom(daySeed + 1)() * themes.length)];
-    bundles.push({
-      id: `${theme.name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}_${daySeed}`,
-      theme: theme.name,
-      tagline: theme.tagline,
-      emoji: theme.emoji,
-      cantMiss: theme.cantMiss,
-      tease: `Tomorrow: ${nextTheme.name} ${nextTheme.emoji}`,
-      products: selected,
-    });
-  }
-
-  return bundles;
-}
-
 // ── Main ──
+// Outputs a full catalog (all pool products, enriched with live price/
+// image/comments) rather than pre-selecting a couple of daily bundles.
+// The client picks today's theme + products deterministically from this
+// catalog using the same date-seeded algorithm this file used to run
+// server-side -- see selectDailyBundle() in index.html. This guarantees
+// every day draws from the full product pool, with no dependency on a
+// small number of pre-baked "today"/"tomorrow" slots.
 
 async function main() {
-  console.log('=== Guess Total Bundle Generator ===\n');
+  console.log('=== Guess Total Catalog Generator ===\n');
 
   const pool = JSON.parse(fs.readFileSync(POOL_PATH, 'utf8'));
   const hasAnthropic = !!ANTHROPIC_KEY;
@@ -127,28 +78,14 @@ async function main() {
   const totalProducts = Object.values(pool.categories).reduce((a, c) => a + c.length, 0);
   console.log(`Product pool: ${totalProducts} products across ${Object.keys(pool.categories).length} categories`);
   console.log(`Themes:       ${pool.themes.length} theme templates`);
-  console.log(`Browser scraper: ${browserScrape ? 'available' : 'not available (install playwright-core)'}`);
-  console.log(`Claude API:    ${hasAnthropic ? 'configured' : 'not configured (using defaults)'}\n`);
+  console.log(`Claude API:   ${hasAnthropic ? 'configured' : 'not configured (using defaults)'}\n`);
 
-  const bundles = selectBundlesFromPool(pool, 2);
-  console.log(`Today:    ${bundles[0].theme} ${bundles[0].emoji}`);
-  console.log(`Tomorrow: ${bundles[1].theme} ${bundles[1].emoji}\n`);
-
-  let legacyBundles = [];
-  if (fs.existsSync(CONFIG_PATH)) {
-    const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
-    legacyBundles = config.bundles.map(b => ({
-      ...b,
-      products: b.products.map(p => ({
-        asin: p.asin, teaser: p.teaser, meta: p.meta,
-        fallbackName: p.fallbackName, fallbackPrice: p.fallbackPrice,
-        fallbackImg: p.fallbackImg, comments: p.comments,
-      })),
-    }));
+  const allAsins = [];
+  for (const products of Object.values(pool.categories)) {
+    for (const p of products) {
+      if (!allAsins.includes(p.asin)) allAsins.push(p.asin);
+    }
   }
-
-  const allBundles = [...bundles, ...legacyBundles];
-  const allAsins = [...new Set(allBundles.flatMap(b => b.products.map(p => p.asin)))];
   console.log(`Total unique ASINs: ${allAsins.length}\n`);
 
   const cache = loadCache();
@@ -198,7 +135,6 @@ async function main() {
       cache[asin] = { ...cache[asin], ...fresh, lastUpdated: new Date().toISOString() };
     }
   }
-  saveCache(cache);
 
   fs.mkdirSync(IMAGES_DIR, { recursive: true });
   let imgCount = 0;
@@ -222,16 +158,17 @@ async function main() {
   }
   if (imgCount > 0) console.log(`  Downloaded ${imgCount} new images\n`);
 
-  const output = [];
+  const catalog = { themes: pool.themes, categories: {} };
+  let commentsGenerated = 0;
 
-  for (const bundle of allBundles) {
-    const products = [];
-    for (const p of bundle.products) {
+  for (const [cat, products] of Object.entries(pool.categories)) {
+    catalog.categories[cat] = [];
+    for (const p of products) {
       const data = cache[p.asin] || amazonData[p.asin] || {};
-      const name = data.title || p.fallbackName || p.name || 'Unknown Product';
-      const price = data.price || p.fallbackPrice || p.price || 0;
+      const name = data.title || p.fallbackName || 'Unknown Product';
+      const price = data.price || p.fallbackPrice || 0;
 
-      let img = p.fallbackImg || p.img || null;
+      let img = null;
       const exts = ['webp', 'jpg', 'jpeg', 'png'];
       for (const ext of exts) {
         if (fs.existsSync(path.join(IMAGES_DIR, `${p.asin}.${ext}`))) {
@@ -240,43 +177,40 @@ async function main() {
         }
       }
 
-      let comments = p.comments;
+      let comments = cache[p.asin]?.comments;
       if (!comments && hasAnthropic) {
         console.log(`  Generating comments for ${name.substring(0, 40)}...`);
-        comments = await generateComments(name, bundle.theme);
+        comments = await generateComments(name, cat);
+        if (comments) {
+          cache[p.asin] = { ...cache[p.asin], comments };
+          commentsGenerated++;
+        }
         await sleep(500);
       }
       if (!comments) comments = defaultComments(name);
 
-      products.push({ name, teaser: p.teaser || '', meta: p.meta || '', price, asin: p.asin, img, comments });
+      catalog.categories[cat].push({ asin: p.asin, name, teaser: p.teaser || '', meta: p.meta || '', price, img, comments });
     }
-
-    output.push({
-      id: bundle.id,
-      theme: bundle.theme,
-      tagline: bundle.tagline,
-      emoji: bundle.emoji,
-      tease: bundle.tease,
-      products,
-    });
   }
 
-  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(output));
+  saveCache(cache);
+  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(catalog));
   const size = (fs.statSync(OUTPUT_PATH).size / 1024).toFixed(0);
 
   const meta = {
     generated: new Date().toISOString(),
-    bundleCount: output.length,
-    productCount: output.reduce((a, b) => a + b.products.length, 0),
-    scrapeMethod: browserScrape ? 'browser' : 'http',
+    productCount: allAsins.length,
+    categoryCount: Object.keys(catalog.categories).length,
+    themeCount: catalog.themes.length,
     imagesDownloaded: imgCount,
+    commentsGenerated,
     cacheSize: Object.keys(cache).length,
   };
   fs.writeFileSync(path.join(__dirname, '..', 'public', 'bundles.meta.json'), JSON.stringify(meta, null, 2));
 
   console.log(`\n=== Done ===`);
-  console.log(`Output: public/bundles.json (${size} KB)`);
-  console.log(`Bundles: ${output.length} (${bundles.length} from pool + ${legacyBundles.length} legacy)`);
+  console.log(`Output: public/catalog.json (${size} KB)`);
+  console.log(`Products: ${allAsins.length} across ${Object.keys(catalog.categories).length} categories`);
   console.log(`Cache: ${Object.keys(cache).length} products cached`);
 }
 
