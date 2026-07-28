@@ -1,8 +1,8 @@
 {
-  "generated": "2026-07-28T01:11:28.627Z",
+  "generated": "2026-07-28T01:14:16.458Z",
   "bundleCount": 11,
-  "productCount": 48,
-  "scrapeMethod": "http",
+  "productCount": 51,
+  "scrapeMethod": "browser",
   "imagesDownloaded": 0,
-  "cacheSize": 39
+  "cacheSize": 120
 }
