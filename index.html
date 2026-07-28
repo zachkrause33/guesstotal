@@ -52,7 +52,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 @keyframes flashPop{0%{opacity:0}25%{opacity:.45}100%{opacity:0}}
 
 /* ─── THEME INTRO ───────────────────────────────── */
-#intro{background:var(--orange);align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem;position:relative;overflow:hidden;}
+#intro{background:var(--orange);align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem;overflow:hidden;}
 .intro-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.07);}
 .intro-logo{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:#fff;line-height:1;}
 .intro-logo span{color:var(--gold);}
@@ -340,6 +340,7 @@ const VIBES=[
 ];
 function getVibe(avgPct){for(const v of VIBES)if(avgPct>=v.min)return v;return VIBES[VIBES.length-1];}
 function affLink(asin){return`https://www.amazon.com/dp/${asin}?tag=${TAG}`;}
+function productImgSrc(p){return p.img||`https://m.media-amazon.com/images/P/${p.asin}.01._SL500_.jpg`;}
 
 // ─── DATA ───────────────────────────────────────────
 let BUNDLES=[];
@@ -487,7 +488,7 @@ function renderProduct(){
 
   area.innerHTML=`
     <div class="product-img-wrap">
-      ${p.img?`<img src="${p.img}" alt="${p.name}"/>`:'<span style="font-size:72px">🛍</span>'}
+      <img src="${productImgSrc(p)}" alt="${p.name}" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<span style=&quot;font-size:72px&quot;>🛍</span>')"/>
       <div class="product-num-pill">Item ${idx+1} of ${bundle.products.length}</div>
     </div>
     <div class="product-bottom">
@@ -588,7 +589,7 @@ function showReveal(guess){
   const isLast=idx===bundle.products.length-1;
   document.getElementById('reveal-body').innerHTML=`
     <div class="reveal-img-wrap">
-      ${p.img?`<img src="${p.img}" alt="${p.name}"/>`:'<span style="font-size:72px">🛍</span>'}
+      <img src="${productImgSrc(p)}" alt="${p.name}" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<span style=&quot;font-size:72px&quot;>🛍</span>')"/>
     </div>
     <div class="reveal-product-name">${p.name}</div>
     <div class="price-slam-wrap">
@@ -686,7 +687,7 @@ function showScorecard(){
     card.style.animationDelay=`${i*.1}s`;
     card.innerHTML=`
       <div class="sc-row-top">
-        <div class="sc-thumb">${g.product.img?`<img src="${g.product.img}" alt="${g.product.teaser||g.product.name}"/>`:'🛍'}</div>
+        <div class="sc-thumb"><img src="${productImgSrc(g.product)}" alt="${g.product.teaser||g.product.name}" onerror="this.outerHTML='🛍'"/></div>
         <div class="sc-info">
           <div class="sc-teaser">${g.product.teaser||g.product.name}</div>
           <div class="sc-sub">Actual: <strong>$${g.product.price.toFixed(2)}</strong> · You guessed: $${g.guess.toFixed(2)}</div>
