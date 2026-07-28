@@ -243,19 +243,42 @@ function getVibe(acc){for(const v of VIBES)if(acc>=v.min)return v;return VIBES[V
 function affLink(asin){return`https://www.amazon.com/dp/${asin}?tag=${TAG}`;}
 
 let BUNDLES=[];
+let SCHEDULE=null;
 let todayBundle=null,idx=0,guesses=[],score=0,locked=false;
 
 function getDailySeed(){const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();}
+function getTodayStr(){const d=new Date();const m=String(d.getMonth()+1).padStart(2,'0');const day=String(d.getDate()).padStart(2,'0');return`${d.getFullYear()}-${m}-${day}`;}
+
+function defaultComments(name){
+  const s=name.length>30?name.substring(0,30):name;
+  return{
+    exact:['👑','NAILED IT.',`Perfect on the ${s}! You clearly know your stuff.`],
+    hot:['🔥','SO CLOSE.',`Really close on the ${s}. Impressive eye for prices.`],
+    warm:['😅','NOT BAD.',`Decent guess on the ${s}. Getting there!`],
+    cold:['❄️','OFF TARGET.',`The ${s} had you guessing. Way off on that one.`],
+    ice:['💀','WAY OFF.',`You completely missed on the ${s}. Better luck next time.`],
+  };
+}
+
+function buildScheduledBundle(){
+  if(!SCHEDULE)return null;
+  const dateStr=getTodayStr();
+  const themeKey=SCHEDULE.dates[dateStr];
+  if(!themeKey)return null;
+  const theme=SCHEDULE.themes[themeKey];
+  if(!theme)return null;
+  return{
+    theme:theme.name,
+    tagline:theme.tagline,
+    emoji:theme.emoji,
+    products:theme.products.map(p=>({...p,teaser:p.teaser||'',meta:'',comments:defaultComments(p.name)})),
+  };
+}
 
 function getTodayBundle(){
+  const scheduled=buildScheduledBundle();
+  if(scheduled)return scheduled;
   if(!BUNDLES.length)return null;
-  const d=new Date();
-  const key=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-  const overrides={
-    '2026-5-25':getBundleById('hydration'),
-    '2026-5-26':getBundleById('things_from_future')
-  };
-  if(overrides[key])return overrides[key];
   return BUNDLES[getDailySeed()%BUNDLES.length];
 }
 function getBundleById(id){return BUNDLES.find(b=>b.id===id)||BUNDLES[0];}
@@ -541,6 +564,7 @@ function startGame(){
 }
 
 async function loadBundles(){
+  try{const sr=await fetch('/schedule.json');if(sr.ok)SCHEDULE=await sr.json();}catch{}
   try{
     const r=await fetch('/bundles.json');
     if(!r.ok)throw new Error(r.status);
@@ -551,11 +575,15 @@ async function loadBundles(){
       if(r.ok)BUNDLES=await r.json();
     }catch{}
   }
-  if(!BUNDLES.length){
+  if(!SCHEDULE&&!BUNDLES.length){
     document.getElementById('header-theme').textContent='Could not load today\'s game';
     return;
   }
   todayBundle=getTodayBundle();
+  if(!todayBundle){
+    document.getElementById('header-theme').textContent='Could not load today\'s game';
+    return;
+  }
   startGame();
 }
 

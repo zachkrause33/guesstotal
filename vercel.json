@@ -17,6 +17,10 @@
       "destination": "/public/bundles.json"
     },
     {
+      "source": "/schedule.json",
+      "destination": "/public/schedule.json"
+    },
+    {
       "source": "/bundles.meta.json",
       "destination": "/public/bundles.meta.json"
     },

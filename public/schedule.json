@@ -1,0 +1,223 @@
+{
+  "dates": {
+    "2026-07-28": "backyard-games",
+    "2026-07-29": "tech-gadgets",
+    "2026-07-30": "amazon-2am",
+    "2026-07-31": "fur-baby",
+    "2026-08-01": "party-starter",
+    "2026-08-02": "weird-genius",
+    "2026-08-03": "hydration",
+    "2026-08-04": "game-night",
+    "2026-08-05": "self-care",
+    "2026-08-06": "kitchen-upgrade",
+    "2026-08-07": "backyard-chill",
+    "2026-08-08": "summer-pet",
+    "2026-08-09": "party-games",
+    "2026-08-10": "kitchen-gadgets",
+    "2026-08-11": "backyard-games",
+    "2026-08-12": "tech-gadgets",
+    "2026-08-13": "amazon-2am",
+    "2026-08-14": "fur-baby",
+    "2026-08-15": "party-starter",
+    "2026-08-16": "weird-genius",
+    "2026-08-17": "hydration",
+    "2026-08-18": "game-night",
+    "2026-08-19": "self-care",
+    "2026-08-20": "kitchen-upgrade",
+    "2026-08-21": "backyard-chill",
+    "2026-08-22": "summer-pet",
+    "2026-08-23": "party-games",
+    "2026-08-24": "kitchen-gadgets",
+    "2026-08-25": "backyard-games",
+    "2026-08-26": "tech-gadgets",
+    "2026-08-27": "amazon-2am",
+    "2026-08-28": "fur-baby",
+    "2026-08-29": "party-starter",
+    "2026-08-30": "weird-genius",
+    "2026-08-31": "hydration",
+    "2026-09-01": "game-night",
+    "2026-09-02": "self-care",
+    "2026-09-03": "kitchen-upgrade",
+    "2026-09-04": "backyard-chill",
+    "2026-09-05": "summer-pet",
+    "2026-09-06": "party-games",
+    "2026-09-07": "kitchen-gadgets",
+    "2026-09-08": "backyard-games",
+    "2026-09-09": "tech-gadgets",
+    "2026-09-10": "amazon-2am",
+    "2026-09-11": "fur-baby",
+    "2026-09-12": "party-starter",
+    "2026-09-13": "weird-genius",
+    "2026-09-14": "hydration",
+    "2026-09-15": "game-night"
+  },
+  "themes": {
+    "tech-gadgets": {
+      "name": "Tech You Didn't Know You Needed",
+      "emoji": "⚡",
+      "tagline": "Five gadgets that will make you wonder how you lived without them",
+      "products": [
+        {"asin": "B08S7M1QPZ", "name": "MOKOQI Magnetic Levitation Globe", "price": 35.14, "img": null, "teaser": "floating globe"},
+        {"asin": "B0F18BBHCC", "name": "INIA Glow 2 LED Light Therapy Face Mask", "price": 76.49, "img": null, "teaser": "LED face mask"},
+        {"asin": "B082F13J55", "name": "TMY Mini Portable Projector 1080p", "price": 69.99, "img": null, "teaser": "mini projector"},
+        {"asin": "B0CQQ85ZK3", "name": "Govee Neon Rope Light 2", "price": 54.99, "img": null, "teaser": "neon rope light"},
+        {"asin": "B0C535NZQ8", "name": "LeeNabao Vibe Command Center", "price": 39.99, "img": null, "teaser": "vibe center"}
+      ]
+    },
+    "amazon-2am": {
+      "name": "Amazon at 2 AM",
+      "emoji": "🌙",
+      "tagline": "The stuff that ends up in your cart at 2am",
+      "products": [
+        {"asin": "B0DZFGTCLR", "name": "Innqoo Candle Warmer Lamp with Timer", "price": 9.99, "img": null, "teaser": "candle warmer lamp"},
+        {"asin": "B08R8YVH9G", "name": "Vinyl Record Coaster Set", "price": 11.99, "img": null, "teaser": "vinyl coasters"},
+        {"asin": "B07H7ZDBV4", "name": "OTOTO Splatypus Jar Spatula", "price": 14.95, "img": null, "teaser": "splatypus spatula"},
+        {"asin": "B005Q8X6IO", "name": "Nostalgia Retro Pop-Up Toaster", "price": 32.99, "img": null, "teaser": "retro toaster"},
+        {"asin": "B0DHLJ6TR9", "name": "LEGO Botanicals Pink Bouquet", "price": 47.98, "img": null, "teaser": "LEGO flowers"}
+      ]
+    },
+    "backyard-games": {
+      "name": "Backyard Games Bundle",
+      "emoji": "🏆",
+      "tagline": "Everything you need to dominate the backyard this summer",
+      "products": [
+        {"asin": "B002V7A7MQ", "name": "Spikeball 3-Ball Kit", "price": 74.99, "img": null, "teaser": "Spikeball"},
+        {"asin": "B0F5G8BVVJ", "name": "Kan Jam Original Disc Toss", "price": 32.99, "img": null, "teaser": "Kan Jam"},
+        {"asin": "B0DGGBV13B", "name": "Ladder Toss Outdoor Game", "price": 52.88, "img": null, "teaser": "ladder toss"},
+        {"asin": "B088C3FFRJ", "name": "Megwoz Giant Tumble Tower 57 Blocks", "price": 40.99, "img": null, "teaser": "giant tumble tower"},
+        {"asin": "B00K8ANYWS", "name": "GoSports Ladder Toss with Carry Case", "price": 34.49, "img": null, "teaser": "GoSports ladder toss"}
+      ]
+    },
+    "party-starter": {
+      "name": "Party Starter Pack",
+      "emoji": "🎉",
+      "tagline": "Show up with this and you're instantly the best host",
+      "products": [
+        {"asin": "B0C6QJK9SP", "name": "Giant Catchable Bubble Wands Set", "price": 18.99, "img": null, "teaser": "giant bubble wands"},
+        {"asin": "B0CTKR7JSK", "name": "Magnetic Dart Board Set", "price": 12.49, "img": null, "teaser": "magnetic darts"},
+        {"asin": "B0BT5WK9ZJ", "name": "Indoor Electric S'mores Maker", "price": 32.39, "img": null, "teaser": "s'mores maker"},
+        {"asin": "B0B5B8P36W", "name": "CROSSNET Four Square Volleyball", "price": 122.99, "img": null, "teaser": "CROSSNET volleyball"},
+        {"asin": "B08R6ZY4F2", "name": "Giant Wood Tower Stacker Game", "price": 33.89, "img": null, "teaser": "giant tower game"}
+      ]
+    },
+    "weird-genius": {
+      "name": "Weird But Genius",
+      "emoji": "🤯",
+      "tagline": "You didn't know you needed this until right now",
+      "products": [
+        {"asin": "B0F4WZ96G7", "name": "TrendPlain Glass Olive Oil Sprayer", "price": 8.99, "img": null, "teaser": "glass oil sprayer"},
+        {"asin": "B0CPP5KLV9", "name": "ATEngeus Cordless Electric Air Duster", "price": 49.99, "img": null, "teaser": "electric air duster"},
+        {"asin": "B0FGTHYPYC", "name": "Ukeetap Chicken Shredder Twist Tool", "price": 19.99, "img": null, "teaser": "chicken shredder"},
+        {"asin": "B0764HS4SL", "name": "Fullstar Pro Vegetable Chopper 4-in-1", "price": 23.73, "img": null, "teaser": "veggie chopper"},
+        {"asin": "B0CRQQ8TYB", "name": "Poo-Pourri Before-You-Go Spray", "price": 6.99, "img": null, "teaser": "Poo-Pourri spray"}
+      ]
+    },
+    "hydration": {
+      "name": "Hydration Station",
+      "emoji": "💧",
+      "tagline": "Stay cold, stay refreshed, stay winning",
+      "products": [
+        {"asin": "B0DFM59KY7", "name": "Collapsible Silicone Water Bottle", "price": 13.99, "img": null, "teaser": "collapsible bottle"},
+        {"asin": "B08YWVJNNV", "name": "Handheld Clip-On Personal Fan", "price": 15.99, "img": null, "teaser": "clip-on fan"},
+        {"asin": "B07BSWDTBK", "name": "Waterproof Dry Bag Backpack 20L", "price": 16.14, "img": null, "teaser": "dry bag backpack"},
+        {"asin": "B0CN3S2SW2", "name": "Hamilton Beach Portable Blender", "price": 24.95, "img": null, "teaser": "portable blender"},
+        {"asin": "B0DM37J9S4", "name": "RTIC 20oz Insulated Tumbler", "price": 22.99, "img": null, "teaser": "RTIC tumbler"}
+      ]
+    },
+    "game-night": {
+      "name": "Game Night",
+      "emoji": "🎲",
+      "tagline": "Five games your group hasn't played yet — and won't stop playing",
+      "products": [
+        {"asin": "B077Z1R28P", "name": "Taco Cat Goat Cheese Pizza Card Game", "price": 8.10, "img": null, "teaser": "Taco Cat"},
+        {"asin": "B084D2XQ9F", "name": "Hues & Cues Color Guessing Game", "price": 24.97, "img": null, "teaser": "Hues & Cues"},
+        {"asin": "B0FJMQB63N", "name": "Codenames Board Game 2nd Edition", "price": 24.97, "img": null, "teaser": "Codenames"},
+        {"asin": "B09S3ZJJRM", "name": "The Chameleon Social Deduction Game", "price": 24.99, "img": null, "teaser": "The Chameleon"},
+        {"asin": "B01JKD4HYC", "name": "Secret Hitler Board Game", "price": 45.00, "img": null, "teaser": "Secret Hitler"}
+      ]
+    },
+    "self-care": {
+      "name": "Self Care Sunday",
+      "emoji": "🧘",
+      "tagline": "You deserve this. All of it.",
+      "products": [
+        {"asin": "B09R1KX4C2", "name": "BAIMEI Ice Roller & Gua Sha Set", "price": 7.19, "img": null, "teaser": "ice roller set"},
+        {"asin": "B0CQXMWQH9", "name": "Headache & Migraine Relief Cap", "price": 16.99, "img": null, "teaser": "migraine cap"},
+        {"asin": "B0F19YY96Z", "name": "Summer Fridays Jet Lag Eye Patches 6pk", "price": 24.00, "img": null, "teaser": "jet lag eye patches"},
+        {"asin": "B0DD4GR2NM", "name": "Aromatherapy Shower Steamers 12-Pack", "price": 29.99, "img": null, "teaser": "shower steamers"},
+        {"asin": "B0DW55CPPR", "name": "17-Piece Spa Gift Box for Women", "price": 84.99, "img": null, "teaser": "spa gift box"}
+      ]
+    },
+    "kitchen-upgrade": {
+      "name": "Kitchen Upgrade",
+      "emoji": "👨‍🍳",
+      "tagline": "Small tools. Big difference.",
+      "products": [
+        {"asin": "B094NTCSDJ", "name": "Egg Yolk Separator Tool", "price": 7.99, "img": null, "teaser": "egg separator"},
+        {"asin": "B01MZ14LJV", "name": "Snap & Strain Clip-On Colander", "price": 17.99, "img": null, "teaser": "clip-on colander"},
+        {"asin": "B0F531JR4Z", "name": "Bamboo Cutting Board Set", "price": 29.99, "img": null, "teaser": "cutting board set"},
+        {"asin": "B09JK4QHWJ", "name": "Govee WiFi Meat Thermometer 4-Probe", "price": 39.99, "img": null, "teaser": "meat thermometer"},
+        {"asin": "B0D3ZBFMW6", "name": "Chef Preserve Vacuum Sealer + 30 Bags", "price": 99.00, "img": null, "teaser": "vacuum sealer"}
+      ]
+    },
+    "fur-baby": {
+      "name": "Fur Baby Favorites",
+      "emoji": "🐾",
+      "tagline": "Because your dog deserves the good life too",
+      "products": [
+        {"asin": "B08S1QK8YX", "name": "Nestpark Doggy Doobie Plush Squeaky Toy", "price": 11.95, "img": null, "teaser": "doggy doobie toy"},
+        {"asin": "B09XXPCB4T", "name": "PETSTA Dog Puzzle Toy Treat Dispenser", "price": 11.99, "img": null, "teaser": "dog puzzle toy"},
+        {"asin": "B0DK42TDSK", "name": "Interactive Electric Rolling Dog Ball", "price": 19.99, "img": null, "teaser": "rolling dog ball"},
+        {"asin": "B088LG4FPD", "name": "Peteast Dog & Kids Splash Pad 67in", "price": 19.99, "img": null, "teaser": "dog splash pad"},
+        {"asin": "B01I3DTB2S", "name": "Jasonwell Foldable Dog Pool", "price": 37.99, "img": null, "teaser": "foldable dog pool"}
+      ]
+    },
+    "backyard-chill": {
+      "name": "Backyard Chill Setup",
+      "emoji": "😎",
+      "tagline": "The perfect setup for doing absolutely nothing productively",
+      "products": [
+        {"asin": "B0C68LM827", "name": "Addlon Outdoor String Lights", "price": 22.99, "img": null, "teaser": "outdoor string lights"},
+        {"asin": "B07DR7MB48", "name": "Outdoor Drink Stakes", "price": 28.99, "img": null, "teaser": "drink stakes"},
+        {"asin": "B09PFWFCH9", "name": "Hammock with Heavy-Duty Straps", "price": 85.99, "img": null, "teaser": "hammock"},
+        {"asin": "B0C411QF65", "name": "Outdoor Cooler Side Table", "price": 119.99, "img": null, "teaser": "cooler side table"},
+        {"asin": "B07BRKLB9X", "name": "Coleman Heavy-Duty Cooler", "price": 49.99, "img": null, "teaser": "Coleman cooler"}
+      ]
+    },
+    "summer-pet": {
+      "name": "Summer Pet Paradise",
+      "emoji": "🌊",
+      "tagline": "Your pets deserve a summer vacation too",
+      "products": [
+        {"asin": "B07SK3R2C3", "name": "Chuckit Ultra Fetch Stick 12in", "price": 5.59, "img": null, "teaser": "fetch stick"},
+        {"asin": "B0714F11JK", "name": "Banfeng Giant 9.5in Dog Tennis Ball", "price": 11.99, "img": null, "teaser": "giant tennis ball"},
+        {"asin": "B0D4V9V39Y", "name": "BoYoYo Dog Puzzle Toy Yellow", "price": 9.99, "img": null, "teaser": "dog puzzle toy"},
+        {"asin": "B00PQ5UH0C", "name": "Wobble Wag Giggle Ball", "price": 14.99, "img": null, "teaser": "giggle ball"},
+        {"asin": "B0FJYN7SL1", "name": "Nestpark Muttboro Doggy Cigs Toy", "price": 14.95, "img": null, "teaser": "dog cig toy"}
+      ]
+    },
+    "party-games": {
+      "name": "Party Games Night",
+      "emoji": "🃏",
+      "tagline": "The games everyone actually wants to play",
+      "products": [
+        {"asin": "B0DWGVM7RY", "name": "USAOPOLY Flip 7 Card Game", "price": 7.97, "img": null, "teaser": "Flip 7"},
+        {"asin": "B07QSCQMXV", "name": "Incohearent Party Game 300 Cards", "price": 15.99, "img": null, "teaser": "Incohearent"},
+        {"asin": "B093HBBMPT", "name": "Herd Mentality Family Board Game", "price": 24.99, "img": null, "teaser": "Herd Mentality"},
+        {"asin": "B0D2JG7873", "name": "Horrible Therapist Card Game", "price": 12.48, "img": null, "teaser": "Horrible Therapist"},
+        {"asin": "B07T446163", "name": "Wavelength Mind Reading Game", "price": 33.19, "img": null, "teaser": "Wavelength"}
+      ]
+    },
+    "kitchen-gadgets": {
+      "name": "Kitchen Gadgets You Didn't Know Existed",
+      "emoji": "🔧",
+      "tagline": "These exist. They work. You need them.",
+      "products": [
+        {"asin": "B0CJF7KSHK", "name": "TrendPlain Green Olive Oil Sprayer", "price": 8.99, "img": null, "teaser": "oil sprayer"},
+        {"asin": "B0BQCSGC64", "name": "Vegetable Chopper Dicer with Container", "price": 25.99, "img": null, "teaser": "veggie dicer"},
+        {"asin": "B0DNMN6VXJ", "name": "Fofeadm Drinking Board Game Rubber Mat", "price": 9.99, "img": null, "teaser": "game mat"},
+        {"asin": "B0CWW4TGRM", "name": "FIRST TO WORST Party Ranking Card Game", "price": 19.99, "img": null, "teaser": "First to Worst"}
+      ]
+    }
+  }
+}
