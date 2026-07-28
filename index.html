@@ -242,23 +242,45 @@ const VIBES=[
 function getVibe(acc){for(const v of VIBES)if(acc>=v.min)return v;return VIBES[VIBES.length-1];}
 function affLink(asin){return`https://www.amazon.com/dp/${asin}?tag=${TAG}`;}
 
-let BUNDLES=[];
+let CATALOG=null;
 let todayBundle=null,idx=0,guesses=[],score=0,locked=false;
 
 function getDailySeed(){const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();}
 
-function getTodayBundle(){
-  if(!BUNDLES.length)return null;
-  const d=new Date();
-  const key=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-  const overrides={
-    '2026-5-25':getBundleById('hydration'),
-    '2026-5-26':getBundleById('things_from_future')
-  };
-  if(overrides[key])return overrides[key];
-  return BUNDLES[getDailySeed()%BUNDLES.length];
+function seededRandom(seed){
+  let s=seed;
+  return function(){s=(s*1103515245+12345)&0x7fffffff;return s/0x7fffffff;};
 }
-function getBundleById(id){return BUNDLES.find(b=>b.id===id)||BUNDLES[0];}
+
+// Deterministically picks today's theme + 5 products straight from the
+// full product catalog, using the same date-seeded algorithm the
+// generator used to run server-side. Every calendar day draws fresh
+// from the whole pool -- no pre-baked "today"/"tomorrow" slots to fall
+// out of sync with.
+function selectDailyBundle(){
+  const daySeed=getDailySeed();
+  const rand=seededRandom(daySeed);
+  const theme=CATALOG.themes[Math.floor(rand()*CATALOG.themes.length)];
+
+  const candidates=[];
+  for(const cat of theme.categories){
+    if(CATALOG.categories[cat]){
+      for(const p of CATALOG.categories[cat])candidates.push(p);
+    }
+  }
+  for(let i=candidates.length-1;i>0;i--){
+    const j=Math.floor(rand()*(i+1));
+    [candidates[i],candidates[j]]=[candidates[j],candidates[i]];
+  }
+  const selected=candidates.slice(0,5);
+
+  return{
+    theme:theme.name,
+    tagline:theme.tagline,
+    emoji:theme.emoji,
+    products:selected,
+  };
+}
 
 function getPlayedKey(){const d=new Date();return`gt_played_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;}
 
@@ -542,20 +564,20 @@ function startGame(){
 
 async function loadBundles(){
   try{
-    const r=await fetch('/bundles.json');
+    const r=await fetch('/catalog.json');
     if(!r.ok)throw new Error(r.status);
-    BUNDLES=await r.json();
+    CATALOG=await r.json();
   }catch{
     try{
-      const r=await fetch('/public/bundles.json');
-      if(r.ok)BUNDLES=await r.json();
+      const r=await fetch('/public/catalog.json');
+      if(r.ok)CATALOG=await r.json();
     }catch{}
   }
-  if(!BUNDLES.length){
+  if(!CATALOG||!Object.keys(CATALOG.categories||{}).length){
     document.getElementById('header-theme').textContent='Could not load today\'s game';
     return;
   }
-  todayBundle=getTodayBundle();
+  todayBundle=selectDailyBundle();
   startGame();
 }
 
