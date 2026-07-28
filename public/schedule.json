@@ -54,170 +54,590 @@
   "themes": {
     "tech-gadgets": {
       "name": "Tech You Didn't Know You Needed",
-      "emoji": "⚡",
+      "emoji": "\u26a1",
       "tagline": "Five gadgets that will make you wonder how you lived without them",
       "products": [
-        {"asin": "B08S7M1QPZ", "name": "MOKOQI Magnetic Levitation Globe", "price": 35.14, "img": null, "teaser": "floating globe"},
-        {"asin": "B0F18BBHCC", "name": "INIA Glow 2 LED Light Therapy Face Mask", "price": 76.49, "img": null, "teaser": "LED face mask"},
-        {"asin": "B082F13J55", "name": "TMY Mini Portable Projector 1080p", "price": 69.99, "img": null, "teaser": "mini projector"},
-        {"asin": "B0CQQ85ZK3", "name": "Govee Neon Rope Light 2", "price": 54.99, "img": null, "teaser": "neon rope light"},
-        {"asin": "B0C535NZQ8", "name": "LeeNabao Vibe Command Center", "price": 39.99, "img": null, "teaser": "vibe center"}
+        {
+          "asin": "B08S7M1QPZ",
+          "name": "MOKOQI Magnetic Levitation Globe",
+          "price": 35.14,
+          "img": "/images/B08S7M1QPZ.jpg",
+          "teaser": "floating globe"
+        },
+        {
+          "asin": "B0F18BBHCC",
+          "name": "INIA Glow 2 LED Light Therapy Face Mask",
+          "price": 76.49,
+          "img": "/images/B0F18BBHCC.jpg",
+          "teaser": "LED face mask"
+        },
+        {
+          "asin": "B082F13J55",
+          "name": "TMY Mini Portable Projector 1080p",
+          "price": 69.99,
+          "img": "/images/B082F13J55.jpg",
+          "teaser": "mini projector"
+        },
+        {
+          "asin": "B0CQQ85ZK3",
+          "name": "Govee Neon Rope Light 2",
+          "price": 54.99,
+          "img": "/images/B0CQQ85ZK3.jpg",
+          "teaser": "neon rope light"
+        },
+        {
+          "asin": "B0C535NZQ8",
+          "name": "LeeNabao Vibe Command Center",
+          "price": 39.99,
+          "img": "/images/B0C535NZQ8.jpg",
+          "teaser": "vibe center"
+        }
       ]
     },
     "amazon-2am": {
       "name": "Amazon at 2 AM",
-      "emoji": "🌙",
+      "emoji": "\ud83c\udf19",
       "tagline": "The stuff that ends up in your cart at 2am",
       "products": [
-        {"asin": "B0DZFGTCLR", "name": "Innqoo Candle Warmer Lamp with Timer", "price": 9.99, "img": null, "teaser": "candle warmer lamp"},
-        {"asin": "B08R8YVH9G", "name": "Vinyl Record Coaster Set", "price": 11.99, "img": null, "teaser": "vinyl coasters"},
-        {"asin": "B07H7ZDBV4", "name": "OTOTO Splatypus Jar Spatula", "price": 14.95, "img": null, "teaser": "splatypus spatula"},
-        {"asin": "B005Q8X6IO", "name": "Nostalgia Retro Pop-Up Toaster", "price": 32.99, "img": null, "teaser": "retro toaster"},
-        {"asin": "B0DHLJ6TR9", "name": "LEGO Botanicals Pink Bouquet", "price": 47.98, "img": null, "teaser": "LEGO flowers"}
+        {
+          "asin": "B0DZFGTCLR",
+          "name": "Innqoo Candle Warmer Lamp with Timer",
+          "price": 9.99,
+          "img": "/images/B0DZFGTCLR.jpg",
+          "teaser": "candle warmer lamp"
+        },
+        {
+          "asin": "B08R8YVH9G",
+          "name": "Vinyl Record Coaster Set",
+          "price": 11.99,
+          "img": "/images/B08R8YVH9G.jpg",
+          "teaser": "vinyl coasters"
+        },
+        {
+          "asin": "B07H7ZDBV4",
+          "name": "OTOTO Splatypus Jar Spatula",
+          "price": 14.95,
+          "img": "/images/B07H7ZDBV4.jpg",
+          "teaser": "splatypus spatula"
+        },
+        {
+          "asin": "B005Q8X6IO",
+          "name": "Nostalgia Retro Pop-Up Toaster",
+          "price": 32.99,
+          "img": "/images/B005Q8X6IO.jpg",
+          "teaser": "retro toaster"
+        },
+        {
+          "asin": "B0DHLJ6TR9",
+          "name": "LEGO Botanicals Pink Bouquet",
+          "price": 47.98,
+          "img": "/images/B0DHLJ6TR9.jpg",
+          "teaser": "LEGO flowers"
+        }
       ]
     },
     "backyard-games": {
       "name": "Backyard Games Bundle",
-      "emoji": "🏆",
+      "emoji": "\ud83c\udfc6",
       "tagline": "Everything you need to dominate the backyard",
       "products": [
-        {"asin": "B002V7A7MQ", "name": "Spikeball 3-Ball Kit", "price": 74.99, "img": null, "teaser": "Spikeball"},
-        {"asin": "B0F5G8BVVJ", "name": "Kan Jam Original Disc Toss", "price": 32.99, "img": null, "teaser": "Kan Jam"},
-        {"asin": "B0DGGBV13B", "name": "Ladder Toss Outdoor Game", "price": 52.88, "img": null, "teaser": "ladder toss"},
-        {"asin": "B088C3FFRJ", "name": "Megwoz Giant Tumble Tower 57 Blocks", "price": 40.99, "img": null, "teaser": "giant tumble tower"},
-        {"asin": "B00K8ANYWS", "name": "GoSports Ladder Toss with Carry Case", "price": 34.49, "img": null, "teaser": "GoSports ladder toss"}
+        {
+          "asin": "B002V7A7MQ",
+          "name": "Spikeball 3-Ball Kit",
+          "price": 74.99,
+          "img": "/images/B002V7A7MQ.jpg",
+          "teaser": "Spikeball"
+        },
+        {
+          "asin": "B0F5G8BVVJ",
+          "name": "Kan Jam Original Disc Toss",
+          "price": 32.99,
+          "img": "/images/B0F5G8BVVJ.jpg",
+          "teaser": "Kan Jam"
+        },
+        {
+          "asin": "B0DGGBV13B",
+          "name": "Ladder Toss Outdoor Game",
+          "price": 52.88,
+          "img": "/images/B0DGGBV13B.jpg",
+          "teaser": "ladder toss"
+        },
+        {
+          "asin": "B088C3FFRJ",
+          "name": "Megwoz Giant Tumble Tower 57 Blocks",
+          "price": 40.99,
+          "img": "/images/B088C3FFRJ.jpg",
+          "teaser": "giant tumble tower"
+        },
+        {
+          "asin": "B00K8ANYWS",
+          "name": "GoSports Ladder Toss with Carry Case",
+          "price": 34.49,
+          "img": "/images/B00K8ANYWS.jpg",
+          "teaser": "GoSports ladder toss"
+        }
       ]
     },
     "party-starter": {
       "name": "Party Starter Pack",
-      "emoji": "🎉",
+      "emoji": "\ud83c\udf89",
       "tagline": "Show up with this and you're instantly the best host",
       "products": [
-        {"asin": "B0C6QJK9SP", "name": "Giant Catchable Bubble Wands Set", "price": 18.99, "img": null, "teaser": "giant bubble wands"},
-        {"asin": "B0CTKR7JSK", "name": "Magnetic Dart Board Set", "price": 12.49, "img": null, "teaser": "magnetic darts"},
-        {"asin": "B0BT5WK9ZJ", "name": "Indoor Electric S'mores Maker", "price": 32.39, "img": null, "teaser": "s'mores maker"},
-        {"asin": "B0B5B8P36W", "name": "CROSSNET Four Square Volleyball", "price": 122.99, "img": null, "teaser": "CROSSNET volleyball"},
-        {"asin": "B08R6ZY4F2", "name": "Giant Wood Tower Stacker Game", "price": 33.89, "img": null, "teaser": "giant tower game"}
+        {
+          "asin": "B0C6QJK9SP",
+          "name": "Giant Catchable Bubble Wands Set",
+          "price": 18.99,
+          "img": "/images/B0C6QJK9SP.jpg",
+          "teaser": "giant bubble wands"
+        },
+        {
+          "asin": "B0CTKR7JSK",
+          "name": "Magnetic Dart Board Set",
+          "price": 12.49,
+          "img": "/images/B0CTKR7JSK.jpg",
+          "teaser": "magnetic darts"
+        },
+        {
+          "asin": "B0BT5WK9ZJ",
+          "name": "Indoor Electric S'mores Maker",
+          "price": 32.39,
+          "img": "/images/B0BT5WK9ZJ.jpg",
+          "teaser": "s'mores maker"
+        },
+        {
+          "asin": "B0B5B8P36W",
+          "name": "CROSSNET Four Square Volleyball",
+          "price": 122.99,
+          "img": "/images/B0B5B8P36W.jpg",
+          "teaser": "CROSSNET volleyball"
+        },
+        {
+          "asin": "B08R6ZY4F2",
+          "name": "Giant Wood Tower Stacker Game",
+          "price": 33.89,
+          "img": "/images/B08R6ZY4F2.jpg",
+          "teaser": "giant tower game"
+        }
       ]
     },
     "weird-genius": {
       "name": "Weird But Genius",
-      "emoji": "🤯",
+      "emoji": "\ud83e\udd2f",
       "tagline": "You didn't know you needed this until right now",
       "products": [
-        {"asin": "B0F4WZ96G7", "name": "TrendPlain Glass Olive Oil Sprayer", "price": 8.99, "img": null, "teaser": "glass oil sprayer"},
-        {"asin": "B0CPP5KLV9", "name": "ATEngeus Cordless Electric Air Duster", "price": 49.99, "img": null, "teaser": "electric air duster"},
-        {"asin": "B0FGTHYPYC", "name": "Ukeetap Chicken Shredder Twist Tool", "price": 19.99, "img": null, "teaser": "chicken shredder"},
-        {"asin": "B0764HS4SL", "name": "Fullstar Pro Vegetable Chopper 4-in-1", "price": 23.73, "img": null, "teaser": "veggie chopper"},
-        {"asin": "B0CRQQ8TYB", "name": "Poo-Pourri Before-You-Go Spray", "price": 6.99, "img": null, "teaser": "Poo-Pourri spray"}
+        {
+          "asin": "B0F4WZ96G7",
+          "name": "TrendPlain Glass Olive Oil Sprayer",
+          "price": 8.99,
+          "img": "/images/B0F4WZ96G7.jpg",
+          "teaser": "glass oil sprayer"
+        },
+        {
+          "asin": "B0CPP5KLV9",
+          "name": "ATEngeus Cordless Electric Air Duster",
+          "price": 49.99,
+          "img": "/images/B0CPP5KLV9.jpg",
+          "teaser": "electric air duster"
+        },
+        {
+          "asin": "B0FGTHYPYC",
+          "name": "Ukeetap Chicken Shredder Twist Tool",
+          "price": 19.99,
+          "img": "/images/B0FGTHYPYC.jpg",
+          "teaser": "chicken shredder"
+        },
+        {
+          "asin": "B0764HS4SL",
+          "name": "Fullstar Pro Vegetable Chopper 4-in-1",
+          "price": 23.73,
+          "img": "/images/B0764HS4SL.jpg",
+          "teaser": "veggie chopper"
+        },
+        {
+          "asin": "B0CRQQ8TYB",
+          "name": "Poo-Pourri Before-You-Go Spray",
+          "price": 6.99,
+          "img": "/images/B0CRQQ8TYB.jpg",
+          "teaser": "Poo-Pourri spray"
+        }
       ]
     },
     "hydration": {
       "name": "Hydration Station",
-      "emoji": "💧",
+      "emoji": "\ud83d\udca7",
       "tagline": "Stay cold, stay refreshed, stay winning",
       "products": [
-        {"asin": "B0DFM59KY7", "name": "Collapsible Silicone Water Bottle", "price": 13.99, "img": null, "teaser": "collapsible bottle"},
-        {"asin": "B08YWVJNNV", "name": "Handheld Clip-On Personal Fan", "price": 15.99, "img": null, "teaser": "clip-on fan"},
-        {"asin": "B07BSWDTBK", "name": "Waterproof Dry Bag Backpack 20L", "price": 16.14, "img": null, "teaser": "dry bag backpack"},
-        {"asin": "B0CN3S2SW2", "name": "Hamilton Beach Portable Blender", "price": 24.95, "img": null, "teaser": "portable blender"},
-        {"asin": "B0DM37J9S4", "name": "RTIC 20oz Insulated Tumbler", "price": 22.99, "img": null, "teaser": "RTIC tumbler"}
+        {
+          "asin": "B0DFM59KY7",
+          "name": "Collapsible Silicone Water Bottle",
+          "price": 13.99,
+          "img": "/images/B0DFM59KY7.jpg",
+          "teaser": "collapsible bottle"
+        },
+        {
+          "asin": "B08YWVJNNV",
+          "name": "Handheld Clip-On Personal Fan",
+          "price": 15.99,
+          "img": "/images/B08YWVJNNV.jpg",
+          "teaser": "clip-on fan"
+        },
+        {
+          "asin": "B07BSWDTBK",
+          "name": "Waterproof Dry Bag Backpack 20L",
+          "price": 16.14,
+          "img": "/images/B07BSWDTBK.jpg",
+          "teaser": "dry bag backpack"
+        },
+        {
+          "asin": "B0CN3S2SW2",
+          "name": "Hamilton Beach Portable Blender",
+          "price": 24.95,
+          "img": "/images/B0CN3S2SW2.jpg",
+          "teaser": "portable blender"
+        },
+        {
+          "asin": "B0DM37J9S4",
+          "name": "RTIC 20oz Insulated Tumbler",
+          "price": 22.99,
+          "img": "/images/B0DM37J9S4.jpg",
+          "teaser": "RTIC tumbler"
+        }
       ]
     },
     "game-night": {
       "name": "Game Night",
-      "emoji": "🎲",
-      "tagline": "Five games your group hasn't played yet — and won't stop playing",
+      "emoji": "\ud83c\udfb2",
+      "tagline": "Five games your group hasn't played yet \u2014 and won't stop playing",
       "products": [
-        {"asin": "B077Z1R28P", "name": "Taco Cat Goat Cheese Pizza Card Game", "price": 8.10, "img": null, "teaser": "Taco Cat"},
-        {"asin": "B084D2XQ9F", "name": "Hues & Cues Color Guessing Game", "price": 24.97, "img": null, "teaser": "Hues & Cues"},
-        {"asin": "B0FJMQB63N", "name": "Codenames Board Game 2nd Edition", "price": 24.97, "img": null, "teaser": "Codenames"},
-        {"asin": "B09S3ZJJRM", "name": "The Chameleon Social Deduction Game", "price": 24.99, "img": null, "teaser": "The Chameleon"},
-        {"asin": "B07G2VHPRW", "name": "Blank Slate Word Association Game", "price": 22.69, "img": null, "teaser": "Blank Slate"}
+        {
+          "asin": "B077Z1R28P",
+          "name": "Taco Cat Goat Cheese Pizza Card Game",
+          "price": 8.1,
+          "img": "/images/B077Z1R28P.jpg",
+          "teaser": "Taco Cat"
+        },
+        {
+          "asin": "B084D2XQ9F",
+          "name": "Hues & Cues Color Guessing Game",
+          "price": 24.97,
+          "img": "/images/B084D2XQ9F.jpg",
+          "teaser": "Hues & Cues"
+        },
+        {
+          "asin": "B0FJMQB63N",
+          "name": "Codenames Board Game 2nd Edition",
+          "price": 24.97,
+          "img": "/images/B0FJMQB63N.jpg",
+          "teaser": "Codenames"
+        },
+        {
+          "asin": "B09S3ZJJRM",
+          "name": "The Chameleon Social Deduction Game",
+          "price": 24.99,
+          "img": "/images/B09S3ZJJRM.jpg",
+          "teaser": "The Chameleon"
+        },
+        {
+          "asin": "B07G2VHPRW",
+          "name": "Blank Slate Word Association Game",
+          "price": 22.69,
+          "img": "/images/B07G2VHPRW.jpg",
+          "teaser": "Blank Slate"
+        }
       ]
     },
     "self-care": {
       "name": "Self Care Sunday",
-      "emoji": "🧘",
+      "emoji": "\ud83e\uddd8",
       "tagline": "You deserve this. All of it.",
       "products": [
-        {"asin": "B09R1KX4C2", "name": "BAIMEI Ice Roller & Gua Sha Set", "price": 7.19, "img": null, "teaser": "ice roller set"},
-        {"asin": "B0CQXMWQH9", "name": "Headache & Migraine Relief Cap", "price": 16.99, "img": null, "teaser": "migraine cap"},
-        {"asin": "B0F19YY96Z", "name": "Summer Fridays Jet Lag Eye Patches 6pk", "price": 24.00, "img": null, "teaser": "jet lag eye patches"},
-        {"asin": "B0DD4GR2NM", "name": "Aromatherapy Shower Steamers 12-Pack", "price": 29.99, "img": null, "teaser": "shower steamers"},
-        {"asin": "B0DW55CPPR", "name": "17-Piece Spa Gift Box for Women", "price": 84.99, "img": null, "teaser": "spa gift box"}
+        {
+          "asin": "B09R1KX4C2",
+          "name": "BAIMEI Ice Roller & Gua Sha Set",
+          "price": 7.19,
+          "img": "/images/B09R1KX4C2.jpg",
+          "teaser": "ice roller set"
+        },
+        {
+          "asin": "B0CQXMWQH9",
+          "name": "Headache & Migraine Relief Cap",
+          "price": 16.99,
+          "img": "/images/B0CQXMWQH9.jpg",
+          "teaser": "migraine cap"
+        },
+        {
+          "asin": "B0F19YY96Z",
+          "name": "Summer Fridays Jet Lag Eye Patches 6pk",
+          "price": 24.0,
+          "img": "/images/B0F19YY96Z.jpg",
+          "teaser": "jet lag eye patches"
+        },
+        {
+          "asin": "B0DD4GR2NM",
+          "name": "Aromatherapy Shower Steamers 12-Pack",
+          "price": 29.99,
+          "img": "/images/B0DD4GR2NM.jpg",
+          "teaser": "shower steamers"
+        },
+        {
+          "asin": "B0DW55CPPR",
+          "name": "17-Piece Spa Gift Box for Women",
+          "price": 84.99,
+          "img": "/images/B0DW55CPPR.jpg",
+          "teaser": "spa gift box"
+        }
       ]
     },
     "kitchen-upgrade": {
       "name": "Kitchen Upgrade",
-      "emoji": "👨‍🍳",
+      "emoji": "\ud83d\udc68\u200d\ud83c\udf73",
       "tagline": "Small tools. Big difference.",
       "products": [
-        {"asin": "B094NTCSDJ", "name": "Egg Yolk Separator Tool", "price": 7.99, "img": null, "teaser": "egg separator"},
-        {"asin": "B01MZ14LJV", "name": "Snap & Strain Clip-On Colander", "price": 17.99, "img": null, "teaser": "clip-on colander"},
-        {"asin": "B0F531JR4Z", "name": "Bamboo Cutting Board Set", "price": 29.99, "img": null, "teaser": "cutting board set"},
-        {"asin": "B09JK4QHWJ", "name": "Govee WiFi Meat Thermometer 4-Probe", "price": 39.99, "img": null, "teaser": "meat thermometer"},
-        {"asin": "B0D3ZBFMW6", "name": "Chef Preserve Vacuum Sealer + 30 Bags", "price": 99.00, "img": null, "teaser": "vacuum sealer"}
+        {
+          "asin": "B094NTCSDJ",
+          "name": "Egg Yolk Separator Tool",
+          "price": 7.99,
+          "img": "/images/B094NTCSDJ.jpg",
+          "teaser": "egg separator"
+        },
+        {
+          "asin": "B01MZ14LJV",
+          "name": "Snap & Strain Clip-On Colander",
+          "price": 17.99,
+          "img": "/images/B01MZ14LJV.jpg",
+          "teaser": "clip-on colander"
+        },
+        {
+          "asin": "B0F531JR4Z",
+          "name": "Bamboo Cutting Board Set",
+          "price": 29.99,
+          "img": "/images/B0F531JR4Z.jpg",
+          "teaser": "cutting board set"
+        },
+        {
+          "asin": "B09JK4QHWJ",
+          "name": "Govee WiFi Meat Thermometer 4-Probe",
+          "price": 39.99,
+          "img": "/images/B09JK4QHWJ.jpg",
+          "teaser": "meat thermometer"
+        },
+        {
+          "asin": "B0D3ZBFMW6",
+          "name": "Chef Preserve Vacuum Sealer + 30 Bags",
+          "price": 99.0,
+          "img": "/images/B0D3ZBFMW6.jpg",
+          "teaser": "vacuum sealer"
+        }
       ]
     },
     "fur-baby": {
       "name": "Fur Baby Favorites",
-      "emoji": "🐾",
+      "emoji": "\ud83d\udc3e",
       "tagline": "Because your dog deserves the good life too",
       "products": [
-        {"asin": "B0CL3WC4MT", "name": "Best Pet Supplies Crinkle Chicken Squeaky Toy", "price": 7.53, "img": null, "teaser": "crinkle chicken toy"},
-        {"asin": "B09XXPCB4T", "name": "PETSTA Dog Puzzle Toy Treat Dispenser", "price": 11.99, "img": null, "teaser": "dog puzzle toy"},
-        {"asin": "B0DK42TDSK", "name": "Interactive Electric Rolling Dog Ball", "price": 19.99, "img": null, "teaser": "rolling dog ball"},
-        {"asin": "B088LG4FPD", "name": "Peteast Dog & Kids Splash Pad 67in", "price": 19.99, "img": null, "teaser": "dog splash pad"},
-        {"asin": "B01I3DTB2S", "name": "Jasonwell Foldable Dog Pool", "price": 37.99, "img": null, "teaser": "foldable dog pool"}
+        {
+          "asin": "B0CL3WC4MT",
+          "name": "Best Pet Supplies Crinkle Chicken Squeaky Toy",
+          "price": 7.53,
+          "img": "/images/B0CL3WC4MT.jpg",
+          "teaser": "crinkle chicken toy"
+        },
+        {
+          "asin": "B09XXPCB4T",
+          "name": "PETSTA Dog Puzzle Toy Treat Dispenser",
+          "price": 11.99,
+          "img": "/images/B09XXPCB4T.jpg",
+          "teaser": "dog puzzle toy"
+        },
+        {
+          "asin": "B0DK42TDSK",
+          "name": "Interactive Electric Rolling Dog Ball",
+          "price": 19.99,
+          "img": "/images/B0DK42TDSK.jpg",
+          "teaser": "rolling dog ball"
+        },
+        {
+          "asin": "B088LG4FPD",
+          "name": "Peteast Dog & Kids Splash Pad 67in",
+          "price": 19.99,
+          "img": "/images/B088LG4FPD.jpg",
+          "teaser": "dog splash pad"
+        },
+        {
+          "asin": "B01I3DTB2S",
+          "name": "Jasonwell Foldable Dog Pool",
+          "price": 37.99,
+          "img": "/images/B01I3DTB2S.jpg",
+          "teaser": "foldable dog pool"
+        }
       ]
     },
     "backyard-chill": {
       "name": "Backyard Chill Setup",
-      "emoji": "😎",
+      "emoji": "\ud83d\ude0e",
       "tagline": "The perfect setup for doing absolutely nothing productively",
       "products": [
-        {"asin": "B0C68LM827", "name": "Addlon Outdoor String Lights", "price": 22.99, "img": null, "teaser": "outdoor string lights"},
-        {"asin": "B07DR7MB48", "name": "Outdoor Drink Stakes", "price": 28.99, "img": null, "teaser": "drink stakes"},
-        {"asin": "B09PFWFCH9", "name": "Hammock with Heavy-Duty Straps", "price": 85.99, "img": null, "teaser": "hammock"},
-        {"asin": "B0C411QF65", "name": "Outdoor Cooler Side Table", "price": 119.99, "img": null, "teaser": "cooler side table"},
-        {"asin": "B07BRKLB9X", "name": "Coleman Heavy-Duty Cooler", "price": 49.99, "img": null, "teaser": "Coleman cooler"}
+        {
+          "asin": "B0C68LM827",
+          "name": "Addlon Outdoor String Lights",
+          "price": 22.99,
+          "img": "/images/B0C68LM827.jpg",
+          "teaser": "outdoor string lights"
+        },
+        {
+          "asin": "B07DR7MB48",
+          "name": "Outdoor Drink Stakes",
+          "price": 28.99,
+          "img": "/images/B07DR7MB48.jpg",
+          "teaser": "drink stakes"
+        },
+        {
+          "asin": "B09PFWFCH9",
+          "name": "Hammock with Heavy-Duty Straps",
+          "price": 85.99,
+          "img": "/images/B09PFWFCH9.jpg",
+          "teaser": "hammock"
+        },
+        {
+          "asin": "B0C411QF65",
+          "name": "Outdoor Cooler Side Table",
+          "price": 119.99,
+          "img": "/images/B0C411QF65.jpg",
+          "teaser": "cooler side table"
+        },
+        {
+          "asin": "B07BRKLB9X",
+          "name": "Coleman Heavy-Duty Cooler",
+          "price": 49.99,
+          "img": null,
+          "teaser": "Coleman cooler"
+        }
       ]
     },
     "summer-pet": {
       "name": "Summer Pet Paradise",
-      "emoji": "🌊",
+      "emoji": "\ud83c\udf0a",
       "tagline": "Your pets deserve a summer vacation too",
       "products": [
-        {"asin": "B07SK3R2C3", "name": "Chuckit Ultra Fetch Stick 12in", "price": 5.59, "img": null, "teaser": "fetch stick"},
-        {"asin": "B0714F11JK", "name": "Banfeng Giant 9.5in Dog Tennis Ball", "price": 11.99, "img": null, "teaser": "giant tennis ball"},
-        {"asin": "B0D4V9V39Y", "name": "BoYoYo Dog Puzzle Toy Yellow", "price": 9.99, "img": null, "teaser": "dog puzzle toy"},
-        {"asin": "B00PQ5UH0C", "name": "Wobble Wag Giggle Ball", "price": 14.99, "img": null, "teaser": "giggle ball"},
-        {"asin": "B0B1LVKG8D", "name": "Fuufome Octopus Squeaky Dog Toy", "price": 8.99, "img": null, "teaser": "octopus dog toy"}
+        {
+          "asin": "B07SK3R2C3",
+          "name": "Chuckit Ultra Fetch Stick 12in",
+          "price": 5.59,
+          "img": "/images/B07SK3R2C3.jpg",
+          "teaser": "fetch stick"
+        },
+        {
+          "asin": "B0714F11JK",
+          "name": "Banfeng Giant 9.5in Dog Tennis Ball",
+          "price": 11.99,
+          "img": "/images/B0714F11JK.jpg",
+          "teaser": "giant tennis ball"
+        },
+        {
+          "asin": "B0D4V9V39Y",
+          "name": "BoYoYo Dog Puzzle Toy Yellow",
+          "price": 9.99,
+          "img": "/images/B0D4V9V39Y.jpg",
+          "teaser": "dog puzzle toy"
+        },
+        {
+          "asin": "B00PQ5UH0C",
+          "name": "Wobble Wag Giggle Ball",
+          "price": 14.99,
+          "img": "/images/B00PQ5UH0C.jpg",
+          "teaser": "giggle ball"
+        },
+        {
+          "asin": "B0B1LVKG8D",
+          "name": "Fuufome Octopus Squeaky Dog Toy",
+          "price": 8.99,
+          "img": "/images/B0B1LVKG8D.jpg",
+          "teaser": "octopus dog toy"
+        }
       ]
     },
     "party-games": {
       "name": "Party Games Night",
-      "emoji": "🃏",
+      "emoji": "\ud83c\udccf",
       "tagline": "The games everyone actually wants to play",
       "products": [
-        {"asin": "B0DWGVM7RY", "name": "USAOPOLY Flip 7 Card Game", "price": 7.97, "img": null, "teaser": "Flip 7"},
-        {"asin": "B07P6MZPK3", "name": "UNO Classic Card Game", "price": 11.43, "img": null, "teaser": "UNO"},
-        {"asin": "B093HBBMPT", "name": "Herd Mentality Family Board Game", "price": 24.99, "img": null, "teaser": "Herd Mentality"},
-        {"asin": "B0BFG4JVC5", "name": "Scattergories Classic Game", "price": 19.82, "img": null, "teaser": "Scattergories"},
-        {"asin": "B07T446163", "name": "Wavelength Mind Reading Game", "price": 33.19, "img": null, "teaser": "Wavelength"}
+        {
+          "asin": "B0DWGVM7RY",
+          "name": "USAOPOLY Flip 7 Card Game",
+          "price": 7.97,
+          "img": "/images/B0DWGVM7RY.jpg",
+          "teaser": "Flip 7"
+        },
+        {
+          "asin": "B07P6MZPK3",
+          "name": "UNO Classic Card Game",
+          "price": 11.43,
+          "img": "/images/B07P6MZPK3.jpg",
+          "teaser": "UNO"
+        },
+        {
+          "asin": "B093HBBMPT",
+          "name": "Herd Mentality Family Board Game",
+          "price": 24.99,
+          "img": "/images/B093HBBMPT.jpg",
+          "teaser": "Herd Mentality"
+        },
+        {
+          "asin": "B0BFG4JVC5",
+          "name": "Scattergories Classic Game",
+          "price": 19.82,
+          "img": "/images/B0BFG4JVC5.jpg",
+          "teaser": "Scattergories"
+        },
+        {
+          "asin": "B07T446163",
+          "name": "Wavelength Mind Reading Game",
+          "price": 33.19,
+          "img": "/images/B07T446163.jpg",
+          "teaser": "Wavelength"
+        }
       ]
     },
     "kitchen-gadgets": {
       "name": "Kitchen Gadgets You Didn't Know Existed",
-      "emoji": "🔧",
+      "emoji": "\ud83d\udd27",
       "tagline": "These exist. They work. You need them.",
       "products": [
-        {"asin": "B0CJF7KSHK", "name": "TrendPlain Green Olive Oil Sprayer", "price": 8.99, "img": null, "teaser": "oil sprayer"},
-        {"asin": "B0BQCSGC64", "name": "Vegetable Chopper Dicer with Container", "price": 25.99, "img": null, "teaser": "veggie dicer"},
-        {"asin": "B00KBJUOBI", "name": "Brieftons 5-Blade Spiralizer", "price": 29.99, "img": null, "teaser": "spiralizer"},
-        {"asin": "B0088LR592", "name": "OXO Good Grips Avocado Slicer", "price": 12.99, "img": null, "teaser": "avocado slicer"},
-        {"asin": "B0CWW4TGRM", "name": "FIRST TO WORST Party Ranking Card Game", "price": 19.99, "img": null, "teaser": "First to Worst"}
+        {
+          "asin": "B0CJF7KSHK",
+          "name": "TrendPlain Green Olive Oil Sprayer",
+          "price": 8.99,
+          "img": "/images/B0CJF7KSHK.jpg",
+          "teaser": "oil sprayer"
+        },
+        {
+          "asin": "B0BQCSGC64",
+          "name": "Vegetable Chopper Dicer with Container",
+          "price": 25.99,
+          "img": "/images/B0BQCSGC64.jpg",
+          "teaser": "veggie dicer"
+        },
+        {
+          "asin": "B00KBJUOBI",
+          "name": "Brieftons 5-Blade Spiralizer",
+          "price": 29.99,
+          "img": null,
+          "teaser": "spiralizer"
+        },
+        {
+          "asin": "B0088LR592",
+          "name": "OXO Good Grips Avocado Slicer",
+          "price": 12.99,
+          "img": null,
+          "teaser": "avocado slicer"
+        },
+        {
+          "asin": "B0CWW4TGRM",
+          "name": "FIRST TO WORST Party Ranking Card Game",
+          "price": 19.99,
+          "img": "/images/B0CWW4TGRM.jpg",
+          "teaser": "First to Worst"
+        }
       ]
     }
   }
