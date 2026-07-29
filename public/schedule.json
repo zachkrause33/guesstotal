@@ -54,99 +54,110 @@
   "themes": {
     "tech-gadgets": {
       "name": "Tech You Didn't Know You Needed",
-      "emoji": "\u26a1",
+      "emoji": "⚡",
       "tagline": "Five gadgets that will make you wonder how you lived without them",
       "products": [
         {
           "asin": "B08S7M1QPZ",
-          "name": "MOKOQI Magnetic Levitation Globe",
+          "name": "Magnetic Levitating Globe with LED Light, Cool Tech Gift for Men Father | Boys and Girls Birthday Gifts for Kids | Floating Globes World Desk Gadget Decor in Office Home Display (Blue)",
           "price": 35.14,
           "img": "/images/B08S7M1QPZ.jpg",
-          "teaser": "floating globe"
+          "teaser": "floating globe",
+          "lastRefreshed": "2026-07-29T08:24:37.923Z"
         },
         {
           "asin": "B0F18BBHCC",
-          "name": "INIA Glow 2 LED Light Therapy Face Mask",
+          "name": "INIA Red Light Therapy Mask for Face, 850nm NIR, Red/Blue LED Light 4 Modes | Visible Results in Just 4 Weeks, 220 LEDs, 105mW/cm² Output, 2600mAh Rechargeable Battery, 10-30min Timer, Auto Shut-off",
           "price": 76.49,
           "img": "/images/B0F18BBHCC.jpg",
-          "teaser": "LED face mask"
+          "teaser": "LED face mask",
+          "lastRefreshed": "2026-07-29T08:24:43.026Z"
         },
         {
           "asin": "B082F13J55",
-          "name": "TMY Mini Portable Projector 1080p",
+          "name": "TMY 1080P Mini Portable Projector, 2-way Bluetooth, with 80in Screen | 1080P home theater, indoor/outdoor movies, Compatible with TV Stick/Roku/Phone/PC/PS/DVD/HDMI/USB with Projector Screen",
           "price": 69.99,
           "img": "/images/B082F13J55.jpg",
-          "teaser": "mini projector"
+          "teaser": "mini projector",
+          "lastRefreshed": "2026-07-29T08:24:50.336Z"
         },
         {
           "asin": "B0CQQ85ZK3",
-          "name": "Govee Neon Rope Light 2",
+          "name": "Govee RGBIC Neon Lights 9.8ft Works with Matter, Alexa, Google Assistant | LED Smart Neon Rope Light 2, Custom DIY Neon Strip Lights for Bedroom and Wall Decor, Softer Material, White",
           "price": 54.99,
           "img": "/images/B0CQQ85ZK3.jpg",
-          "teaser": "neon rope light"
+          "teaser": "neon rope light",
+          "lastRefreshed": "2026-07-29T08:24:56.312Z"
         },
         {
           "asin": "B0C535NZQ8",
-          "name": "LeeNabao Vibe Command Center",
-          "price": 39.99,
+          "name": "5 in 1 LED Table Lamp with Wireless Charging Bluetooth Speaker | App Controlled Night Light Alarm Clock for Christmas Birthday Gifts for Teens Adults Desk Office Bedroom Decor White",
+          "price": 44.99,
           "img": "/images/B0C535NZQ8.jpg",
-          "teaser": "vibe center"
+          "teaser": "vibe center",
+          "lastRefreshed": "2026-07-29T08:25:03.173Z"
         }
       ]
     },
     "amazon-2am": {
       "name": "Amazon at 2 AM",
-      "emoji": "\ud83c\udf19",
+      "emoji": "🌙",
       "tagline": "The stuff that ends up in your cart at 2am",
       "products": [
         {
           "asin": "B0DZFGTCLR",
-          "name": "Innqoo Candle Warmer Lamp with Timer",
+          "name": "Innqoo Candle Warmer Lamp with Timer Home Decor Birthday Gifts for Women | Dimmable Candle Warmer for Jar Candles, Height Adjustable Wax Melts Warmer, Room Decor House Warming Gifts New Black Regular(5.1 in)",
           "price": 9.99,
           "img": "/images/B0DZFGTCLR.jpg",
-          "teaser": "candle warmer lamp"
+          "teaser": "candle warmer lamp",
+          "lastRefreshed": "2026-07-29T08:25:10.563Z"
         },
         {
           "asin": "B08R8YVH9G",
-          "name": "Vinyl Record Coaster Set",
+          "name": "Funny Retro Record Coasters for Drinks with Vinyl Player Holder - Set of 6 Coaster White Elephant Gifts for Music Lovers, Conversation Piece Sayings,Housewarming Hostess Wedding Registry Gift Ideas",
           "price": 11.99,
           "img": "/images/B08R8YVH9G.jpg",
-          "teaser": "vinyl coasters"
+          "teaser": "vinyl coasters",
+          "lastRefreshed": "2026-07-29T08:25:17.265Z"
         },
         {
           "asin": "B07H7ZDBV4",
-          "name": "OTOTO Splatypus Jar Spatula",
-          "price": 14.95,
+          "name": "OTOTO Splatypus Jar Spatula for Scooping and Scraping - Unique Fun Cooking Kitchen Gadgets for Foodies - BPA-free & 100% Food Safe - Crepe Spreader Blue",
+          "price": 9.98,
           "img": "/images/B07H7ZDBV4.jpg",
-          "teaser": "splatypus spatula"
+          "teaser": "splatypus spatula",
+          "lastRefreshed": "2026-07-29T08:25:24.260Z"
         },
         {
           "asin": "B005Q8X6IO",
-          "name": "Nostalgia Retro Pop-Up Toaster",
+          "name": "Nostalgia 2 Slot Hot Dog and Bun Toaster with Mini Tongs, Retro Hot Dog Toaster, Hot Dog Cooker that Works with Chicken, Turkey, Veggie Links, Sausages and Brats, Metallic Red",
           "price": 32.99,
           "img": "/images/B005Q8X6IO.jpg",
-          "teaser": "retro toaster"
+          "teaser": "retro toaster",
+          "lastRefreshed": "2026-07-29T08:25:32.002Z"
         },
         {
           "asin": "B0DHLJ6TR9",
-          "name": "LEGO Botanicals Pink Bouquet",
+          "name": "LEGO Botanicals Pretty Pink Flower Bouquet Building Set for Adults - Gifts for Birthdays - Artificial Flowers for Decor or Table Display - 10342",
           "price": 47.98,
           "img": "/images/B0DHLJ6TR9.jpg",
-          "teaser": "LEGO flowers"
+          "teaser": "LEGO flowers",
+          "lastRefreshed": "2026-07-29T08:25:38.061Z"
         }
       ]
     },
     "backyard-games": {
       "name": "Backyard Games Bundle",
-      "emoji": "\ud83c\udfc6",
+      "emoji": "🏆",
       "tagline": "Everything you need to dominate the backyard",
       "products": [
         {
           "asin": "B002V7A7MQ",
-          "name": "Spikeball 3-Ball Kit",
+          "name": "Spikeball 3 Ball Original Roundnet Game Set - Includes 3 Balls, net and Bag Black/Yellow Single",
           "price": 74.99,
           "img": "/images/B002V7A7MQ.jpg",
-          "teaser": "Spikeball"
+          "teaser": "Spikeball",
+          "lastRefreshed": "2026-07-29T08:25:45.367Z"
         },
         {
           "asin": "B0F5G8BVVJ",
@@ -180,7 +191,7 @@
     },
     "party-starter": {
       "name": "Party Starter Pack",
-      "emoji": "\ud83c\udf89",
+      "emoji": "🎉",
       "tagline": "Show up with this and you're instantly the best host",
       "products": [
         {
@@ -222,7 +233,7 @@
     },
     "weird-genius": {
       "name": "Weird But Genius",
-      "emoji": "\ud83e\udd2f",
+      "emoji": "🤯",
       "tagline": "You didn't know you needed this until right now",
       "products": [
         {
@@ -264,7 +275,7 @@
     },
     "hydration": {
       "name": "Hydration Station",
-      "emoji": "\ud83d\udca7",
+      "emoji": "💧",
       "tagline": "Stay cold, stay refreshed, stay winning",
       "products": [
         {
@@ -306,8 +317,8 @@
     },
     "game-night": {
       "name": "Game Night",
-      "emoji": "\ud83c\udfb2",
-      "tagline": "Five games your group hasn't played yet \u2014 and won't stop playing",
+      "emoji": "🎲",
+      "tagline": "Five games your group hasn't played yet — and won't stop playing",
       "products": [
         {
           "asin": "B077Z1R28P",
@@ -348,7 +359,7 @@
     },
     "self-care": {
       "name": "Self Care Sunday",
-      "emoji": "\ud83e\uddd8",
+      "emoji": "🧘",
       "tagline": "You deserve this. All of it.",
       "products": [
         {
@@ -368,7 +379,7 @@
         {
           "asin": "B0F19YY96Z",
           "name": "Summer Fridays Jet Lag Eye Patches 6pk",
-          "price": 24.0,
+          "price": 24,
           "img": "/images/B0F19YY96Z.jpg",
           "teaser": "jet lag eye patches"
         },
@@ -390,7 +401,7 @@
     },
     "kitchen-upgrade": {
       "name": "Kitchen Upgrade",
-      "emoji": "\ud83d\udc68\u200d\ud83c\udf73",
+      "emoji": "👨‍🍳",
       "tagline": "Small tools. Big difference.",
       "products": [
         {
@@ -424,7 +435,7 @@
         {
           "asin": "B0D3ZBFMW6",
           "name": "Chef Preserve Vacuum Sealer + 30 Bags",
-          "price": 99.0,
+          "price": 99,
           "img": "/images/B0D3ZBFMW6.jpg",
           "teaser": "vacuum sealer"
         }
@@ -432,7 +443,7 @@
     },
     "fur-baby": {
       "name": "Fur Baby Favorites",
-      "emoji": "\ud83d\udc3e",
+      "emoji": "🐾",
       "tagline": "Because your dog deserves the good life too",
       "products": [
         {
@@ -474,7 +485,7 @@
     },
     "backyard-chill": {
       "name": "Backyard Chill Setup",
-      "emoji": "\ud83d\ude0e",
+      "emoji": "😎",
       "tagline": "The perfect setup for doing absolutely nothing productively",
       "products": [
         {
@@ -516,7 +527,7 @@
     },
     "summer-pet": {
       "name": "Summer Pet Paradise",
-      "emoji": "\ud83c\udf0a",
+      "emoji": "🌊",
       "tagline": "Your pets deserve a summer vacation too",
       "products": [
         {
@@ -558,7 +569,7 @@
     },
     "party-games": {
       "name": "Party Games Night",
-      "emoji": "\ud83c\udccf",
+      "emoji": "🃏",
       "tagline": "The games everyone actually wants to play",
       "products": [
         {
@@ -600,7 +611,7 @@
     },
     "kitchen-gadgets": {
       "name": "Kitchen Gadgets You Didn't Know Existed",
-      "emoji": "\ud83d\udd27",
+      "emoji": "🔧",
       "tagline": "These exist. They work. You need them.",
       "products": [
         {
