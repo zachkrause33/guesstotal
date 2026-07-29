@@ -208,6 +208,72 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 .revealing-bar-outer{width:180px;height:6px;background:var(--orange-lt);border-radius:3px;overflow:hidden;}
 .revealing-bar-inner{height:100%;background:var(--orange);border-radius:3px;animation:revealFill 1.4s ease forwards;}
 @keyframes revealFill{from{width:0}to{width:100%}}
+
+/* ─── REVEAL VARIANT SYSTEM ─────────────────────── */
+#rvl-img-wrap{height:220px;background:var(--orange-lt);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;flex-shrink:0;}
+#rvl-img-wrap img{max-height:90%;max-width:88%;object-fit:contain;position:relative;z-index:1;}
+#rvl-glow{position:absolute;inset:0;background:radial-gradient(circle,rgba(255,215,0,.7) 0%,transparent 65%);opacity:0;pointer-events:none;z-index:2;transform:scale(.5);}
+#rvl-glow.pulse{animation:glowPulse 320ms ease-out forwards;}
+@keyframes glowPulse{0%{opacity:0;transform:scale(.5);}50%{opacity:.4;transform:scale(1.2);}100%{opacity:0;transform:scale(1.7);}}
+.rvl-ring{position:absolute;border:2px solid rgba(255,215,0,.85);border-radius:50%;pointer-events:none;z-index:3;left:50%;top:50%;width:70px;height:70px;margin-left:-35px;margin-top:-35px;}
+.rvl-ring.expand{animation:ringExpand 520ms ease-out forwards;}
+@keyframes ringExpand{0%{transform:scale(0);opacity:.85;}100%{transform:scale(4.2);opacity:0;}}
+
+/* Variant A — Receipt */
+.rvl-receipt-wrap{margin:.625rem 1rem 0;background:#f6f5f3;border:1px solid #ccc;border-radius:2px;padding:.625rem 1rem .375rem;font-family:'Courier New',Courier,monospace;color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.08);background-image:repeating-linear-gradient(0deg,transparent,transparent 23px,rgba(0,0,0,.03) 23px,rgba(0,0,0,.03) 24px);}
+.rvl-receipt-hdr{font-size:11px;color:var(--text3);margin-bottom:.375rem;white-space:pre;}
+.rvl-receipt-price{font-size:30px;font-weight:700;letter-spacing:3px;min-height:1.3em;}
+.rvl-receipt-tear{height:12px;margin:.5rem -1rem 0;background:repeating-linear-gradient(90deg,#f6f5f3 0 7px,transparent 7px 13px);border-top:1.5px dashed #bbb;opacity:0;transition:opacity .25s;}
+.rvl-receipt-tear.show{opacity:1;}
+
+/* Variant B — Price tag */
+.rvl-tag-outer{display:flex;flex-direction:column;align-items:center;margin:.75rem auto 0;width:130px;}
+.rvl-tag-string{width:2px;height:16px;background:#bbb;border-radius:1px;}
+.rvl-tag-scene{perspective:500px;width:130px;height:80px;}
+.rvl-tag-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .32s cubic-bezier(.4,0,.2,1);}
+.rvl-tag-inner.flipped{transform:rotateY(-180deg);}
+.rvl-tag-inner.settled{animation:tagSettle .38s cubic-bezier(.34,1.56,.64,1) forwards;}
+@keyframes tagSettle{0%{transform:rotateY(-180deg) rotate(-4deg);}35%{transform:rotateY(-180deg) rotate(2.5deg);}65%{transform:rotateY(-180deg) rotate(-1deg);}100%{transform:rotateY(-180deg) rotate(0deg);}}
+.rvl-tag-face,.rvl-tag-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:8px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.1);}
+.rvl-tag-face{background:var(--white);font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.5px;}
+.rvl-tag-back{background:var(--orange-lt);transform:rotateY(180deg);}
+.rvl-tag-price{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--orange);}
+
+/* Variant C — Scanner */
+.rvl-scan-beam{position:absolute;top:0;left:-5px;width:5px;height:100%;background:linear-gradient(to right,transparent,rgba(0,220,255,.95),transparent);box-shadow:0 0 18px 7px rgba(0,220,255,.5);z-index:4;pointer-events:none;}
+.rvl-scan-beam.sweep{animation:beamSweep .38s cubic-bezier(.2,0,.8,1) forwards;}
+@keyframes beamSweep{0%{left:-5px;}100%{left:calc(100% + 5px);}}
+.rvl-scan-display{margin:.625rem 1rem 0;background:#040d04;border:1.5px solid #1a3a1a;border-radius:6px;padding:.5rem 1rem;font-family:'Courier New',monospace;font-size:28px;font-weight:700;color:#00e834;letter-spacing:4px;text-align:center;min-height:52px;display:flex;align-items:center;justify-content:center;text-shadow:0 0 10px rgba(0,232,52,.7);}
+
+/* ─── PRICE COUNT-UP DISPLAY ───────────────────── */
+#rvl-price-display{text-align:center;padding:.5rem 1rem .625rem;display:none;}
+#rvl-price-num{font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:1;}
+.rvl-guess-row{display:flex;justify-content:center;gap:20px;font-size:12px;color:var(--text2);margin-top:.25rem;}
+
+/* ─── ACCURACY PARTICLES ───────────────────────── */
+.acc-spark{position:fixed;width:7px;height:7px;border-radius:50%;pointer-events:none;z-index:998;animation:sparkDrift .95s ease-out forwards;}
+@keyframes sparkDrift{0%{transform:translate(0,0) scale(1);opacity:1;}100%{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0;}}
+
+/* ─── VERDICT / PTS (gated) ────────────────────── */
+#rvl-verdict{display:none;}
+#rvl-verdict.show{display:flex;animation:verdictDROP .5s cubic-bezier(.34,1.56,.64,1);}
+#rvl-pts{display:none;}
+#rvl-pts.show{display:flex;animation:ptsPop .4s cubic-bezier(.34,1.56,.64,1);}
+
+/* ─── REWARD-GATED CTA ─────────────────────────── */
+#rvl-cta{opacity:0;pointer-events:none;}
+#rvl-cta.show-far{opacity:1;pointer-events:auto;transition:opacity .5s .1s;}
+#rvl-cta.show-close{pointer-events:auto;animation:ctaClose .55s .08s cubic-bezier(.34,1.56,.64,1) forwards;}
+@keyframes ctaClose{0%{transform:scale(.82);opacity:0;box-shadow:0 0 0 rgba(255,215,0,0);}55%{transform:scale(1.06);opacity:1;box-shadow:0 0 28px rgba(255,215,0,.65);}100%{transform:scale(1);opacity:1;box-shadow:0 4px 18px rgba(255,107,53,.45);}}
+#rvl-next{display:none;}
+#rvl-next.show{display:block;}
+
+/* ─── MUTE TOGGLE ──────────────────────────────── */
+.mute-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:999px;width:32px;height:32px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;}
+
+/* ─── BEST STREAK / HEAT ───────────────────────── */
+#sc-best-streak{font-size:11px;color:var(--text3);text-align:center;margin-top:3px;}
+#sc-heat-info{font-size:12px;color:var(--text2);text-align:center;margin-top:4px;}
 </style>
 </head>
 <body>
@@ -263,7 +329,10 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 <div class="screen" id="reveal">
   <div class="reveal-header">
     <div class="rh-left">GUESS <span>TOTAL</span></div>
-    <div class="rh-score" id="rh-score">0 pts</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="rh-score" id="rh-score">0 pts</div>
+      <button class="mute-btn" id="mute-btn" onclick="toggleMute()" title="Toggle sound">🔊</button>
+    </div>
   </div>
   <div class="reveal-body" id="reveal-body">
     <!-- injected -->
@@ -294,6 +363,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
       <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--orange);" id="sc-streak-num-display">1</div>
       <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Day Streak</div>
       <div style="font-size:12px;color:var(--text2);" id="sc-streak-msg">Come back tomorrow to keep it going!</div>
+      <div id="sc-best-streak"></div>
+      <div id="sc-heat-info"></div>
     </div>
     <div id="sc-rows"></div>
     <button class="sc-share-btn" onclick="shareResults()">Share My Results 📤</button>
@@ -383,6 +454,7 @@ function saveStreak(){
     const d=JSON.parse(localStorage.getItem('gt_streak')||'{"count":0,"lastDate":""}');
     const count=d.lastDate===yesterdayKey()?d.count+1:1;
     localStorage.setItem('gt_streak',JSON.stringify({count,lastDate:todayKey()}));
+    saveBestStreak(count);
     return count;
   }catch{return 1;}
 }
@@ -466,6 +538,8 @@ async function init(){
     if(tag) tag.textContent="You've already played today. Your streak is safe 🔥 See you tomorrow!";
   }
 
+  const muteBtn=document.getElementById('mute-btn');
+  if(muteBtn)muteBtn.textContent=_audioMuted?'🔇':'🔊';
   if(typeof gtag!=='undefined')gtag('event','game_loaded',{bundle_theme:bundle.theme});
 }
 
@@ -544,6 +618,7 @@ function stopTimer(){clearInterval(timer);}
 function lockGuess(auto=false){
   if(guessLocked)return;
   guessLocked=true;
+  initAudio();
   stopTimer();
   const btn=document.getElementById('lock-btn');
   if(btn){btn.disabled=true;btn.textContent='Revealing...';btn.classList.add('locked');}
@@ -573,6 +648,8 @@ function showReveal(guess){
   score+=pts;
   guesses.push({product:p,guess,pts,heat});
 
+  updateHeat(isCloseGuess(guess,p.price));
+
   document.getElementById('gh-score').textContent=`${score} pts`;
   document.getElementById('gh-score').classList.add('bump');
   setTimeout(()=>document.getElementById('gh-score').classList.remove('bump'),400);
@@ -587,35 +664,49 @@ function showReveal(guess){
   setTimeout(()=>flyPts(pts,pts>=70?'#1DB87A':pts>=50?'#EAB308':'#E8403A'),300);
 
   const isLast=idx===bundle.products.length-1;
+  const variant=getDayVariant();
+  const close=isCloseGuess(guess,p.price);
+
   document.getElementById('reveal-body').innerHTML=`
-    <div class="reveal-img-wrap">
-      <img src="${productImgSrc(p)}" alt="${p.name}" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<span style=&quot;font-size:72px&quot;>🛍</span>')"/>
+    <div id="rvl-img-wrap">
+      <img src="${productImgSrc(p)}" alt="${p.name}" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<span style=&quot;font-size:72px;position:relative;z-index:1&quot;>🛍</span>')"/>
+      <div id="rvl-glow"></div>
     </div>
     <div class="reveal-product-name">${p.name}</div>
-    <div class="price-slam-wrap">
+    <div id="rvl-variant-wrap"></div>
+    <div id="rvl-price-display">
       <div class="price-label">Actual Price</div>
-      <div class="price-actual" style="color:${heat.color}">$${p.price.toFixed(2)}</div>
-      <div class="your-guess-row">
+      <div id="rvl-price-num">$0.00</div>
+      <div class="rvl-guess-row">
         <span>Your guess: <strong>$${guess.toFixed(2)}</strong></span>
-        <span>Difference: <strong>${guess===p.price?'$0.00 🎯':'$'+Math.abs(guess-p.price).toFixed(2)}</strong></span>
+        <span>Diff: <strong>${guess===p.price?'$0.00 🎯':'$'+Math.abs(guess-p.price).toFixed(2)}</strong></span>
       </div>
     </div>
-    <div class="verdict-wrap ${heat.cls}">
+    <div class="verdict-wrap ${heat.cls}" id="rvl-verdict">
       <div class="verdict-emoji">${heat.emoji}</div>
       <div class="verdict-text">
         <div class="verdict-word">${heat.word}</div>
         <div class="verdict-comment">${heat.comment}</div>
       </div>
     </div>
-    <div class="pts-row">
+    <div class="pts-row" id="rvl-pts">
       <div class="pts-earned">+${pts} pts</div>
       <div class="pts-of">${score} / ${(idx+1)*100} pts total</div>
     </div>
-    <a class="shop-reveal-btn" href="${affLink(p.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_reveal_click',{product_name:'${p.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${p.price}});">🛒 Shop This Item — $${p.price.toFixed(2)}</a>
+    <a class="shop-reveal-btn" id="rvl-cta" href="${affLink(p.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_reveal_click',{product_name:'${p.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${p.price}});">🛒 Shop This Item — $${p.price.toFixed(2)}</a>
     <p style="font-size:10px;color:var(--text3);text-align:center;margin:0 1rem .5rem;">As an Amazon Associate I earn from qualifying purchases.</p>
-    <button class="next-btn" onclick="nextProduct()">${isLast?'See My Scorecard 🏆':'Next Item →'}</button>`;
+    <button class="next-btn" id="rvl-next" onclick="nextProduct()">${isLast?'See My Scorecard 🏆':'Next Item →'}</button>`;
 
   show('reveal');
+
+  const imgWrap=document.getElementById('rvl-img-wrap');
+  const variantWrap=document.getElementById('rvl-variant-wrap');
+  const afterVariant=()=>sharedFinishingBeat(imgWrap,variantWrap,p.price,guess,pts);
+
+  playUnwrapSound(variant);
+  if(variant===0)runVariantA(variantWrap,p.price,afterVariant);
+  else if(variant===1)runVariantB(variantWrap,p.price,afterVariant);
+  else runVariantC(imgWrap,variantWrap,p.price,afterVariant);
 }
 
 // ─── NEXT PRODUCT ────────────────────────────────────
@@ -645,6 +736,15 @@ function showScorecard(){
                streak<10?`${streak} day streak! You're on a roll. Don't break it.`:
                `${streak} days straight. Legendary. See you tomorrow.`;
     document.getElementById('sc-streak-msg').textContent=msg;
+    const best=getBestStreak();
+    const bestEl=document.getElementById('sc-best-streak');
+    if(bestEl)bestEl.textContent=best>streak?`Personal best: ${best} days 🏅`:'';
+    const heatCount=getHeatCount();
+    const heatEl=document.getElementById('sc-heat-info');
+    if(heatEl&&heatCount>1)heatEl.textContent=`🎯 ${heatCount} close guess${heatCount===1?'':'es'} in a row`;
+    if(streak===7||streak===30||streak===100||streak===365){
+      setTimeout(()=>playMilestonePhrase(),600);
+    }
   }
 
   document.getElementById('sc-theme').textContent=bundle.theme+' '+bundle.emoji;
@@ -700,6 +800,225 @@ function showScorecard(){
       </div>`;
     rows.appendChild(card);
   });
+}
+
+// ─── DAY VARIANT (0=Receipt 1=Tag 2=Scan) ────────────
+function getDayVariant(){
+  const ms=new Date()-new Date('2026-01-01');
+  return((Math.floor(ms/86400000)%3)+3)%3;
+}
+
+// ─── ACCURACY UTILS ──────────────────────────────────
+const CLOSE_PCT=10;
+function isCloseGuess(guess,actual){
+  if(!actual)return false;
+  return Math.abs(guess-actual)/actual*100<=CLOSE_PCT;
+}
+function accuracyRatio(guess,actual){
+  if(!actual)return 0;
+  return Math.max(0,Math.min(1,1-Math.abs(guess-actual)/actual/0.6));
+}
+function revealColor(ratio){
+  const r=Math.round(94+ratio*(255-94));
+  const g=Math.round(110+ratio*(215-110));
+  const b=Math.round(150+ratio*(0-150));
+  return`rgb(${r},${g},${b})`;
+}
+
+// ─── AUDIO MODULE ────────────────────────────────────
+let _audioCtx=null;
+let _audioMuted=localStorage.getItem('gt_mute')==='1';
+function initAudio(){
+  if(_audioCtx)return;
+  try{_audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch{}
+}
+function _tone(freq,dur,type,vol,delay){
+  if(!_audioCtx||_audioMuted)return;
+  try{
+    const t=_audioCtx.currentTime+(delay||0);
+    const osc=_audioCtx.createOscillator();
+    const g=_audioCtx.createGain();
+    osc.type=type||'sine';
+    osc.frequency.setValueAtTime(freq,t);
+    g.gain.setValueAtTime(vol||0.1,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+    osc.connect(g);g.connect(_audioCtx.destination);
+    osc.start(t);osc.stop(t+dur+.01);
+  }catch{}
+}
+function playUnwrapSound(variant){
+  if(!_audioCtx||_audioMuted)return;
+  try{
+    if(variant===0){
+      [0,.06,.12].forEach(d=>_tone(1100,.04,'square',.035,d));
+    }else if(variant===1){
+      const t=_audioCtx.currentTime;
+      const osc=_audioCtx.createOscillator();
+      const g=_audioCtx.createGain();
+      osc.type='sine';
+      osc.frequency.setValueAtTime(180,t);
+      osc.frequency.exponentialRampToValueAtTime(620,t+.18);
+      osc.frequency.exponentialRampToValueAtTime(300,t+.30);
+      g.gain.setValueAtTime(.07,t);
+      g.gain.exponentialRampToValueAtTime(.001,t+.35);
+      osc.connect(g);g.connect(_audioCtx.destination);
+      osc.start(t);osc.stop(t+.38);
+    }else{
+      _tone(820,.1,'sine',.09,0);
+      _tone(1180,.06,'sine',.05,.12);
+    }
+  }catch{}
+}
+const PENTA=[261.63,329.63,392.00,493.88,523.25,659.25];
+function playRevealChime(ratio){
+  if(!_audioCtx||_audioMuted)return;
+  try{
+    const i=Math.min(Math.floor(ratio*4),3);
+    const f=PENTA[i];
+    const v=.07+ratio*.07;
+    _tone(f,.32,'sine',v,0);
+    _tone(f*1.498,.22,'sine',v*.45,.13);
+    if(ratio>.65)_tone(f*2,.18,'sine',v*.3,.24);
+  }catch{}
+}
+function playMilestonePhrase(){
+  if(!_audioCtx||_audioMuted)return;
+  try{[329.63,392.00,493.88,659.25].forEach((f,i)=>_tone(f,.28,'sine',.09,i*.14));}catch{}
+}
+function toggleMute(){
+  _audioMuted=!_audioMuted;
+  localStorage.setItem('gt_mute',_audioMuted?'1':'0');
+  const btn=document.getElementById('mute-btn');
+  if(btn)btn.textContent=_audioMuted?'🔇':'🔊';
+}
+
+// ─── HEAT SYSTEM ─────────────────────────────────────
+function getHeatData(){try{return JSON.parse(localStorage.getItem('gt_heat')||'{"count":0}');}catch{return{count:0};}}
+function updateHeat(close){
+  const count=close?getHeatData().count+1:0;
+  try{localStorage.setItem('gt_heat',JSON.stringify({count}));}catch{}
+  return count;
+}
+function getHeatCount(){return getHeatData().count;}
+function getBestStreak(){try{return parseInt(localStorage.getItem('gt_best_streak')||'0',10)||0;}catch{return 0;}}
+function saveBestStreak(n){try{if(n>getBestStreak())localStorage.setItem('gt_best_streak',String(n));}catch{}}
+
+// ─── ACCURACY PARTICLES ──────────────────────────────
+function spawnParticles(x,y,color,n){
+  const layer=document.getElementById('fx-layer');
+  for(let i=0;i<(n||12);i++){
+    const el=document.createElement('div');
+    el.className='acc-spark';
+    const angle=Math.random()*Math.PI*2;
+    const dist=35+Math.random()*55;
+    el.style.cssText=`left:${x}px;top:${y}px;background:${color};--dx:${Math.cos(angle)*dist}px;--dy:${Math.sin(angle)*dist}px;animation-delay:${Math.random()*.08}s;`;
+    layer.appendChild(el);
+    setTimeout(()=>el.remove(),1050);
+  }
+}
+
+// ─── RING SHOCKWAVE ──────────────────────────────────
+function spawnRings(wrap){
+  for(let i=0;i<2;i++){
+    const r=document.createElement('div');
+    r.className='rvl-ring expand';
+    r.style.animationDelay=`${i*.13}s`;
+    wrap.appendChild(r);
+    setTimeout(()=>r.remove(),650);
+  }
+}
+
+// ─── COUNT-UP ────────────────────────────────────────
+function countUp(el,target,dur,color){
+  if(color)el.style.color=color;
+  const start=performance.now();
+  function step(now){
+    const t=Math.min(1,(now-start)/(dur||580));
+    const ease=1-Math.pow(1-t,3);
+    el.textContent=`$${(ease*target).toFixed(2)}`;
+    if(t<1)requestAnimationFrame(step);
+    else el.textContent=`$${target.toFixed(2)}`;
+  }
+  requestAnimationFrame(step);
+}
+
+// ─── VARIANT A — RECEIPT ─────────────────────────────
+function runVariantA(wrap,price,onDone){
+  wrap.innerHTML=`<div class="rvl-receipt-wrap"><div class="rvl-receipt-hdr">GUESS TOTAL  ·  ITEM TOTAL</div><div class="rvl-receipt-price" id="rvl-rp"></div><div class="rvl-receipt-tear" id="rvl-tear"></div></div>`;
+  const el=document.getElementById('rvl-rp');
+  const str=`$${price.toFixed(2)}`;
+  let ci=0;
+  function tick(){
+    if(ci<str.length){el.textContent=str.slice(0,++ci);setTimeout(tick,44);}
+    else{const tear=document.getElementById('rvl-tear');if(tear)tear.classList.add('show');setTimeout(onDone,170);}
+  }
+  setTimeout(tick,80);
+}
+
+// ─── VARIANT B — PRICE TAG ───────────────────────────
+function runVariantB(wrap,price,onDone){
+  wrap.innerHTML=`<div class="rvl-tag-outer"><div class="rvl-tag-string"></div><div class="rvl-tag-scene"><div class="rvl-tag-inner" id="rvl-tag"><div class="rvl-tag-face">▾ PRICE</div><div class="rvl-tag-back"><div class="rvl-tag-price">$${price.toFixed(2)}</div></div></div></div></div>`;
+  const tag=document.getElementById('rvl-tag');
+  setTimeout(()=>{
+    tag.classList.add('flipped');
+    setTimeout(()=>{tag.classList.add('settled');onDone();},320);
+  },110);
+}
+
+// ─── VARIANT C — SCAN ────────────────────────────────
+function runVariantC(imgWrap,wrap,price,onDone){
+  wrap.innerHTML=`<div class="rvl-scan-display" id="rvl-disp">_ _ _ _ _</div>`;
+  const beam=document.createElement('div');
+  beam.className='rvl-scan-beam';
+  imgWrap.appendChild(beam);
+  setTimeout(()=>{
+    beam.classList.add('sweep');
+    setTimeout(()=>{
+      beam.remove();
+      const d=document.getElementById('rvl-disp');
+      if(d)d.textContent=`$${price.toFixed(2)}`;
+      setTimeout(onDone,190);
+    },400);
+  },55);
+}
+
+// ─── SHARED FINISHING BEAT ───────────────────────────
+function sharedFinishingBeat(imgWrap,variantWrap,actual,guess,pts){
+  const ratio=accuracyRatio(guess,actual);
+  const color=revealColor(ratio);
+  const close=isCloseGuess(guess,actual);
+
+  if(variantWrap){
+    variantWrap.style.transition='opacity .2s';
+    variantWrap.style.opacity='0';
+    setTimeout(()=>{variantWrap.style.display='none';},200);
+  }
+  const priceDisplay=document.getElementById('rvl-price-display');
+  const priceNum=document.getElementById('rvl-price-num');
+  if(priceDisplay)priceDisplay.style.display='block';
+
+  const glow=document.getElementById('rvl-glow');
+  if(glow){glow.classList.remove('pulse');void glow.offsetWidth;glow.classList.add('pulse');}
+  spawnRings(imgWrap);
+  if(priceNum)countUp(priceNum,actual,560,color);
+  playRevealChime(ratio);
+
+  setTimeout(()=>{
+    const verdict=document.getElementById('rvl-verdict');
+    const ptsEl=document.getElementById('rvl-pts');
+    if(verdict)verdict.classList.add('show');
+    if(ptsEl)ptsEl.classList.add('show');
+    if(close&&priceNum){
+      const r=priceNum.getBoundingClientRect();
+      spawnParticles(r.left+r.width/2,r.top+r.height/2,color,14);
+    }
+    setTimeout(()=>{
+      const cta=document.getElementById('rvl-cta');
+      const next=document.getElementById('rvl-next');
+      if(cta)cta.classList.add(close?'show-close':'show-far');
+      if(next)next.classList.add('show');
+    },200);
+  },730);
 }
 
 // ─── SHARE ───────────────────────────────────────────
