@@ -332,7 +332,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
   <div class="intro-theme" id="intro-theme">Loading...</div>
   <div class="intro-tag" id="intro-tag"></div>
   <div class="intro-rules">
-    <div class="intro-rule"><div class="intro-rule-icon">🎯</div><span>Guess the price of each item</span></div>
+    <div class="intro-rule"><div class="intro-rule-icon">🏷️</div><span>Guess the price of each item</span></div>
     <div class="intro-rule"><div class="intro-rule-icon">⏱️</div><span>30 seconds per product</span></div>
     <div class="intro-rule"><div class="intro-rule-icon">🏆</div><span>Get as close as you can to win points</span></div>
   </div>
@@ -943,7 +943,7 @@ function showScorecard(){
     document.getElementById('sc-streak-num-display').textContent=streak;
     document.getElementById('sc-streak-emoji').textContent=streak>=10?'🔥🔥🔥':streak>=5?'🔥🔥':'🔥';
     const best=getBestStreak(), heatCount=getHeatCount();
-    const extra=best>streak?` · best ${best} 🏅`:heatCount>1?` · ${heatCount} close in a row 🎯`:'';
+    const extra=best>streak?` · best ${best} 🏅`:heatCount>1?` · ${heatCount} close in a row ⚡`:'';
     document.getElementById('sc-streak-extra').textContent=extra;
     const msgEl=document.getElementById('sc-streak-msg');
     if(msgEl)msgEl.textContent=streak===1?'Day 1 — come back tomorrow to start a streak.':
