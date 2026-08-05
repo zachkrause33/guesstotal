@@ -278,7 +278,11 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 #rvl-next.show{display:block;}
 
 /* ─── MUTE TOGGLE ──────────────────────────────── */
-.mute-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:999px;width:32px;height:32px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;}
+/* Solid white puck — a translucent fill let the emoji blend into the orange
+   header and read as a stray artifact. */
+.mute-btn{background:#fff;border:none;border-radius:999px;width:34px;height:34px;font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;box-shadow:0 1px 4px rgba(0,0,0,.18);transition:transform .12s,opacity .12s;}
+.mute-btn:active{transform:scale(.9);}
+.mute-btn.is-muted{background:rgba(255,255,255,.35);opacity:.75;}
 
 /* ─── BEST STREAK / HEAT ───────────────────────── */
 #sc-best-streak{font-size:11px;color:var(--text3);text-align:center;margin-top:3px;}
@@ -364,7 +368,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
       <div class="sc-vibe-title" id="sc-vibe-title"></div>
       <div class="sc-vibe-sub" id="sc-vibe-sub"></div>
       <div class="sc-vibe-bar-outer"><div class="sc-vibe-bar-inner" id="sc-vibe-bar"></div></div>
-      <div class="sc-vibe-ends"><span>💀 Completely Lost</span><span>🏆 Price Genius</span></div>
+      <div class="sc-vibe-ends"><span>🎲 Prices Won</span><span>🏆 Price Genius</span></div>
     </div>
     <div class="sc-section-label">Your Results — Shop the Bundle</div>
     <div id="sc-streak-card" style="display:none;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center;margin-bottom:1rem;">
@@ -388,27 +392,40 @@ const TAG='guesstotal-20';
 const TIMER_SECS=30;
 
 // ─── SCORING (100 pts max, spot-on to the cent) ────
-function calcPoints(guess, actual){
-  if(guess===actual) return 100;
-  const pct=Math.abs(guess-actual)/actual*100;
-  if(pct<=2)  return 90;
-  if(pct<=5)  return 80;
-  if(pct<=10) return 70;
-  if(pct<=15) return 60;
-  if(pct<=20) return 50;
-  if(pct<=30) return 35;
-  if(pct<=45) return 20;
-  if(pct<=60) return 10;
-  return 0;
+// Scored on the ratio between guess and price, not percent-of-actual. Percent
+// error is asymmetric: $40 on a $20 item is 100% off while $10 on the same item
+// is only 50% off, so over-guessing was punished twice as hard as the identical
+// under-guess. Ratio is symmetric — both are "2x out" and score the same.
+function priceRatio(guess, actual){
+  if(!(guess>0)||!(actual>0)) return Infinity;
+  return Math.max(guess,actual)/Math.min(guess,actual);
 }
 
+function calcPoints(guess, actual){
+  if(guess===actual) return 100;
+  const r=priceRatio(guess,actual);
+  if(r<=1.02) return 90;
+  if(r<=1.05) return 80;
+  if(r<=1.10) return 70;
+  if(r<=1.18) return 60;
+  if(r<=1.30) return 50;
+  if(r<=1.50) return 40;
+  if(r<=1.80) return 30;
+  if(r<=2.20) return 20;
+  if(r<=3.00) return 10;
+  return 5; // Any real guess floors at 5 — only a no-guess scores 0.
+}
+
+// Verdict copy runs on one rule: never blame the player. The low bands are
+// about the price being surprising, which is the whole premise of the game.
 function getHeat(pts){
-  if(pts===100) return{emoji:'🎯',word:'EXACT!',comment:"Spot on to the cent! That's legendary pricing knowledge.",cls:'v-perfect',color:'#1DB87A'};
-  if(pts>=90)  return{emoji:'🔥',word:'ON FIRE!',comment:"Basically perfect. You really know your prices.",cls:'v-hot',color:'#22C55E'};
-  if(pts>=70)  return{emoji:'🌶️',word:'SO CLOSE!',comment:"Really close. You're definitely a savvy shopper.",cls:'v-hot',color:'#22C55E'};
-  if(pts>=50)  return{emoji:'😅',word:'NOT BAD!',comment:"Decent guess. You had the right ballpark at least.",cls:'v-warm',color:'#EAB308'};
-  if(pts>=20)  return{emoji:'❄️',word:'COLD...',comment:"A bit off. The price might surprise you on this one.",cls:'v-cold',color:'#F97316'};
-  return       {emoji:'💀',word:'COMPLETELY LOST',comment:"Way off! That's why we're here — to discover amazing prices.",cls:'v-ice',color:'#E8403A'};
+  if(pts===100) return{emoji:'🎯',word:'EXACT!',comment:"Spot on to the cent. That's genuinely impressive.",cls:'v-perfect',color:'#1DB87A'};
+  if(pts>=90)  return{emoji:'🔥',word:'NAILED IT',comment:"Within a couple percent. You know your prices.",cls:'v-hot',color:'#22C55E'};
+  if(pts>=70)  return{emoji:'🌶️',word:'SO CLOSE',comment:"Really close. You've got a good eye for this.",cls:'v-hot',color:'#22C55E'};
+  if(pts>=50)  return{emoji:'👍',word:'NOT BAD',comment:"Right ballpark. Solid instinct on that one.",cls:'v-warm',color:'#EAB308'};
+  if(pts>=30)  return{emoji:'🤏',word:'CLOSE-ISH',comment:"A bit out, but you were in the neighborhood.",cls:'v-warm',color:'#EAB308'};
+  if(pts>=15)  return{emoji:'😮',word:'SURPRISING PRICE',comment:"This one doesn't cost what you'd expect it to.",cls:'v-cold',color:'#F97316'};
+  return       {emoji:'🙃',word:'TOTAL CURVEBALL',comment:"Nobody sees this one coming — that's the fun part.",cls:'v-ice',color:'#7C3AED'};
 }
 
 // Empty input — not a wrong answer, so it gets its own neutral verdict instead
@@ -421,19 +438,21 @@ function noGuessHeat(auto){
 
 // ─── SHOP CTA COPY (keyed to guess direction) ───────
 function shopCopy(guess,actual,noGuess){
-  if(noGuess||!actual)return'🛒 Shop This Item';
-  const pct=(guess-actual)/actual*100;
-  if(pct>=40) return'🛒 Cheaper Than You Thought — Shop It';
-  if(pct<=-40)return'🛒 Worth Every Penny — Shop It';
-  return'🛒 Shop This Item';
+  if(noGuess||!actual||!(guess>0))return'🛒 Shop This Item';
+  const r=priceRatio(guess,actual);
+  if(r<1.4) return'🛒 Shop This Item';
+  return guess>actual?'🛒 Cheaper Than You Thought — Shop It'
+                     :'🛒 Worth Every Penny — Shop It';
 }
 
+// Thresholds tuned against the ratio-based curve above. Same rule as the
+// per-item verdicts: the bottom band blames the lineup, never the player.
 const VIBES=[
-  {min:90, emoji:'🏆', title:'PRICE GENIUS',   color:'#1DB87A', sub:"Absolutely elite. You knew what everything cost and it's honestly impressive."},
-  {min:72, emoji:'😎', title:'SHARP EYE',       color:'#22C55E', sub:'Very impressive. You clearly pay attention to what things actually cost.'},
-  {min:52, emoji:'🙂', title:'GETTING THERE',   color:'#EAB308', sub:"Not bad. A few more rounds and you'll be genuinely dangerous."},
-  {min:30, emoji:'😬', title:'NEEDS WORK',      color:'#F97316', sub:"Some of these really humbled you. Keep playing — it gets better. Maybe."},
-  {min:0,  emoji:'💀', title:'COMPLETELY LOST', color:'#E8403A', sub:'The prices had absolutely no mercy today. Tomorrow is a new day.'},
+  {min:78, emoji:'🏆', title:'PRICE GENIUS',     color:'#1DB87A', sub:"Elite run. You knew what everything cost and that's genuinely rare."},
+  {min:60, emoji:'😎', title:'SHARP EYE',        color:'#22C55E', sub:'Impressive. You clearly pay attention to what things actually cost.'},
+  {min:42, emoji:'🙂', title:'SOLID INSTINCTS',  color:'#EAB308', sub:'Good showing — you were in the right range more often than not.'},
+  {min:26, emoji:'🧐', title:'STILL LEARNING',   color:'#F97316', sub:"A few of these priced nothing like you'd expect. That's the whole game."},
+  {min:0,  emoji:'🎲', title:'PRICES WON TODAY', color:'#7C3AED', sub:"Today's lineup played dirty. Fresh set tomorrow — come take another swing."},
 ];
 function getVibe(avgPct){for(const v of VIBES)if(avgPct>=v.min)return v;return VIBES[VIBES.length-1];}
 function affLink(asin){return`https://www.amazon.com/dp/${asin}?tag=${TAG}`;}
@@ -564,8 +583,7 @@ async function init(){
     if(tag) tag.textContent="You've already played today. Your streak is safe 🔥 See you tomorrow!";
   }
 
-  const muteBtn=document.getElementById('mute-btn');
-  if(muteBtn)muteBtn.textContent=_audioMuted?'🔇':'🔊';
+  syncMuteBtn();
   if(typeof gtag!=='undefined')gtag('event','game_loaded',{bundle_theme:bundle.theme});
 }
 
@@ -701,11 +719,12 @@ function showReveal(guess,noGuess=false,auto=false){
   else if(pts===100){flash('#1DB87A');confetti(100);}
   else if(pts>=70){flash('#22C55E');confetti(50);}
   else if(pts>=50){flash('#EAB308');confetti(20);}
-  else if(pts>=20){flash('#F97316');}
-  else{flash('#E8403A');}
+  else if(pts>=30){flash('#EAB308');}
+  else if(pts>=15){flash('#F97316');}
+  else{flash('#7C3AED');}
 
   // No "+0" fly-up on a timeout — the player didn't guess, don't rub it in.
-  if(!noGuess)setTimeout(()=>flyPts(pts,pts>=70?'#1DB87A':pts>=50?'#EAB308':'#E8403A'),300);
+  if(!noGuess)setTimeout(()=>flyPts(pts,pts>=70?'#1DB87A':pts>=30?'#EAB308':'#7C3AED'),300);
 
   const isLast=idx===bundle.products.length-1;
   const variant=getDayVariant();
@@ -854,14 +873,16 @@ function getDayVariant(){
 }
 
 // ─── ACCURACY UTILS ──────────────────────────────────
-const CLOSE_PCT=10;
+// Same symmetric ratio the scoring uses, so colour, chime pitch and the CTA
+// reward all agree with the points awarded.
+const CLOSE_RATIO=1.10;
 function isCloseGuess(guess,actual){
-  if(!actual)return false;
-  return Math.abs(guess-actual)/actual*100<=CLOSE_PCT;
+  return priceRatio(guess,actual)<=CLOSE_RATIO;
 }
 function accuracyRatio(guess,actual){
-  if(!actual)return 0;
-  return Math.max(0,Math.min(1,1-Math.abs(guess-actual)/actual/0.6));
+  const r=priceRatio(guess,actual);
+  if(!isFinite(r))return 0;
+  return Math.max(0,Math.min(1,1-Math.log(r)/Math.log(3)));
 }
 function revealColor(ratio){
   const r=Math.round(94+ratio*(255-94));
@@ -872,7 +893,7 @@ function revealColor(ratio){
 
 // ─── AUDIO MODULE ────────────────────────────────────
 let _audioCtx=null;
-let _audioMuted=localStorage.getItem('gt_mute')==='1';
+let _audioMuted=(()=>{try{return localStorage.getItem('gt_mute')==='1';}catch{return false;}})();
 function initAudio(){
   if(_audioCtx)return;
   try{_audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch{}
@@ -932,9 +953,16 @@ function playMilestonePhrase(){
 }
 function toggleMute(){
   _audioMuted=!_audioMuted;
-  localStorage.setItem('gt_mute',_audioMuted?'1':'0');
+  try{localStorage.setItem('gt_mute',_audioMuted?'1':'0');}catch{}
+  syncMuteBtn();
+}
+function syncMuteBtn(){
   const btn=document.getElementById('mute-btn');
-  if(btn)btn.textContent=_audioMuted?'🔇':'🔊';
+  if(!btn)return;
+  btn.textContent=_audioMuted?'🔇':'🔊';
+  btn.classList.toggle('is-muted',_audioMuted);
+  btn.setAttribute('aria-pressed',String(_audioMuted));
+  btn.setAttribute('aria-label',_audioMuted?'Unmute sound':'Mute sound');
 }
 
 // ─── HEAT SYSTEM ─────────────────────────────────────
