@@ -54,19 +54,24 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 @keyframes flashPop{0%{opacity:0}25%{opacity:.45}100%{opacity:0}}
 
 /* ─── THEME INTRO ───────────────────────────────── */
-#intro{background:var(--orange);align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem;overflow:hidden;}
+/* Split like every other screen: orange masthead, content area below it. Wall-
+   to-wall orange left the rules card and the gold CTA sitting warm-on-warm with
+   nothing to read against. */
+#intro{background:var(--bg);}
+.intro-top{background:var(--orange);flex:1 1 52%;min-height:0;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.75rem 1.5rem;}
+.intro-bottom{background:var(--bg);flex:1 1 48%;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;padding:1.5rem 1.5rem 1.75rem;}
 .intro-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.07);}
 .intro-logo{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:#fff;line-height:1;}
 .intro-logo span{color:var(--gold);}
 .intro-emoji{font-size:56px;margin:1.25rem 0 .5rem;animation:popIn .5s cubic-bezier(.34,1.56,.64,1);}
 @keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 .intro-theme{font-family:'Bebas Neue',sans-serif;font-size:30px;color:#fff;letter-spacing:2px;line-height:1.15;margin-bottom:.5rem;}
-.intro-tag{font-size:13px;color:rgba(255,255,255,.8);margin-bottom:2rem;line-height:1.5;}
-.intro-rules{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:2rem;text-align:left;max-width:340px;width:100%;}
-.intro-rule{display:flex;align-items:center;gap:10px;font-size:13px;color:#fff;margin-bottom:8px;}
+.intro-tag{font-size:13px;color:rgba(255,255,255,.85);line-height:1.5;max-width:320px;}
+.intro-rules{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;text-align:left;max-width:340px;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.04);}
+.intro-rule{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text);margin-bottom:8px;}
 .intro-rule:last-child{margin-bottom:0;}
 .intro-rule-icon{font-size:18px;flex-shrink:0;width:26px;text-align:center;}
-.intro-btn{background:var(--gold);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;border:none;border-radius:999px;padding:15px 40px;cursor:pointer;letter-spacing:.3px;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 16px rgba(255,215,0,.4);}
+.intro-btn{background:var(--gold);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;border:none;border-radius:999px;padding:16px 44px;cursor:pointer;letter-spacing:.3px;transition:transform .15s,box-shadow .15s;box-shadow:0 6px 20px rgba(201,168,0,.35);}
 .intro-btn:active{transform:scale(.96);}
 .intro-streak{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;color:#fff;}
 
@@ -324,19 +329,23 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 
 <!-- ── INTRO SCREEN ───────────────────────────── -->
 <div class="screen active" id="intro">
-  <div class="intro-blob" style="width:260px;height:260px;top:-80px;right:-70px;"></div>
-  <div class="intro-blob" style="width:160px;height:160px;bottom:-50px;left:-40px;"></div>
-  <div class="intro-streak" id="intro-streak" style="display:none;">🔥 <span id="intro-streak-num">0</span> day streak</div>
-  <div class="intro-logo">GUESS <span>TOTAL</span></div>
-  <div class="intro-emoji" id="intro-emoji">🛒</div>
-  <div class="intro-theme" id="intro-theme">Loading...</div>
-  <div class="intro-tag" id="intro-tag"></div>
-  <div class="intro-rules">
-    <div class="intro-rule"><div class="intro-rule-icon">🏷️</div><span>Guess the price of each item</span></div>
-    <div class="intro-rule"><div class="intro-rule-icon">⏱️</div><span>30 seconds per product</span></div>
-    <div class="intro-rule"><div class="intro-rule-icon">🏆</div><span>Get as close as you can to win points</span></div>
+  <div class="intro-top">
+    <div class="intro-blob" style="width:260px;height:260px;top:-80px;right:-70px;"></div>
+    <div class="intro-blob" style="width:160px;height:160px;bottom:-60px;left:-40px;"></div>
+    <div class="intro-streak" id="intro-streak" style="display:none;">🔥 <span id="intro-streak-num">0</span> day streak</div>
+    <div class="intro-logo">GUESS <span>TOTAL</span></div>
+    <div class="intro-emoji" id="intro-emoji">🛒</div>
+    <div class="intro-theme" id="intro-theme">Loading...</div>
+    <div class="intro-tag" id="intro-tag"></div>
   </div>
-  <button class="intro-btn" onclick="startGame()">Let's Play ⚡</button>
+  <div class="intro-bottom">
+    <div class="intro-rules">
+      <div class="intro-rule"><div class="intro-rule-icon">🏷️</div><span>Guess the price of each item</span></div>
+      <div class="intro-rule"><div class="intro-rule-icon">⏱️</div><span>30 seconds per product</span></div>
+      <div class="intro-rule"><div class="intro-rule-icon">🏆</div><span>Get as close as you can to win points</span></div>
+    </div>
+    <button class="intro-btn" onclick="startGame()">Let's Play ⚡</button>
+  </div>
 </div>
 
 <!-- ── GAME SCREEN ────────────────────────────── -->
@@ -708,9 +717,12 @@ async function init(){
   if(hasPlayedToday()){
     const btn=document.querySelector('.intro-btn');
     if(btn){
+      // The button now sits on the white panel, so the spent state has to be a
+      // muted chip — white-on-translucent read fine against orange but would be
+      // invisible here.
       btn.textContent='Come Back Tomorrow 🌙';
-      btn.style.background='rgba(255,255,255,0.2)';
-      btn.style.color='#fff';
+      btn.style.background='var(--border)';
+      btn.style.color='var(--text2)';
       btn.style.boxShadow='none';
       btn.style.cursor='default';
       btn.onclick=null;
