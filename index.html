@@ -407,33 +407,14 @@ function priceRatio(guess, actual){
   return Math.max(guess,actual)/Math.min(guess,actual);
 }
 
-// Continuous, to one decimal, and the better of two readings of the same guess:
-//
-//   near band  — how many dollars off, regardless of price. Pure ratio is
-//                unfair to cheap items: a quarter off a $7 item scores 96.6,
-//                when a quarter off anything should read as near-exact.
-//                Anchored so $0.25 -> 99.9 and $0.99 -> 99.0 at every price,
-//                over or under, then decaying steeply.
-//   ratio      — the symmetric 100 x smaller/larger, which governs real misses.
-//
-// Taking the higher of the two keeps the near-miss generous without loosening
-// how a genuine miss scores: the band wins inside about a dollar, ratio wins
-// everywhere else, and they cross smoothly so there is no step.
-const NEAR_A=0.1468;   // fitted to the two anchors below
-const NEAR_B=2.0777;   // 0.25 -> 99.9, 0.99 -> 99.0
-function nearBandScore(diff){return 100-NEAR_A*(Math.exp(NEAR_B*diff)-1);}
-
+// One formula, continuous, to one decimal. Symmetric by construction, so there
+// is no correction layer and nothing for a second formula to interact with.
+// A near miss is sold by the copy and the FX below, never by inflating this
+// number — the score stays an honest reading of how far off the guess was.
 function calcPoints(guess, actual){
   if(!(guess>0)||!(actual>0)) return 0;
   if(guess===actual) return 100;
-  const r=priceRatio(guess,actual);
-  // The band is fed the gap the *same ratio* would make on the high side, not
-  // the raw gap. Feeding it the raw gap made an under-guess worth up to 19 pts
-  // more than an over-guess of identical ratio on cheap items, which is the
-  // over/under bias this scoring exists to avoid. This keeps the two identical.
-  const pts=Math.round(Math.max(0,Math.min(100,
-    Math.max(100/r, nearBandScore(actual*(r-1)))
-  ))*10)/10;
+  const pts=Math.round(100/priceRatio(guess,actual)*10)/10;
   return pts>=100?99.9:pts; // only a to-the-cent guess ever displays 100.0
 }
 
@@ -443,19 +424,36 @@ function fmtPts(n){return n.toFixed(1);}
 
 // Verdict copy runs on one rule: never blame the player. The low bands are
 // about the price being surprising, which is the whole premise of the game.
-// heatFor() takes the dollar gap too, so the near-miss bands can talk in cents.
-// Landing inside a dollar should feel like you almost took the whole thing.
+//
+// The near-miss feeling is carried entirely here — the copy names the gap in
+// cents and the tier carries its own FX. The score itself is never inflated to
+// manufacture the moment. Each band owns its confetti/flash so the celebration
+// can't drift out of step with the verdict the way a separate threshold ladder
+// would. Thresholds are tuned so band populations shrink as they tighten.
+const HEAT_BANDS=[
+  {min:100, emoji:'🎯', word:'EXACT!',                cls:'v-perfect', color:'#1DB87A', flash:'#1DB87A', confetti:120,
+   comment:()=>"Spot on to the cent. That's genuinely impressive."},
+  {min:99,  emoji:'🔥', word:'SO UNBELIEVABLY CLOSE', cls:'v-perfect', color:'#1DB87A', flash:'#1DB87A', confetti:90,
+   comment:c=>c?`Off by ${c}. You were basically holding the receipt.`:'A hair off. You were basically holding the receipt.'},
+  {min:97.5,emoji:'😤', word:'AGONIZINGLY CLOSE',     cls:'v-perfect', color:'#1DB87A', flash:'#22C55E', confetti:70,
+   comment:c=>c?`${c} out. That's a rounding error, not a guess.`:"That's a rounding error, not a guess."},
+  {min:93,  emoji:'🌶️', word:'NAILED IT',             cls:'v-hot',     color:'#22C55E', flash:'#22C55E', confetti:45,
+   comment:()=>'Within a couple percent. You know your prices.'},
+  {min:85,  emoji:'👌', word:'SO CLOSE',              cls:'v-hot',     color:'#22C55E', flash:'#22C55E', confetti:25,
+   comment:()=>"Really close. You've got a good eye for this."},
+  {min:70,  emoji:'👍', word:'NOT BAD',               cls:'v-warm',    color:'#EAB308', flash:'#EAB308', confetti:12,
+   comment:()=>'Right ballpark. Solid instinct on that one.'},
+  {min:50,  emoji:'🤏', word:'CLOSE-ISH',             cls:'v-warm',    color:'#EAB308', flash:'#EAB308', confetti:0,
+   comment:()=>'A bit out, but you were in the neighborhood.'},
+  {min:30,  emoji:'😮', word:'SURPRISING PRICE',      cls:'v-cold',    color:'#F97316', flash:'#F97316', confetti:0,
+   comment:()=>"This one doesn't cost what you'd expect it to."},
+  {min:0,   emoji:'🙃', word:'TOTAL CURVEBALL',       cls:'v-ice',     color:'#7C3AED', flash:'#7C3AED', confetti:0,
+   comment:()=>"Nobody sees this one coming — that's the fun part."},
+];
 function getHeat(pts,diff){
-  const c=diff!=null&&diff<1?`${Math.round(diff*100)}¢`:null;
-  if(pts>=100)  return{emoji:'🎯',word:'EXACT!',comment:"Spot on to the cent. That's genuinely impressive.",cls:'v-perfect',color:'#1DB87A'};
-  if(pts>=99.7) return{emoji:'😤',word:'AGONIZINGLY CLOSE',comment:c?`Off by ${c}. You were basically holding the receipt.`:'A hair off. You were basically holding the receipt.',cls:'v-perfect',color:'#1DB87A'};
-  if(pts>=99)   return{emoji:'🔥',word:'SO UNBELIEVABLY CLOSE',comment:c?`${c} out. That's a rounding error, not a guess.`:"That's a rounding error, not a guess.",cls:'v-perfect',color:'#1DB87A'};
-  if(pts>=95)   return{emoji:'🌶️',word:'NAILED IT',comment:'Within a couple percent. You know your prices.',cls:'v-hot',color:'#22C55E'};
-  if(pts>=90)   return{emoji:'👌',word:'SO CLOSE',comment:"Really close. You've got a good eye for this.",cls:'v-hot',color:'#22C55E'};
-  if(pts>=75)   return{emoji:'👍',word:'NOT BAD',comment:'Right ballpark. Solid instinct on that one.',cls:'v-warm',color:'#EAB308'};
-  if(pts>=55)   return{emoji:'🤏',word:'CLOSE-ISH',comment:'A bit out, but you were in the neighborhood.',cls:'v-warm',color:'#EAB308'};
-  if(pts>=35)   return{emoji:'😮',word:'SURPRISING PRICE',comment:"This one doesn't cost what you'd expect it to.",cls:'v-cold',color:'#F97316'};
-  return        {emoji:'🙃',word:'TOTAL CURVEBALL',comment:"Nobody sees this one coming — that's the fun part.",cls:'v-ice',color:'#7C3AED'};
+  const b=HEAT_BANDS.find(x=>pts>=x.min)||HEAT_BANDS[HEAT_BANDS.length-1];
+  const cents=diff!=null&&diff>0&&diff<1?`${Math.round(diff*100)}¢`:null;
+  return{emoji:b.emoji,word:b.word,comment:b.comment(cents),cls:b.cls,color:b.color,flash:b.flash,confetti:b.confetti};
 }
 
 // Empty input — not a wrong answer, so it gets its own neutral verdict instead
@@ -478,7 +476,7 @@ function shopCopy(guess,actual,noGuess){
 // Thresholds tuned against the ratio-based curve above. Same rule as the
 // per-item verdicts: the bottom band blames the lineup, never the player.
 const VIBES=[
-  {min:92, emoji:'🏆', title:'PRICE GENIUS',     color:'#1DB87A', sub:"Elite run. You knew what everything cost and that's genuinely rare."},
+  {min:94, emoji:'🏆', title:'PRICE GENIUS',     color:'#1DB87A', sub:"Elite run. You knew what everything cost and that's genuinely rare."},
   {min:84, emoji:'😎', title:'SHARP EYE',        color:'#22C55E', sub:'Impressive. You clearly pay attention to what things actually cost.'},
   {min:72, emoji:'🙂', title:'SOLID INSTINCTS',  color:'#EAB308', sub:'Good showing — you were in the right range more often than not.'},
   {min:58, emoji:'🧐', title:'STILL LEARNING',   color:'#F97316', sub:"A few of these priced nothing like you'd expect. That's the whole game."},
@@ -746,21 +744,13 @@ function showReveal(guess,noGuess=false,auto=false){
   setTimeout(()=>document.getElementById('gh-score').classList.remove('bump'),400);
   document.getElementById('rh-score').textContent=`${fmtPts(score)} pts`;
 
-  // Celebration scales with the near-miss, not just the win: landing inside a
-  // dollar gets near-jackpot treatment so it feels like you almost had it.
-  if(noGuess){flash('#64748B');}
-  else if(pts>=100){flash('#1DB87A');confetti(120);}
-  else if(pts>=99.7){flash('#1DB87A');confetti(90);}
-  else if(pts>=99){flash('#22C55E');confetti(70);}
-  else if(pts>=95){flash('#22C55E');confetti(45);}
-  else if(pts>=90){flash('#22C55E');confetti(25);}
-  else if(pts>=75){flash('#EAB308');confetti(12);}
-  else if(pts>=55){flash('#EAB308');}
-  else if(pts>=35){flash('#F97316');}
-  else{flash('#7C3AED');}
+  // FX come from the verdict band itself, so the celebration always matches the
+  // words on screen instead of tracking a parallel threshold ladder.
+  flash(noGuess?'#64748B':heat.flash);
+  if(!noGuess&&heat.confetti)confetti(heat.confetti);
 
   // No "+0" fly-up on a timeout — the player didn't guess, don't rub it in.
-  if(!noGuess)setTimeout(()=>flyPts(pts,pts>=90?'#1DB87A':pts>=55?'#EAB308':'#7C3AED'),300);
+  if(!noGuess)setTimeout(()=>flyPts(pts,heat.color),300);
 
   const isLast=idx===bundle.products.length-1;
   const variant=getDayVariant();
@@ -918,8 +908,9 @@ function getDayVariant(){
 
 // ─── ACCURACY UTILS ──────────────────────────────────
 // Both derive straight from the score, so colour, chime pitch and the CTA
-// reward can never drift from the points actually awarded.
-const CLOSE_PTS=90;
+// reward can never drift from the points actually awarded. Pinned to the
+// NAILED IT band boundary so "close" always means a tier the player can see.
+const CLOSE_PTS=93;
 function isCloseGuess(guess,actual){
   return calcPoints(guess,actual)>=CLOSE_PTS;
 }
