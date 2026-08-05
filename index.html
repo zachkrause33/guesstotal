@@ -1252,13 +1252,18 @@ function sharedFinishingBeat(imgWrap,variantWrap,actual,guess,pts){
 }
 
 // ─── SHARE ───────────────────────────────────────────
-function shareResults(){
+// Three lines, nothing else: link + date, a score/emoji per item, the total.
+// Product names are deliberately left out — naming them spoils the puzzle for
+// whoever receives this, and the emoji row already carries the shape of the run.
+function buildShareText(){
   const d=new Date();
-  const avgPct=guesses.reduce((a,g)=>a+g.pts,0)/guesses.length;
-  const vibe=getVibe(avgPct);
-  const lines=guesses.map(g=>`${g.heat.emoji} ${g.product.teaser||g.product.name}`).join('\n');
-  const max=bundle.products.length*100;
-  const text=`Guess Total ${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}\n${bundle.theme} ${bundle.emoji}\n\n${lines}\n\n${vibe.emoji} ${vibe.title} — ${fmtPts(score)}/${max} pts (${avgPct.toFixed(1)}% accuracy)\nguesstotal.com`;
+  const date=d.toLocaleDateString('en-US',{month:'long',day:'numeric'});
+  const row=guesses.map(g=>`${Math.round(g.pts)}${g.heat.emoji}`).join(' ');
+  return`guesstotal.com ${date}\n${row}\nFinal score: ${Math.round(score)}`;
+}
+
+function shareResults(){
+  const text=buildShareText();
 
   if(navigator.share){
     navigator.share({title:'Guess Total',text,url:'https://guesstotal.com'})
