@@ -43,6 +43,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 #fx-layer{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
 .confetti{position:absolute;top:-12px;border-radius:2px;animation:fall linear forwards;}
 @keyframes fall{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1;}100%{transform:translateY(105vh) rotate(600deg) scale(0.6);opacity:0;}}
+.ember{position:absolute;bottom:-14px;border-radius:50%;opacity:0;animation:emberUp linear forwards;}
+@keyframes emberUp{0%{transform:translateY(0) scale(1);opacity:0;}15%{opacity:.55;}100%{transform:translateY(-72vh) scale(.4);opacity:0;}}
 .pts-fly{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:38px;font-weight:700;pointer-events:none;animation:ptsFly 1.1s cubic-bezier(.22,.68,0,1.4) forwards;}
 @keyframes ptsFly{0%{transform:translateY(0) scale(0.5);opacity:1;}60%{transform:translateY(-90px) scale(1.15);opacity:1;}100%{transform:translateY(-140px) scale(1);opacity:0;}}
 
@@ -84,7 +86,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 .gh-bar{height:100%;background:var(--gold);border-radius:2px;transition:width .6s ease;}
 
 /* TIMER */
-.timer-ring-wrap{display:flex;flex-direction:column;align-items:center;padding:.75rem 1rem .5rem;flex-shrink:0;}
+.timer-ring-wrap{display:flex;flex-direction:column;align-items:center;padding:.6rem 1rem .45rem;flex-shrink:0;}
 .timer-row{display:flex;align-items:center;gap:10px;width:100%;}
 .timer-label{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);}
 .timer-bar-outer{flex:1;height:10px;background:var(--border);border-radius:5px;overflow:hidden;}
@@ -95,16 +97,16 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 
 /* PRODUCT AREA */
 .product-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.product-img-wrap{position:relative;background:var(--orange-lt);display:flex;align-items:center;justify-content:center;flex:0 0 48%;overflow:hidden;}
+.product-img-wrap{position:relative;background:var(--orange-lt);display:flex;align-items:center;justify-content:center;flex:1 1 0;min-height:90px;overflow:hidden;}
 .product-img-wrap img{max-height:90%;max-width:88%;object-fit:contain;transition:transform .3s;}
 .product-num-pill{position:absolute;top:10px;left:10px;background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:3px 11px;border-radius:999px;letter-spacing:.3px;}
 
 /* PRODUCT NAME + INPUT */
-.product-bottom{padding:.875rem 1rem 1rem;flex:1;display:flex;flex-direction:column;justify-content:space-between;}
+.product-bottom{padding:.75rem 1rem 1rem;flex:0 0 auto;display:flex;flex-direction:column;gap:.6rem;}
 .product-name{font-size:15px;font-weight:600;line-height:1.35;margin-bottom:3px;}
-.product-meta{font-size:12px;color:var(--text2);margin-bottom:.875rem;line-height:1.4;}
+.product-meta{font-size:12px;color:var(--text2);line-height:1.4;}
 .input-label{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:6px;}
-.input-row{display:flex;align-items:center;gap:6px;margin-bottom:.75rem;}
+.input-row{display:flex;align-items:center;gap:6px;margin-bottom:.6rem;}
 .dollar{font-size:32px;font-weight:700;color:var(--orange);}
 .price-input{flex:1;font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:1px;border:2px solid var(--border);border-radius:var(--r-sm);background:var(--orange-lt);color:var(--text);outline:none;padding:6px 10px;-moz-appearance:textfield;width:100%;}
 .price-input::-webkit-inner-spin-button,.price-input::-webkit-outer-spin-button{-webkit-appearance:none;}
@@ -174,9 +176,16 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 .sc-logo span{color:var(--gold);}
 .sc-theme{font-size:12px;color:rgba(255,255,255,.8);margin-top:2px;}
 .sc-score-big{font-family:'Bebas Neue',sans-serif;font-size:80px;color:var(--gold);line-height:1;text-shadow:0 6px 24px rgba(255,215,0,.4);}
-.sc-score-label{font-size:12px;color:rgba(255,255,255,.75);}
-/* Secondary reading of the same total — never the headline number. */
-.sc-accuracy{font-size:11px;color:rgba(255,255,255,.6);margin-top:2px;margin-bottom:.75rem;}
+.sc-score-label{font-size:12px;color:rgba(255,255,255,.75);margin-bottom:.6rem;}
+/* Accuracy labels the vibe bar, whose width already IS the accuracy — printing
+   it under the score too was the same number stated twice. */
+.sc-accuracy{color:var(--text2);font-weight:700;}
+/* Streak is the retention mechanic, so it sits in the header, not below the
+   fold under the vibe meter where a losing-day player never scrolls. */
+.sc-streak-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:12px;padding:5px 13px;border-radius:999px;margin-bottom:.7rem;}
+.sc-streak-chip strong{font-weight:700;}
+.sc-streak-sep{opacity:.8;}
+.sc-streak-msg{text-align:center;font-size:12px;color:var(--text2);margin-bottom:1rem;min-height:16px;}
 .sc-chips{display:flex;gap:8px;justify-content:center;margin-bottom:.5rem;}
 .sc-chip{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;animation:chipPop .4s cubic-bezier(.34,1.56,.64,1) both;}
 @keyframes chipPop{from{transform:scale(0)}to{transform:scale(1)}}
@@ -213,7 +222,14 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 .sc-affiliate{font-size:10px;color:var(--text3);text-align:center;padding-bottom:2rem;}
 
 /* ─── REVEALING OVERLAY ────────────────────────── */
-.revealing-overlay{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:20;animation:overlayIn .2s ease;}
+.revealing-overlay{position:absolute;inset:0;background:var(--orange-lt);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:20;animation:overlayIn .2s ease;overflow:hidden;}
+/* The drumroll beat gets the product to look at instead of an empty panel. */
+.revealing-img{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.revealing-img img{max-height:min(46%,220px);max-width:58%;object-fit:contain;animation:revealThrob 1.5s cubic-bezier(.4,0,.6,1) infinite;}
+@keyframes revealThrob{0%{transform:scale(1);opacity:.3;}50%{transform:scale(1.08);opacity:.55;}100%{transform:scale(1);opacity:.3;}}
+.revealing-halo{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.35) 0%,transparent 70%);animation:revealHalo 1.5s ease-in-out infinite;}
+@keyframes revealHalo{0%{transform:scale(.7);opacity:.25;}50%{transform:scale(1.25);opacity:.6;}100%{transform:scale(.7);opacity:.25;}}
+.revealing-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:12px;background:rgba(255,241,235,.9);padding:14px 26px;border-radius:999px;backdrop-filter:blur(3px);}
 @keyframes overlayIn{from{opacity:0}to{opacity:1}}
 .revealing-text{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--text2);animation:revealPulse .7s ease infinite alternate;}
 @keyframes revealPulse{from{opacity:.35}to{opacity:1}}
@@ -276,22 +292,29 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 
 /* ─── REWARD-GATED CTA ─────────────────────────── */
 #rvl-cta{opacity:0;pointer-events:none;}
+/* Plain: always available, never celebrated. */
 #rvl-cta.show-far{opacity:1;pointer-events:auto;transition:opacity .5s .1s;}
+/* Earned: the player guessed close, so the reward entrance is deserved. */
 #rvl-cta.show-close{pointer-events:auto;animation:ctaClose .55s .08s cubic-bezier(.34,1.56,.64,1) forwards;}
 @keyframes ctaClose{0%{transform:scale(.82);opacity:0;box-shadow:0 0 0 rgba(255,215,0,0);}55%{transform:scale(1.06);opacity:1;box-shadow:0 0 28px rgba(255,215,0,.65);}100%{transform:scale(1);opacity:1;box-shadow:0 4px 18px rgba(255,107,53,.45);}}
+/* Bargain: they guessed well above the real price. Their own anchor makes this
+   a find, and it is the one moment a solid, louder button is earned. */
+#rvl-cta.cta-bargain{background:var(--orange);color:#fff;border-color:transparent;font-size:15px;font-weight:700;padding:14px;}
+#rvl-cta.cta-bargain.show-far,#rvl-cta.cta-bargain.show-close{animation:ctaBargain .6s .05s cubic-bezier(.34,1.56,.64,1) forwards;}
+@keyframes ctaBargain{0%{transform:scale(.86);opacity:0;box-shadow:0 0 0 rgba(255,107,53,0);}55%{transform:scale(1.07);opacity:1;box-shadow:0 0 34px rgba(255,107,53,.75);}100%{transform:scale(1);opacity:1;box-shadow:0 6px 22px rgba(255,107,53,.5);}}
+/* Curiosity: they undervalued it. Inviting, not insistent — no glow. */
+#rvl-cta.cta-curious{border-color:rgba(59,130,246,.45);color:var(--blue);}
 #rvl-next{display:none;}
 #rvl-next.show{display:block;}
 
 /* ─── MUTE TOGGLE ──────────────────────────────── */
 /* Solid white puck — a translucent fill let the emoji blend into the orange
    header and read as a stray artifact. */
-.mute-btn{background:#fff;border:none;border-radius:999px;width:34px;height:34px;font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;box-shadow:0 1px 4px rgba(0,0,0,.18);transition:transform .12s,opacity .12s;}
+.mute-btn{background:#fff;color:var(--orange);border:none;border-radius:999px;width:34px;height:34px;line-height:0;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;box-shadow:0 1px 4px rgba(0,0,0,.18);transition:transform .12s,background .15s,color .15s;}
 .mute-btn:active{transform:scale(.9);}
-.mute-btn.is-muted{background:rgba(255,255,255,.35);opacity:.75;}
+.mute-btn.is-muted{background:rgba(255,255,255,.22);color:rgba(255,255,255,.9);box-shadow:none;}
 
 /* ─── BEST STREAK / HEAT ───────────────────────── */
-#sc-best-streak{font-size:11px;color:var(--text3);text-align:center;margin-top:3px;}
-#sc-heat-info{font-size:12px;color:var(--text2);text-align:center;margin-top:4px;}
 </style>
 </head>
 <body>
@@ -349,7 +372,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
     <div class="rh-left">GUESS <span>TOTAL</span></div>
     <div style="display:flex;align-items:center;gap:8px;">
       <div class="rh-score" id="rh-score">0 pts</div>
-      <button class="mute-btn" id="mute-btn" onclick="toggleMute()" title="Toggle sound">🔊</button>
+      <button class="mute-btn" id="mute-btn" onclick="toggleMute()" aria-label="Mute sound" aria-pressed="false"></button>
     </div>
   </div>
   <div class="reveal-body" id="reveal-body">
@@ -365,7 +388,11 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
     <div class="sc-theme" id="sc-theme"></div>
     <div class="sc-score-big" id="sc-score-big">0.0</div>
     <div class="sc-score-label" id="sc-score-label">out of 500 pts</div>
-    <div class="sc-accuracy" id="sc-accuracy"></div>
+    <div class="sc-streak-chip" id="sc-streak-chip" style="display:none;">
+      <span id="sc-streak-emoji">🔥</span>
+      <strong id="sc-streak-num-display">1</strong> day streak
+      <span class="sc-streak-sep" id="sc-streak-extra"></span>
+    </div>
     <div class="sc-chips" id="sc-chips"></div>
   </div>
   <div class="sc-body">
@@ -374,20 +401,13 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
       <div class="sc-vibe-title" id="sc-vibe-title"></div>
       <div class="sc-vibe-sub" id="sc-vibe-sub"></div>
       <div class="sc-vibe-bar-outer"><div class="sc-vibe-bar-inner" id="sc-vibe-bar"></div></div>
-      <div class="sc-vibe-ends"><span>🎲 Prices Won</span><span>🏆 Price Genius</span></div>
+      <div class="sc-vibe-ends"><span>🎲 Prices Won</span><span id="sc-accuracy"></span><span>🏆 Price Genius</span></div>
     </div>
-    <div class="sc-section-label">Your Results — Shop the Bundle</div>
-    <div id="sc-streak-card" style="display:none;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center;margin-bottom:1rem;">
-      <div style="font-size:36px;margin-bottom:6px;" id="sc-streak-emoji">🔥</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--orange);" id="sc-streak-num-display">1</div>
-      <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Day Streak</div>
-      <div style="font-size:12px;color:var(--text2);" id="sc-streak-msg">Come back tomorrow to keep it going!</div>
-      <div id="sc-best-streak"></div>
-      <div id="sc-heat-info"></div>
-    </div>
-    <div id="sc-rows"></div>
     <button class="sc-share-btn" onclick="shareResults()">Share My Results 📤</button>
     <div class="sc-copied" id="sc-copied"></div>
+    <div class="sc-streak-msg" id="sc-streak-msg"></div>
+    <div class="sc-section-label">Your Results — Shop the Bundle</div>
+    <div id="sc-rows"></div>
     <p class="sc-affiliate">As an Amazon Associate I earn from qualifying purchases. Come back tomorrow for a new theme.</p>
   </div>
 </div>
@@ -432,28 +452,85 @@ function fmtPts(n){return n.toFixed(1);}
 // would. Thresholds are tuned so band populations shrink as they tighten.
 const HEAT_BANDS=[
   {min:100, emoji:'🎯', word:'EXACT!',                cls:'v-perfect', color:'#1DB87A', flash:'#1DB87A', confetti:120,
-   comment:()=>"Spot on to the cent. That's genuinely impressive."},
+   comments:[
+     ()=>"Spot on to the cent. That's genuinely impressive.",
+     ()=>'To the penny. Nobody does that by accident.',
+     ()=>'Perfect. You just called it exactly.',
+     ()=>"Dead on. That's the whole game, right there.",
+     ()=>'Exact. Frankly a little suspicious.']},
   {min:99,  emoji:'🔥', word:'SO UNBELIEVABLY CLOSE', cls:'v-perfect', color:'#1DB87A', flash:'#1DB87A', confetti:90,
-   comment:c=>c?`Off by ${c}. You were basically holding the receipt.`:'A hair off. You were basically holding the receipt.'},
+   comments:[
+     c=>c?`Off by ${c}. You were basically holding the receipt.`:'A hair off. You were basically holding the receipt.',
+     c=>c?`${c}. That is agonising.`:'That is agonising.',
+     c=>c?`Missed it by ${c}. So close it stings.`:'Missed it by a hair. So close it stings.',
+     c=>c?`${c} between you and perfect.`:'A whisker between you and perfect.',
+     c=>c?`${c}. You could taste that one.`:'You could taste that one.']},
   {min:97.5,emoji:'😤', word:'AGONIZINGLY CLOSE',     cls:'v-perfect', color:'#1DB87A', flash:'#22C55E', confetti:70,
-   comment:c=>c?`${c} out. That's a rounding error, not a guess.`:"That's a rounding error, not a guess."},
+   comments:[
+     c=>c?`${c} out. That's a rounding error, not a guess.`:"That's a rounding error, not a guess.",
+     c=>c?`Just ${c} off. Practically exact.`:'Practically exact.',
+     c=>c?`${c} short of calling it perfectly.`:'A breath short of perfect.',
+     c=>c?`Off by ${c} — close enough to sting.`:'Close enough to sting.',
+     c=>c?`${c} away. Maddening.`:'Maddening, that one.']},
   {min:93,  emoji:'🌶️', word:'NAILED IT',             cls:'v-hot',     color:'#22C55E', flash:'#22C55E', confetti:45,
-   comment:()=>'Within a couple percent. You know your prices.'},
+   comments:[
+     ()=>'Within a couple percent. You know your prices.',
+     ()=>'That is a seriously sharp guess.',
+     ()=>"You've clearly shopped this aisle before.",
+     ()=>'Barely off. Confident and correct.',
+     ()=>'Tight. That is what a good eye looks like.']},
   {min:85,  emoji:'👌', word:'SO CLOSE',              cls:'v-hot',     color:'#22C55E', flash:'#22C55E', confetti:25,
-   comment:()=>"Really close. You've got a good eye for this."},
+   comments:[
+     ()=>"Really close. You've got a good eye for this.",
+     ()=>'Comfortably in range. Nice read.',
+     ()=>'Not perfect, but genuinely well judged.',
+     ()=>'You had the measure of that one.',
+     ()=>'Solid. Only a nudge away.']},
   {min:70,  emoji:'👍', word:'NOT BAD',               cls:'v-warm',    color:'#EAB308', flash:'#EAB308', confetti:12,
-   comment:()=>'Right ballpark. Solid instinct on that one.'},
+   comments:[
+     ()=>'Right ballpark. Solid instinct on that one.',
+     ()=>'Reasonable call. The price is in your range.',
+     ()=>'Decent read — you were pointed the right way.',
+     ()=>'Fair guess. Nothing embarrassing about that.',
+     ()=>'Respectable. You were circling the number.']},
   {min:50,  emoji:'🤏', word:'CLOSE-ISH',             cls:'v-warm',    color:'#EAB308', flash:'#EAB308', confetti:0,
-   comment:()=>'A bit out, but you were in the neighborhood.'},
+   comments:[
+     ()=>'A bit out, but you were in the neighborhood.',
+     ()=>'Same postcode, wrong street.',
+     ()=>'Off, though not wildly. These things are slippery.',
+     ()=>'Within shouting distance of the real number.',
+     ()=>'You were orbiting it, just at a distance.']},
   {min:30,  emoji:'😮', word:'SURPRISING PRICE',      cls:'v-cold',    color:'#F97316', flash:'#F97316', confetti:0,
-   comment:()=>"This one doesn't cost what you'd expect it to."},
+   comments:[
+     ()=>"This one doesn't cost what you'd expect it to.",
+     ()=>'That price catches most people out.',
+     ()=>'Genuinely counterintuitive, this one.',
+     ()=>'Not many people would have called that.',
+     ()=>'The price on this one makes no promises.']},
   {min:0,   emoji:'🙃', word:'TOTAL CURVEBALL',       cls:'v-ice',     color:'#7C3AED', flash:'#7C3AED', confetti:0,
-   comment:()=>"Nobody sees this one coming — that's the fun part."},
+   comments:[
+     ()=>"Nobody sees this one coming — that's the fun part.",
+     ()=>'That price makes no sense to anyone. Truly.',
+     ()=>'Completely out of left field. Not your fault.',
+     ()=>'This item exists purely to humble the internet.',
+     ()=>'Nothing about that number was guessable.']},
 ];
-function getHeat(pts,diff){
+// Which variant shows is driven by the day's seed plus how many times this band
+// has already fired in this game — never at random. The day seed keeps two
+// people playing the same day on the same words; the per-band counter steps
+// forward each repeat, so five items landing in one band read five different
+// ways instead of echoing. (Five variants per band, five items per day: a
+// stride of one guarantees no repeat within a game.)
+function getHeat(pts,diff,usedInBand){
   const b=HEAT_BANDS.find(x=>pts>=x.min)||HEAT_BANDS[HEAT_BANDS.length-1];
   const cents=diff!=null&&diff>0&&diff<1?`${Math.round(diff*100)}¢`:null;
-  return{emoji:b.emoji,word:b.word,comment:b.comment(cents),cls:b.cls,color:b.color,flash:b.flash,confetti:b.confetti};
+  const i=(Math.abs(getDailySeed()+Math.round(b.min))+(usedInBand||0))%b.comments.length;
+  return{emoji:b.emoji,word:b.word,comment:b.comments[i](cents),cls:b.cls,color:b.color,flash:b.flash,confetti:b.confetti};
+}
+// How many earlier items this game already landed in the band pts falls into.
+function bandUsage(pts){
+  const b=HEAT_BANDS.find(x=>pts>=x.min)||HEAT_BANDS[HEAT_BANDS.length-1];
+  return guesses.filter(g=>g.heat&&g.heat.word===b.word).length;
 }
 
 // Empty input — not a wrong answer, so it gets its own neutral verdict instead
@@ -464,13 +541,31 @@ function noGuessHeat(auto){
     :{emoji:'⏭️',word:'SKIPPED',comment:"No guess entered on this one. Next item's all yours.",cls:'v-timeout',color:'#64748B'};
 }
 
-// ─── SHOP CTA COPY (keyed to guess direction) ───────
-function shopCopy(guess,actual,noGuess){
-  if(noGuess||!actual||!(guess>0))return'🛒 Shop This Item';
+// ─── SHOP CTA (keyed to the player's own anchor) ────
+// The guess IS the player's stated reference price, so the CTA has to respect
+// it. Guessing high means the real price reads as a find — say so, and let the
+// button escalate, because that is the one genuine bargain moment. Guessing low
+// means they have already told us what they think it is worth; asserting a
+// higher value argues with them and produces reactance, so invite curiosity
+// instead of making a claim.
+const CTA_BARGAIN=1.4;   // guessed >=40% high — the bargain reveal
+const CTA_CURIOUS=1.4;   // guessed >=40% low  — invite investigation
+function ctaState(guess,actual,noGuess){
+  if(noGuess||!actual||!(guess>0))return'plain';
   const r=priceRatio(guess,actual);
-  if(r<1.4) return'🛒 Shop This Item';
-  return guess>actual?'🛒 Cheaper Than You Thought — Shop It'
-                     :'🛒 Worth Every Penny — Shop It';
+  if(guess>actual&&r>=CTA_BARGAIN)return'bargain';
+  if(guess<actual&&r>=CTA_CURIOUS)return'curious';
+  return'plain';
+}
+// Returns the complete button label, price included — the curiosity variant
+// puts the price mid-sentence, so callers must not append it again.
+function shopCopy(guess,actual,noGuess){
+  const price=actual?`$${actual.toFixed(2)}`:'';
+  switch(ctaState(guess,actual,noGuess)){
+    case'bargain':return`🛒 Cheaper Than You Thought — ${price}`;
+    case'curious':return`🔍 See Why It's ${price} →`;
+    default:      return`🛒 Shop This Item — ${price}`;
+  }
 }
 
 // Thresholds tuned against the ratio-based curve above. Same rule as the
@@ -545,6 +640,19 @@ function confetti(n=60){
     el.style.cssText=`left:${Math.random()*100}vw;width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1.4+Math.random()*2}s;animation-delay:${Math.random()*.4}s;`;
     layer.appendChild(el);
     setTimeout(()=>el.remove(),3500);
+  }
+}
+// The low-key counterpart to confetti: a few embers drifting upward. Marks the
+// end of a rough day without pretending it was a win.
+function emberDrift(color){
+  const layer=document.getElementById('fx-layer');
+  for(let i=0;i<14;i++){
+    const el=document.createElement('div');
+    el.className='ember';
+    const size=4+Math.random()*5;
+    el.style.cssText=`left:${8+Math.random()*84}vw;width:${size}px;height:${size}px;background:${color};animation-duration:${2.6+Math.random()*1.8}s;animation-delay:${Math.random()*1.4}s;`;
+    layer.appendChild(el);
+    setTimeout(()=>el.remove(),6000);
   }
 }
 function flash(color){
@@ -718,7 +826,12 @@ function lockGuess(auto=false){
   const area=document.getElementById('product-area');
   const overlay=document.createElement('div');
   overlay.className='revealing-overlay';
-  overlay.innerHTML=`<div class="revealing-text">REVEALING...</div><div class="revealing-bar-outer"><div class="revealing-bar-inner"></div></div>`;
+  overlay.innerHTML=`
+    <div class="revealing-img"><div class="revealing-halo"></div><img src="${productImgSrc(p)}" alt="" onerror="this.remove()"/></div>
+    <div class="revealing-inner">
+      <div class="revealing-text">REVEALING...</div>
+      <div class="revealing-bar-outer"><div class="revealing-bar-inner"></div></div>
+    </div>`;
   area.appendChild(overlay);
 
   if(typeof gtag!=='undefined'){
@@ -733,7 +846,7 @@ function showReveal(guess,noGuess=false,auto=false){
   const p=bundle.products[idx];
   const pts=noGuess?0:calcPoints(guess,p.price);
   const diff=Math.abs(guess-p.price);
-  const heat=noGuess?noGuessHeat(auto):getHeat(pts,diff);
+  const heat=noGuess?noGuessHeat(auto):getHeat(pts,diff,bandUsage(pts));
   score+=pts;
   guesses.push({product:p,guess,pts,heat,noGuess});
 
@@ -787,7 +900,7 @@ function showReveal(guess,noGuess=false,auto=false){
       <div class="pts-of">${fmtPts(score)} / ${(idx+1)*100} pts total</div>
     </div>
     <button class="next-btn" id="rvl-next" onclick="nextProduct()">${isLast?'See My Scorecard 🏆':'Next Item →'}</button>
-    <a class="shop-reveal-btn" id="rvl-cta" href="${affLink(p.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_reveal_click',{product_name:'${p.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${p.price}});">${shopCopy(guess,p.price,noGuess)} — $${p.price.toFixed(2)}</a>
+    <a class="shop-reveal-btn" id="rvl-cta" href="${affLink(p.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_reveal_click',{product_name:'${p.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${p.price}});">${shopCopy(guess,p.price,noGuess)}</a>
     <p style="font-size:8px;color:var(--text3);text-align:center;margin:0 1rem .875rem;line-height:1.4;opacity:.7;">As an Amazon Associate I earn from qualifying purchases.</p>`;
 
   show('reveal');
@@ -815,29 +928,29 @@ function showScorecard(){
   if(typeof gtag!=='undefined'){
     gtag('event','game_complete',{bundle_theme:bundle.theme,final_score:score,max_score:bundle.products.length*100});
   }
-  confetti(80);
+  // Confetti is reserved for days worth celebrating. A weak day still gets a
+  // send-off, just a calm one — firing the same burst regardless is what makes
+  // a good day feel unremarkable.
+  const finalAvg=guesses.reduce((a,g)=>a+g.pts,0)/guesses.length;
+  const finalVibe=getVibe(finalAvg);
+  if(finalAvg>=VIBES[VIBES.length-1].min&&finalAvg<VIBES[VIBES.length-2].min)emberDrift(finalVibe.color);
+  else confetti(finalAvg>=VIBES[1].min?110:70);
   show('scorecard');
 
-  const scStreakCard=document.getElementById('sc-streak-card');
-  if(scStreakCard&&streak>0){
-    scStreakCard.style.display='block';
+  const streakChip=document.getElementById('sc-streak-chip');
+  if(streakChip&&streak>0){
+    streakChip.style.display='inline-flex';
     document.getElementById('sc-streak-num-display').textContent=streak;
-    const emoji=streak>=10?'🔥🔥🔥':streak>=5?'🔥🔥':'🔥';
-    document.getElementById('sc-streak-emoji').textContent=emoji;
-    const msg=streak===1?'Day 1! Come back tomorrow to start a streak.':
-               streak<5?`${streak} days in a row! Keep it going tomorrow.`:
-               streak<10?`${streak} day streak! You're on a roll. Don't break it.`:
+    document.getElementById('sc-streak-emoji').textContent=streak>=10?'🔥🔥🔥':streak>=5?'🔥🔥':'🔥';
+    const best=getBestStreak(), heatCount=getHeatCount();
+    const extra=best>streak?` · best ${best} 🏅`:heatCount>1?` · ${heatCount} close in a row 🎯`:'';
+    document.getElementById('sc-streak-extra').textContent=extra;
+    const msgEl=document.getElementById('sc-streak-msg');
+    if(msgEl)msgEl.textContent=streak===1?'Day 1 — come back tomorrow to start a streak.':
+               streak<5?`${streak} days in a row. Keep it going tomorrow.`:
+               streak<10?`${streak} day streak — you're on a roll. Don't break it.`:
                `${streak} days straight. Legendary. See you tomorrow.`;
-    document.getElementById('sc-streak-msg').textContent=msg;
-    const best=getBestStreak();
-    const bestEl=document.getElementById('sc-best-streak');
-    if(bestEl)bestEl.textContent=best>streak?`Personal best: ${best} days 🏅`:'';
-    const heatCount=getHeatCount();
-    const heatEl=document.getElementById('sc-heat-info');
-    if(heatEl&&heatCount>1)heatEl.textContent=`🎯 ${heatCount} close guess${heatCount===1?'':'es'} in a row`;
-    if(streak===7||streak===30||streak===100||streak===365){
-      setTimeout(()=>playMilestonePhrase(),600);
-    }
+    if(streak===7||streak===30||streak===100||streak===365)setTimeout(()=>playMilestonePhrase(),600);
   }
 
   document.getElementById('sc-theme').textContent=bundle.theme+' '+bundle.emoji;
@@ -853,10 +966,10 @@ function showScorecard(){
 
   const avgPct=guesses.reduce((a,g)=>a+g.pts,0)/guesses.length;
   const vibe=getVibe(avgPct);
-  // Points and average accuracy are the same figure out of 100 per item, so
-  // this is a reading of the total, not a second scoring system.
+  // Labels the vibe bar rather than repeating under the score — the bar's width
+  // is this number, so it belongs on the bar.
   const accEl=document.getElementById('sc-accuracy');
-  if(accEl)accEl.textContent=`${avgPct.toFixed(1)}% average accuracy`;
+  if(accEl)accEl.textContent=`${avgPct.toFixed(1)}% accuracy`;
   document.getElementById('sc-vibe-emoji').textContent=vibe.emoji;
   document.getElementById('sc-vibe-title').textContent=vibe.title;
   document.getElementById('sc-vibe-title').style.color=vibe.color;
@@ -894,7 +1007,7 @@ function showScorecard(){
         <div class="sc-pts-badge${g.noGuess?' sc-pts-none':''}">${g.noGuess?'—':'+'+fmtPts(g.pts)}</div>
       </div>
       <div class="sc-shop-row">
-        <a class="sc-shop-btn" href="${affLink(g.product.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_scorecard_click',{product_name:'${g.product.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${g.product.price}});">${shopCopy(g.guess,g.product.price,g.noGuess)} — $${g.product.price.toFixed(2)}</a>
+        <a class="sc-shop-btn" href="${affLink(g.product.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_scorecard_click',{product_name:'${g.product.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${g.product.price}});">${shopCopy(g.guess,g.product.price,g.noGuess)}</a>
       </div>`;
     rows.appendChild(card);
   });
@@ -989,13 +1102,18 @@ function toggleMute(){
   try{localStorage.setItem('gt_mute',_audioMuted?'1':'0');}catch{}
   syncMuteBtn();
 }
+// Drawn rather than set as an emoji: the 🔊 glyph renders inconsistently at
+// this size and read as a broken/muted speaker regardless of actual state.
+const ICON_SPEAKER='<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4z"/><path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" d="M16.2 8.6a4.6 4.6 0 0 1 0 6.8M18.7 6a8 8 0 0 1 0 12"/></svg>';
+const ICON_MUTED='<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4z"/><path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" d="M16.5 9.5l5 5M21.5 9.5l-5 5"/></svg>';
 function syncMuteBtn(){
   const btn=document.getElementById('mute-btn');
   if(!btn)return;
-  btn.textContent=_audioMuted?'🔇':'🔊';
+  btn.innerHTML=_audioMuted?ICON_MUTED:ICON_SPEAKER;
   btn.classList.toggle('is-muted',_audioMuted);
   btn.setAttribute('aria-pressed',String(_audioMuted));
   btn.setAttribute('aria-label',_audioMuted?'Unmute sound':'Mute sound');
+  btn.setAttribute('title',_audioMuted?'Sound off':'Sound on');
 }
 
 // ─── HEAT SYSTEM ─────────────────────────────────────
@@ -1121,7 +1239,13 @@ function sharedFinishingBeat(imgWrap,variantWrap,actual,guess,pts){
     setTimeout(()=>{
       const cta=document.getElementById('rvl-cta');
       const next=document.getElementById('rvl-next');
-      if(cta)cta.classList.add(close?'show-close':'show-far');
+      if(cta){
+        const state=ctaState(guess,actual,false);
+        if(state!=='plain')cta.classList.add('cta-'+state);
+        // A bargain reveal always gets the escalated entrance; otherwise only a
+        // close guess earns the reward animation.
+        cta.classList.add(state==='bargain'||close?'show-close':'show-far');
+      }
       if(next)next.classList.add('show');
     },200);
   },730);
