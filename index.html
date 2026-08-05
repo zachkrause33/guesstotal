@@ -150,8 +150,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 .pts-of{font-size:12px;color:var(--text2);}
 
 /* SHOP BUTTON */
-.shop-reveal-btn{display:block;margin:0 1rem .875rem;padding:14px;text-align:center;background:var(--orange);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;border-radius:var(--r-sm);text-decoration:none;letter-spacing:.3px;transition:opacity .15s;}
-.shop-reveal-btn:active{opacity:.85;}
+.shop-reveal-btn{display:block;margin:0 1rem .375rem;padding:10px;text-align:center;background:transparent;color:var(--orange);border:1.5px solid rgba(255,107,53,.3);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;border-radius:var(--r-sm);text-decoration:none;letter-spacing:.2px;transition:background .15s,opacity .15s;}
+.shop-reveal-btn:active{background:var(--orange-lt);}
 
 /* NEXT */
 .next-btn{width:calc(100% - 2rem);margin:0 1rem 1rem;padding:14px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;background:var(--text);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;transition:opacity .15s;}
@@ -693,9 +693,9 @@ function showReveal(guess){
       <div class="pts-earned">+${pts} pts</div>
       <div class="pts-of">${score} / ${(idx+1)*100} pts total</div>
     </div>
+    <button class="next-btn" id="rvl-next" onclick="nextProduct()">${isLast?'See My Scorecard 🏆':'Next Item →'}</button>
     <a class="shop-reveal-btn" id="rvl-cta" href="${affLink(p.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_reveal_click',{product_name:'${p.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${p.price}});">🛒 Shop This Item — $${p.price.toFixed(2)}</a>
-    <p style="font-size:10px;color:var(--text3);text-align:center;margin:0 1rem .5rem;">As an Amazon Associate I earn from qualifying purchases.</p>
-    <button class="next-btn" id="rvl-next" onclick="nextProduct()">${isLast?'See My Scorecard 🏆':'Next Item →'}</button>`;
+    <p style="font-size:8px;color:var(--text3);text-align:center;margin:0 1rem .875rem;line-height:1.4;opacity:.7;">As an Amazon Associate I earn from qualifying purchases.</p>`;
 
   show('reveal');
 
