@@ -75,6 +75,19 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 .intro-btn:active{transform:scale(.96);}
 .intro-streak{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;color:#fff;}
 
+/* ─── ALREADY-PLAYED STATE ──────────────────────── */
+/* A returning visitor is an engaged one. This half sells tomorrow instead of
+   repeating the rules they just finished using and parking a disabled pill. */
+.wait-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1.15rem 1.25rem 1.25rem;text-align:center;max-width:340px;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.04);}
+.wait-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text2);}
+.wait-clock{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1.05;color:var(--orange);letter-spacing:2px;font-variant-numeric:tabular-nums;}
+.wait-units{display:flex;justify-content:center;gap:34px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-top:-2px;}
+.wait-locked{margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--border);font-size:13px;color:var(--text2);}
+.wait-locked strong{color:var(--text);letter-spacing:2px;}
+.wait-streak{font-size:14px;color:var(--text);text-align:center;line-height:1.5;max-width:320px;}
+.wait-streak strong{color:var(--orange);}
+.wait-ready{background:var(--gold);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;border:none;border-radius:999px;padding:16px 44px;cursor:pointer;box-shadow:0 6px 20px rgba(201,168,0,.35);}
+
 /* ─── GAME SCREEN ───────────────────────────────── */
 #game{background:var(--bg);}
 .game-header{background:var(--orange);padding:.75rem 1rem .6rem;flex-shrink:0;}
@@ -338,7 +351,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
     <div class="intro-theme" id="intro-theme">Loading...</div>
     <div class="intro-tag" id="intro-tag"></div>
   </div>
-  <div class="intro-bottom">
+  <div class="intro-bottom" id="intro-bottom">
     <div class="intro-rules">
       <div class="intro-rule"><div class="intro-rule-icon">🏷️</div><span>Guess the price of each item</span></div>
       <div class="intro-rule"><div class="intro-rule-icon">⏱️</div><span>30 seconds per product</span></div>
@@ -715,24 +728,65 @@ async function init(){
   }
 
   if(hasPlayedToday()){
-    const btn=document.querySelector('.intro-btn');
-    if(btn){
-      // The button now sits on the white panel, so the spent state has to be a
-      // muted chip — white-on-translucent read fine against orange but would be
-      // invisible here.
-      btn.textContent='Come Back Tomorrow 🌙';
-      btn.style.background='var(--border)';
-      btn.style.color='var(--text2)';
-      btn.style.boxShadow='none';
-      btn.style.cursor='default';
-      btn.onclick=null;
-    }
+    renderWaitState(streak);
     const tag=document.getElementById('intro-tag');
-    if(tag) tag.textContent="You've already played today. Your streak is safe 🔥 See you tomorrow!";
+    // "See you tomorrow" dropped: the countdown and the streak line below both
+    // say it now, and three return prompts on one screen is two too many.
+    if(tag) tag.textContent="You've already played today. Your streak is safe 🔥";
   }
 
   syncMuteBtn();
   if(typeof gtag!=='undefined')gtag('event','game_loaded',{bundle_theme:bundle.theme});
+}
+
+// ─── ALREADY-PLAYED STATE ────────────────────────────
+// Replaces the rules card and the play button, neither of which has a job for
+// someone who already finished today: they know the rules, and the button has
+// nothing to do. Sells the wait instead — how long until the next puzzle, that
+// tomorrow's theme is deliberately withheld, and the streak stated forward as
+// the number they stand to reach rather than the one they already have.
+function msUntilReset(){
+  const n=new Date();
+  return new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,0,0)-n;
+}
+function splitCountdown(ms){
+  const s=Math.max(0,Math.floor(ms/1000));
+  return[String(Math.floor(s/3600)).padStart(2,'0'),
+         String(Math.floor(s%3600/60)).padStart(2,'0'),
+         String(s%60).padStart(2,'0')];
+}
+let _waitTimer=null;
+function renderWaitState(streak){
+  const host=document.getElementById('intro-bottom');
+  if(!host)return;
+  const next=streak>0?streak+1:1;
+  const forward=streak>0
+    ?`Come back tomorrow to make it <strong>${next} days</strong> 🔥`
+    :'Play again tomorrow to start a streak 🔥';
+  host.innerHTML=`
+    <div class="wait-card">
+      <div class="wait-label">Next game in</div>
+      <div class="wait-clock" id="wait-clock">--:--:--</div>
+      <div class="wait-units"><span>hrs</span><span>min</span><span>sec</span></div>
+      <div class="wait-locked">🔒 Tomorrow's theme: <strong>???</strong></div>
+    </div>
+    <div class="wait-streak">${forward}</div>`;
+  const tick=()=>{
+    const el=document.getElementById('wait-clock');
+    if(!el)return;
+    const left=msUntilReset();
+    if(left<=0){
+      clearInterval(_waitTimer);_waitTimer=null;
+      // Don't reload on our own — a clock disagreement would loop. Offer it.
+      host.innerHTML=`<div class="wait-streak"><strong>A new theme is live.</strong></div>
+        <button class="wait-ready" onclick="location.reload()">Play Today's Game ⚡</button>`;
+      return;
+    }
+    el.textContent=splitCountdown(left).join(':');
+  };
+  tick();
+  clearInterval(_waitTimer);
+  _waitTimer=setInterval(tick,1000);
 }
 
 // ─── GAME START ──────────────────────────────────────
