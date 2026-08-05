@@ -261,6 +261,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 #rvl-price-display{text-align:center;padding:.5rem 1rem .625rem;display:none;}
 #rvl-price-num{font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:1;}
 .rvl-guess-row{display:flex;justify-content:center;gap:20px;font-size:12px;color:var(--text2);margin-top:.25rem;}
+/* Sub-dollar misses get called out — the near miss is the hook. */
+.rvl-diff-near{color:var(--green);font-weight:600;}
 
 /* ─── ACCURACY PARTICLES ───────────────────────── */
 .acc-spark{position:fixed;width:7px;height:7px;border-radius:50%;pointer-events:none;z-index:998;animation:sparkDrift .95s ease-out forwards;}
@@ -405,14 +407,34 @@ function priceRatio(guess, actual){
   return Math.max(guess,actual)/Math.min(guess,actual);
 }
 
-// Continuous, to one decimal: 100 x (smaller price / larger price). Replaces a
-// bracket table, so $20.30 and $20.39 on a $20 item no longer tie. Falls off
-// smoothly toward 0 on a wild guess, so no artificial floor is needed and an
-// exact 0 stays reserved for a no-guess.
+// Continuous, to one decimal, and the better of two readings of the same guess:
+//
+//   near band  — how many dollars off, regardless of price. Pure ratio is
+//                unfair to cheap items: a quarter off a $7 item scores 96.6,
+//                when a quarter off anything should read as near-exact.
+//                Anchored so $0.25 -> 99.9 and $0.99 -> 99.0 at every price,
+//                over or under, then decaying steeply.
+//   ratio      — the symmetric 100 x smaller/larger, which governs real misses.
+//
+// Taking the higher of the two keeps the near-miss generous without loosening
+// how a genuine miss scores: the band wins inside about a dollar, ratio wins
+// everywhere else, and they cross smoothly so there is no step.
+const NEAR_A=0.1468;   // fitted to the two anchors below
+const NEAR_B=2.0777;   // 0.25 -> 99.9, 0.99 -> 99.0
+function nearBandScore(diff){return 100-NEAR_A*(Math.exp(NEAR_B*diff)-1);}
+
 function calcPoints(guess, actual){
+  if(!(guess>0)||!(actual>0)) return 0;
+  if(guess===actual) return 100;
   const r=priceRatio(guess,actual);
-  if(!isFinite(r)) return 0;
-  return Math.round(100/r*10)/10;
+  // The band is fed the gap the *same ratio* would make on the high side, not
+  // the raw gap. Feeding it the raw gap made an under-guess worth up to 19 pts
+  // more than an over-guess of identical ratio on cheap items, which is the
+  // over/under bias this scoring exists to avoid. This keeps the two identical.
+  const pts=Math.round(Math.max(0,Math.min(100,
+    Math.max(100/r, nearBandScore(actual*(r-1)))
+  ))*10)/10;
+  return pts>=100?99.9:pts; // only a to-the-cent guess ever displays 100.0
 }
 
 // Points and percent accuracy are the same number here — the day is scored out
@@ -421,14 +443,19 @@ function fmtPts(n){return n.toFixed(1);}
 
 // Verdict copy runs on one rule: never blame the player. The low bands are
 // about the price being surprising, which is the whole premise of the game.
-function getHeat(pts){
-  if(pts>=100) return{emoji:'🎯',word:'EXACT!',comment:"Spot on to the cent. That's genuinely impressive.",cls:'v-perfect',color:'#1DB87A'};
-  if(pts>=95)  return{emoji:'🔥',word:'NAILED IT',comment:"Within a couple percent. You know your prices.",cls:'v-hot',color:'#22C55E'};
-  if(pts>=90)  return{emoji:'🌶️',word:'SO CLOSE',comment:"Really close. You've got a good eye for this.",cls:'v-hot',color:'#22C55E'};
-  if(pts>=75)  return{emoji:'👍',word:'NOT BAD',comment:"Right ballpark. Solid instinct on that one.",cls:'v-warm',color:'#EAB308'};
-  if(pts>=55)  return{emoji:'🤏',word:'CLOSE-ISH',comment:"A bit out, but you were in the neighborhood.",cls:'v-warm',color:'#EAB308'};
-  if(pts>=35)  return{emoji:'😮',word:'SURPRISING PRICE',comment:"This one doesn't cost what you'd expect it to.",cls:'v-cold',color:'#F97316'};
-  return       {emoji:'🙃',word:'TOTAL CURVEBALL',comment:"Nobody sees this one coming — that's the fun part.",cls:'v-ice',color:'#7C3AED'};
+// heatFor() takes the dollar gap too, so the near-miss bands can talk in cents.
+// Landing inside a dollar should feel like you almost took the whole thing.
+function getHeat(pts,diff){
+  const c=diff!=null&&diff<1?`${Math.round(diff*100)}¢`:null;
+  if(pts>=100)  return{emoji:'🎯',word:'EXACT!',comment:"Spot on to the cent. That's genuinely impressive.",cls:'v-perfect',color:'#1DB87A'};
+  if(pts>=99.7) return{emoji:'😤',word:'AGONIZINGLY CLOSE',comment:c?`Off by ${c}. You were basically holding the receipt.`:'A hair off. You were basically holding the receipt.',cls:'v-perfect',color:'#1DB87A'};
+  if(pts>=99)   return{emoji:'🔥',word:'SO UNBELIEVABLY CLOSE',comment:c?`${c} out. That's a rounding error, not a guess.`:"That's a rounding error, not a guess.",cls:'v-perfect',color:'#1DB87A'};
+  if(pts>=95)   return{emoji:'🌶️',word:'NAILED IT',comment:'Within a couple percent. You know your prices.',cls:'v-hot',color:'#22C55E'};
+  if(pts>=90)   return{emoji:'👌',word:'SO CLOSE',comment:"Really close. You've got a good eye for this.",cls:'v-hot',color:'#22C55E'};
+  if(pts>=75)   return{emoji:'👍',word:'NOT BAD',comment:'Right ballpark. Solid instinct on that one.',cls:'v-warm',color:'#EAB308'};
+  if(pts>=55)   return{emoji:'🤏',word:'CLOSE-ISH',comment:'A bit out, but you were in the neighborhood.',cls:'v-warm',color:'#EAB308'};
+  if(pts>=35)   return{emoji:'😮',word:'SURPRISING PRICE',comment:"This one doesn't cost what you'd expect it to.",cls:'v-cold',color:'#F97316'};
+  return        {emoji:'🙃',word:'TOTAL CURVEBALL',comment:"Nobody sees this one coming — that's the fun part.",cls:'v-ice',color:'#7C3AED'};
 }
 
 // Empty input — not a wrong answer, so it gets its own neutral verdict instead
@@ -707,7 +734,8 @@ function lockGuess(auto=false){
 function showReveal(guess,noGuess=false,auto=false){
   const p=bundle.products[idx];
   const pts=noGuess?0:calcPoints(guess,p.price);
-  const heat=noGuess?noGuessHeat(auto):getHeat(pts);
+  const diff=Math.abs(guess-p.price);
+  const heat=noGuess?noGuessHeat(auto):getHeat(pts,diff);
   score+=pts;
   guesses.push({product:p,guess,pts,heat,noGuess});
 
@@ -718,16 +746,21 @@ function showReveal(guess,noGuess=false,auto=false){
   setTimeout(()=>document.getElementById('gh-score').classList.remove('bump'),400);
   document.getElementById('rh-score').textContent=`${fmtPts(score)} pts`;
 
+  // Celebration scales with the near-miss, not just the win: landing inside a
+  // dollar gets near-jackpot treatment so it feels like you almost had it.
   if(noGuess){flash('#64748B');}
-  else if(pts===100){flash('#1DB87A');confetti(100);}
-  else if(pts>=70){flash('#22C55E');confetti(50);}
-  else if(pts>=50){flash('#EAB308');confetti(20);}
-  else if(pts>=30){flash('#EAB308');}
-  else if(pts>=15){flash('#F97316');}
+  else if(pts>=100){flash('#1DB87A');confetti(120);}
+  else if(pts>=99.7){flash('#1DB87A');confetti(90);}
+  else if(pts>=99){flash('#22C55E');confetti(70);}
+  else if(pts>=95){flash('#22C55E');confetti(45);}
+  else if(pts>=90){flash('#22C55E');confetti(25);}
+  else if(pts>=75){flash('#EAB308');confetti(12);}
+  else if(pts>=55){flash('#EAB308');}
+  else if(pts>=35){flash('#F97316');}
   else{flash('#7C3AED');}
 
   // No "+0" fly-up on a timeout — the player didn't guess, don't rub it in.
-  if(!noGuess)setTimeout(()=>flyPts(pts,pts>=70?'#1DB87A':pts>=30?'#EAB308':'#7C3AED'),300);
+  if(!noGuess)setTimeout(()=>flyPts(pts,pts>=90?'#1DB87A':pts>=55?'#EAB308':'#7C3AED'),300);
 
   const isLast=idx===bundle.products.length-1;
   const variant=getDayVariant();
@@ -746,7 +779,10 @@ function showReveal(guess,noGuess=false,auto=false){
       <div class="rvl-guess-row">${noGuess
         ?`<span class="rvl-timeout-note">${auto?"⏱️ Time's up — no guess locked in":'⏭️ No guess entered'}</span>`
         :`<span>Your guess: <strong>$${guess.toFixed(2)}</strong></span>
-        <span>Diff: <strong>${guess===p.price?'$0.00 🎯':'$'+Math.abs(guess-p.price).toFixed(2)}</strong></span>`}
+        <span class="${diff<1&&diff>0?'rvl-diff-near':''}">Off by: <strong>${
+          guess===p.price?'$0.00 🎯'
+          :diff<1?Math.round(diff*100)+'¢'
+          :'$'+diff.toFixed(2)}</strong></span>`}
       </div>
     </div>
     <div class="verdict-wrap ${heat.cls}" id="rvl-verdict">
