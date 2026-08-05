@@ -174,7 +174,9 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 .sc-logo span{color:var(--gold);}
 .sc-theme{font-size:12px;color:rgba(255,255,255,.8);margin-top:2px;}
 .sc-score-big{font-family:'Bebas Neue',sans-serif;font-size:80px;color:var(--gold);line-height:1;text-shadow:0 6px 24px rgba(255,215,0,.4);}
-.sc-score-label{font-size:12px;color:rgba(255,255,255,.75);margin-bottom:.75rem;}
+.sc-score-label{font-size:12px;color:rgba(255,255,255,.75);}
+/* Secondary reading of the same total — never the headline number. */
+.sc-accuracy{font-size:11px;color:rgba(255,255,255,.6);margin-top:2px;margin-bottom:.75rem;}
 .sc-chips{display:flex;gap:8px;justify-content:center;margin-bottom:.5rem;}
 .sc-chip{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;animation:chipPop .4s cubic-bezier(.34,1.56,.64,1) both;}
 @keyframes chipPop{from{transform:scale(0)}to{transform:scale(1)}}
@@ -199,6 +201,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 .sc-sub{font-size:11px;color:var(--text2);margin-top:2px;}
 .sc-heat{font-size:22px;flex-shrink:0;}
 .sc-pts-badge{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold);flex-shrink:0;}
+.sc-pts-badge.sc-pts-none{color:var(--text3);}
 .sc-shop-row{padding:0 .875rem .875rem;}
 .sc-shop-btn{display:block;padding:11px;text-align:center;background:var(--orange-lt);color:var(--orange);border:1.5px solid rgba(255,107,53,.25);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;border-radius:var(--r-sm);text-decoration:none;transition:all .15s;}
 .sc-shop-btn:active{background:var(--orange);color:#fff;}
@@ -358,8 +361,9 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
     <div class="sc-blob" style="width:220px;height:220px;top:-70px;right:-60px;"></div>
     <div class="sc-logo">GUESS <span>TOTAL</span></div>
     <div class="sc-theme" id="sc-theme"></div>
-    <div class="sc-score-big" id="sc-score-big">0</div>
+    <div class="sc-score-big" id="sc-score-big">0.0</div>
     <div class="sc-score-label" id="sc-score-label">out of 500 pts</div>
+    <div class="sc-accuracy" id="sc-accuracy"></div>
     <div class="sc-chips" id="sc-chips"></div>
   </div>
   <div class="sc-body">
@@ -401,30 +405,29 @@ function priceRatio(guess, actual){
   return Math.max(guess,actual)/Math.min(guess,actual);
 }
 
+// Continuous, to one decimal: 100 x (smaller price / larger price). Replaces a
+// bracket table, so $20.30 and $20.39 on a $20 item no longer tie. Falls off
+// smoothly toward 0 on a wild guess, so no artificial floor is needed and an
+// exact 0 stays reserved for a no-guess.
 function calcPoints(guess, actual){
-  if(guess===actual) return 100;
   const r=priceRatio(guess,actual);
-  if(r<=1.02) return 90;
-  if(r<=1.05) return 80;
-  if(r<=1.10) return 70;
-  if(r<=1.18) return 60;
-  if(r<=1.30) return 50;
-  if(r<=1.50) return 40;
-  if(r<=1.80) return 30;
-  if(r<=2.20) return 20;
-  if(r<=3.00) return 10;
-  return 5; // Any real guess floors at 5 — only a no-guess scores 0.
+  if(!isFinite(r)) return 0;
+  return Math.round(100/r*10)/10;
 }
+
+// Points and percent accuracy are the same number here — the day is scored out
+// of 100 per item, so the daily mean doubles as an average accuracy reading.
+function fmtPts(n){return n.toFixed(1);}
 
 // Verdict copy runs on one rule: never blame the player. The low bands are
 // about the price being surprising, which is the whole premise of the game.
 function getHeat(pts){
-  if(pts===100) return{emoji:'🎯',word:'EXACT!',comment:"Spot on to the cent. That's genuinely impressive.",cls:'v-perfect',color:'#1DB87A'};
-  if(pts>=90)  return{emoji:'🔥',word:'NAILED IT',comment:"Within a couple percent. You know your prices.",cls:'v-hot',color:'#22C55E'};
-  if(pts>=70)  return{emoji:'🌶️',word:'SO CLOSE',comment:"Really close. You've got a good eye for this.",cls:'v-hot',color:'#22C55E'};
-  if(pts>=50)  return{emoji:'👍',word:'NOT BAD',comment:"Right ballpark. Solid instinct on that one.",cls:'v-warm',color:'#EAB308'};
-  if(pts>=30)  return{emoji:'🤏',word:'CLOSE-ISH',comment:"A bit out, but you were in the neighborhood.",cls:'v-warm',color:'#EAB308'};
-  if(pts>=15)  return{emoji:'😮',word:'SURPRISING PRICE',comment:"This one doesn't cost what you'd expect it to.",cls:'v-cold',color:'#F97316'};
+  if(pts>=100) return{emoji:'🎯',word:'EXACT!',comment:"Spot on to the cent. That's genuinely impressive.",cls:'v-perfect',color:'#1DB87A'};
+  if(pts>=95)  return{emoji:'🔥',word:'NAILED IT',comment:"Within a couple percent. You know your prices.",cls:'v-hot',color:'#22C55E'};
+  if(pts>=90)  return{emoji:'🌶️',word:'SO CLOSE',comment:"Really close. You've got a good eye for this.",cls:'v-hot',color:'#22C55E'};
+  if(pts>=75)  return{emoji:'👍',word:'NOT BAD',comment:"Right ballpark. Solid instinct on that one.",cls:'v-warm',color:'#EAB308'};
+  if(pts>=55)  return{emoji:'🤏',word:'CLOSE-ISH',comment:"A bit out, but you were in the neighborhood.",cls:'v-warm',color:'#EAB308'};
+  if(pts>=35)  return{emoji:'😮',word:'SURPRISING PRICE',comment:"This one doesn't cost what you'd expect it to.",cls:'v-cold',color:'#F97316'};
   return       {emoji:'🙃',word:'TOTAL CURVEBALL',comment:"Nobody sees this one coming — that's the fun part.",cls:'v-ice',color:'#7C3AED'};
 }
 
@@ -448,10 +451,10 @@ function shopCopy(guess,actual,noGuess){
 // Thresholds tuned against the ratio-based curve above. Same rule as the
 // per-item verdicts: the bottom band blames the lineup, never the player.
 const VIBES=[
-  {min:78, emoji:'🏆', title:'PRICE GENIUS',     color:'#1DB87A', sub:"Elite run. You knew what everything cost and that's genuinely rare."},
-  {min:60, emoji:'😎', title:'SHARP EYE',        color:'#22C55E', sub:'Impressive. You clearly pay attention to what things actually cost.'},
-  {min:42, emoji:'🙂', title:'SOLID INSTINCTS',  color:'#EAB308', sub:'Good showing — you were in the right range more often than not.'},
-  {min:26, emoji:'🧐', title:'STILL LEARNING',   color:'#F97316', sub:"A few of these priced nothing like you'd expect. That's the whole game."},
+  {min:92, emoji:'🏆', title:'PRICE GENIUS',     color:'#1DB87A', sub:"Elite run. You knew what everything cost and that's genuinely rare."},
+  {min:84, emoji:'😎', title:'SHARP EYE',        color:'#22C55E', sub:'Impressive. You clearly pay attention to what things actually cost.'},
+  {min:72, emoji:'🙂', title:'SOLID INSTINCTS',  color:'#EAB308', sub:'Good showing — you were in the right range more often than not.'},
+  {min:58, emoji:'🧐', title:'STILL LEARNING',   color:'#F97316', sub:"A few of these priced nothing like you'd expect. That's the whole game."},
   {min:0,  emoji:'🎲', title:'PRICES WON TODAY', color:'#7C3AED', sub:"Today's lineup played dirty. Fresh set tomorrow — come take another swing."},
 ];
 function getVibe(avgPct){for(const v of VIBES)if(avgPct>=v.min)return v;return VIBES[VIBES.length-1];}
@@ -529,7 +532,7 @@ function flyPts(pts,color){
   const layer=document.getElementById('fx-layer');
   const el=document.createElement('div');
   el.className='pts-fly';
-  el.textContent=`+${pts}`;
+  el.textContent=`+${fmtPts(pts)}`;
   el.style.cssText=`color:${color};left:50%;transform:translateX(-50%);top:55%;`;
   layer.appendChild(el);
   setTimeout(()=>el.remove(),1200);
@@ -710,10 +713,10 @@ function showReveal(guess,noGuess=false,auto=false){
 
   updateHeat(noGuess?false:isCloseGuess(guess,p.price));
 
-  document.getElementById('gh-score').textContent=`${score} pts`;
+  document.getElementById('gh-score').textContent=`${fmtPts(score)} pts`;
   document.getElementById('gh-score').classList.add('bump');
   setTimeout(()=>document.getElementById('gh-score').classList.remove('bump'),400);
-  document.getElementById('rh-score').textContent=`${score} pts`;
+  document.getElementById('rh-score').textContent=`${fmtPts(score)} pts`;
 
   if(noGuess){flash('#64748B');}
   else if(pts===100){flash('#1DB87A');confetti(100);}
@@ -754,8 +757,8 @@ function showReveal(guess,noGuess=false,auto=false){
       </div>
     </div>
     <div class="pts-row" id="rvl-pts">
-      <div class="pts-earned${noGuess?' pts-none':''}">${noGuess?'No points this round':'+'+pts+' pts'}</div>
-      <div class="pts-of">${score} / ${(idx+1)*100} pts total</div>
+      <div class="pts-earned${noGuess?' pts-none':''}">${noGuess?'No points this round':'+'+fmtPts(pts)+' pts'}</div>
+      <div class="pts-of">${fmtPts(score)} / ${(idx+1)*100} pts total</div>
     </div>
     <button class="next-btn" id="rvl-next" onclick="nextProduct()">${isLast?'See My Scorecard 🏆':'Next Item →'}</button>
     <a class="shop-reveal-btn" id="rvl-cta" href="${affLink(p.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_reveal_click',{product_name:'${p.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${p.price}});">${shopCopy(guess,p.price,noGuess)} — $${p.price.toFixed(2)}</a>
@@ -815,14 +818,19 @@ function showScorecard(){
 
   let displayed=0;
   const el=document.getElementById('sc-score-big');
+  const step=score/25;
   const iv=setInterval(()=>{
-    displayed=Math.min(displayed+Math.ceil(score/25),score);
-    el.textContent=displayed;
+    displayed=Math.min(displayed+step,score);
+    el.textContent=fmtPts(displayed);
     if(displayed>=score)clearInterval(iv);
   },28);
 
   const avgPct=guesses.reduce((a,g)=>a+g.pts,0)/guesses.length;
   const vibe=getVibe(avgPct);
+  // Points and average accuracy are the same figure out of 100 per item, so
+  // this is a reading of the total, not a second scoring system.
+  const accEl=document.getElementById('sc-accuracy');
+  if(accEl)accEl.textContent=`${avgPct.toFixed(1)}% average accuracy`;
   document.getElementById('sc-vibe-emoji').textContent=vibe.emoji;
   document.getElementById('sc-vibe-title').textContent=vibe.title;
   document.getElementById('sc-vibe-title').style.color=vibe.color;
@@ -857,7 +865,7 @@ function showScorecard(){
           <div class="sc-sub">Actual: <strong>$${g.product.price.toFixed(2)}</strong> · ${g.noGuess?"⏱️ No guess":'You guessed: $'+g.guess.toFixed(2)}</div>
         </div>
         <div class="sc-heat">${g.heat.emoji}</div>
-        <div class="sc-pts-badge">+${g.pts}</div>
+        <div class="sc-pts-badge${g.noGuess?' sc-pts-none':''}">${g.noGuess?'—':'+'+fmtPts(g.pts)}</div>
       </div>
       <div class="sc-shop-row">
         <a class="sc-shop-btn" href="${affLink(g.product.asin)}" target="_blank" rel="noopener" onclick="if(typeof gtag!=='undefined')gtag('event','shop_scorecard_click',{product_name:'${g.product.name.replace(/'/g,"\\'")}',bundle_theme:'${bundle.theme.replace(/'/g,"\\'")}',actual_price:${g.product.price}});">${shopCopy(g.guess,g.product.price,g.noGuess)} — $${g.product.price.toFixed(2)}</a>
@@ -873,16 +881,14 @@ function getDayVariant(){
 }
 
 // ─── ACCURACY UTILS ──────────────────────────────────
-// Same symmetric ratio the scoring uses, so colour, chime pitch and the CTA
-// reward all agree with the points awarded.
-const CLOSE_RATIO=1.10;
+// Both derive straight from the score, so colour, chime pitch and the CTA
+// reward can never drift from the points actually awarded.
+const CLOSE_PTS=90;
 function isCloseGuess(guess,actual){
-  return priceRatio(guess,actual)<=CLOSE_RATIO;
+  return calcPoints(guess,actual)>=CLOSE_PTS;
 }
 function accuracyRatio(guess,actual){
-  const r=priceRatio(guess,actual);
-  if(!isFinite(r))return 0;
-  return Math.max(0,Math.min(1,1-Math.log(r)/Math.log(3)));
+  return Math.max(0,Math.min(1,calcPoints(guess,actual)/100));
 }
 function revealColor(ratio){
   const r=Math.round(94+ratio*(255-94));
@@ -1101,7 +1107,7 @@ function shareResults(){
   const vibe=getVibe(avgPct);
   const lines=guesses.map(g=>`${g.heat.emoji} ${g.product.teaser||g.product.name}`).join('\n');
   const max=bundle.products.length*100;
-  const text=`Guess Total ${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}\n${bundle.theme} ${bundle.emoji}\n\n${lines}\n\n${vibe.emoji} ${vibe.title} — ${score}/${max} pts\nguesstotal.com`;
+  const text=`Guess Total ${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}\n${bundle.theme} ${bundle.emoji}\n\n${lines}\n\n${vibe.emoji} ${vibe.title} — ${fmtPts(score)}/${max} pts (${avgPct.toFixed(1)}% accuracy)\nguesstotal.com`;
 
   if(navigator.share){
     navigator.share({title:'Guess Total',text,url:'https://guesstotal.com'})
