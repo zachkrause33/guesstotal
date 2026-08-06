@@ -54,39 +54,49 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 @keyframes flashPop{0%{opacity:0}25%{opacity:.45}100%{opacity:0}}
 
 /* ─── THEME INTRO ───────────────────────────────── */
-/* Split like every other screen: orange masthead, content area below it. Wall-
-   to-wall orange left the rules card and the gold CTA sitting warm-on-warm with
-   nothing to read against. */
-#intro{background:var(--bg);}
-.intro-top{background:var(--orange);flex:1 1 52%;min-height:0;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.75rem 1.5rem;}
-.intro-bottom{background:var(--bg);flex:1 1 48%;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;padding:1.5rem 1.5rem 1.75rem;}
-.intro-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.07);}
-.intro-logo{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:#fff;line-height:1;}
+#intro{background:var(--orange);align-items:center;justify-content:center;text-align:center;padding:1.25rem 1.25rem 1.5rem;overflow:hidden;}
+.intro-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.07);pointer-events:none;}
+.intro-logo{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:3px;color:#fff;line-height:1;z-index:1;}
 .intro-logo span{color:var(--gold);}
-.intro-emoji{font-size:56px;margin:1.25rem 0 .5rem;animation:popIn .5s cubic-bezier(.34,1.56,.64,1);}
+.intro-emoji{font-size:60px;margin:1.125rem 0 .5rem;line-height:1;z-index:1;animation:popIn .5s cubic-bezier(.34,1.56,.64,1);}
 @keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
-.intro-theme{font-family:'Bebas Neue',sans-serif;font-size:30px;color:#fff;letter-spacing:2px;line-height:1.15;margin-bottom:.5rem;}
-.intro-tag{font-size:13px;color:rgba(255,255,255,.85);line-height:1.5;max-width:320px;}
-.intro-rules{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;text-align:left;max-width:340px;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.04);}
-.intro-rule{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text);margin-bottom:8px;}
-.intro-rule:last-child{margin-bottom:0;}
-.intro-rule-icon{font-size:18px;flex-shrink:0;width:26px;text-align:center;}
-.intro-btn{background:var(--gold);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;border:none;border-radius:999px;padding:16px 44px;cursor:pointer;letter-spacing:.3px;transition:transform .15s,box-shadow .15s;box-shadow:0 6px 20px rgba(201,168,0,.35);}
+.intro-theme{font-family:'Bebas Neue',sans-serif;font-size:32px;color:#fff;letter-spacing:2px;line-height:1.1;z-index:1;}
+.intro-tag{font-size:14px;color:rgba(255,255,255,.82);margin-top:6px;margin-bottom:22px;max-width:320px;z-index:1;}
+.intro-streak{position:absolute;top:18px;right:18px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 14px;font-size:12px;font-weight:700;color:#fff;z-index:2;}
+#intro-panel{width:100%;display:flex;flex-direction:column;align-items:center;z-index:1;}
+
+/* Merged card — the hook (blurred item, what the run is) and the rules in one
+   surface, so the intro reads as a single object rather than a stack. */
+.merged{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:18px;padding:16px;width:100%;max-width:340px;margin-bottom:20px;}
+.merged-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.12);}
+.merged-img{width:68px;height:68px;border-radius:12px;flex-shrink:0;overflow:hidden;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;position:relative;}
+.merged-img img{width:100%;height:100%;object-fit:contain;filter:blur(8px) saturate(1.3);transform:scale(1.15);}
+.merged-q{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:32px;color:rgba(255,255,255,.95);text-shadow:0 1px 6px rgba(0,0,0,.3);}
+.merged-txt{flex:1;text-align:left;}
+.merged-kick{font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);}
+.merged-h{font-size:16px;font-weight:600;color:#fff;line-height:1.3;margin-top:3px;}
+.merged-s{font-size:12.5px;color:rgba(255,255,255,.7);margin-top:2px;}
+.merged-rules{display:flex;flex-direction:column;gap:8px;}
+.mr{display:flex;align-items:center;gap:11px;font-size:13.5px;color:rgba(255,255,255,.9);text-align:left;}
+.mr-i{width:22px;text-align:center;font-size:16px;flex-shrink:0;}
+
+.intro-btn{width:100%;max-width:300px;padding:17px;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;background:var(--gold);color:var(--text);border:none;border-radius:999px;cursor:pointer;letter-spacing:.3px;box-shadow:0 5px 18px rgba(240,180,20,.42);transition:transform .15s;}
 .intro-btn:active{transform:scale(.96);}
-.intro-streak{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;color:#fff;}
 
 /* ─── ALREADY-PLAYED STATE ──────────────────────── */
-/* A returning visitor is an engaged one. This half sells tomorrow instead of
-   repeating the rules they just finished using and parking a disabled pill. */
-.wait-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1.15rem 1.25rem 1.25rem;text-align:center;max-width:340px;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.04);}
-.wait-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text2);}
-.wait-clock{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1.05;color:var(--orange);letter-spacing:2px;font-variant-numeric:tabular-nums;}
-.wait-units{display:flex;justify-content:center;gap:34px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-top:-2px;}
-.wait-locked{margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--border);font-size:13px;color:var(--text2);}
-.wait-locked strong{color:var(--text);letter-spacing:2px;}
-.wait-streak{font-size:14px;color:var(--text);text-align:center;line-height:1.5;max-width:320px;}
-.wait-streak strong{color:var(--orange);}
-.wait-ready{background:var(--gold);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;border:none;border-radius:999px;padding:16px 44px;cursor:pointer;box-shadow:0 6px 20px rgba(201,168,0,.35);}
+/* A returning visitor is an engaged one — this sells tomorrow rather than
+   replaying the rules they just finished using. */
+.count{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);border-radius:18px;padding:18px;text-align:center;width:100%;max-width:340px;margin-bottom:14px;}
+.count-k{font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.7);}
+.count-n{font-family:'Bebas Neue',sans-serif;font-size:48px;color:#fff;line-height:1.1;margin-top:4px;letter-spacing:2px;font-variant-numeric:tabular-nums;}
+.count-s{font-size:13px;color:rgba(255,255,255,.85);margin-top:4px;}
+.nextup{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:14px;width:100%;max-width:340px;margin-bottom:20px;}
+.lockbox{width:54px;height:54px;border-radius:12px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.nu-txt{flex:1;text-align:left;}
+.nu-kick{font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);}
+.nu-h{font-size:16px;font-weight:600;color:#fff;margin-top:3px;letter-spacing:2px;}
+.nu-s{font-size:12.5px;color:rgba(255,255,255,.7);margin-top:2px;}
+.cta-locked{width:100%;max-width:300px;padding:17px;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;cursor:default;box-shadow:none;}
 
 /* ─── GAME SCREEN ───────────────────────────────── */
 #game{background:var(--bg);}
@@ -342,23 +352,14 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 
 <!-- ── INTRO SCREEN ───────────────────────────── -->
 <div class="screen active" id="intro">
-  <div class="intro-top">
-    <div class="intro-blob" style="width:260px;height:260px;top:-80px;right:-70px;"></div>
-    <div class="intro-blob" style="width:160px;height:160px;bottom:-60px;left:-40px;"></div>
-    <div class="intro-streak" id="intro-streak" style="display:none;">🔥 <span id="intro-streak-num">0</span> day streak</div>
-    <div class="intro-logo">GUESS <span>TOTAL</span></div>
-    <div class="intro-emoji" id="intro-emoji">🛒</div>
-    <div class="intro-theme" id="intro-theme">Loading...</div>
-    <div class="intro-tag" id="intro-tag"></div>
-  </div>
-  <div class="intro-bottom" id="intro-bottom">
-    <div class="intro-rules">
-      <div class="intro-rule"><div class="intro-rule-icon">🏷️</div><span>Guess the price of each item</span></div>
-      <div class="intro-rule"><div class="intro-rule-icon">⏱️</div><span>30 seconds per product</span></div>
-      <div class="intro-rule"><div class="intro-rule-icon">🏆</div><span>Get as close as you can to win points</span></div>
-    </div>
-    <button class="intro-btn" onclick="startGame()">Let's Play ⚡</button>
-  </div>
+  <div class="intro-blob" style="width:300px;height:300px;top:-100px;right:-80px;"></div>
+  <div class="intro-blob" style="width:180px;height:180px;bottom:-70px;left:-50px;"></div>
+  <div class="intro-streak" id="intro-streak" style="display:none;">🔥 <span id="intro-streak-num">0</span> day streak</div>
+  <div class="intro-logo">GUESS <span>TOTAL</span></div>
+  <div class="intro-emoji" id="intro-emoji">🛒</div>
+  <div class="intro-theme" id="intro-theme">Loading...</div>
+  <div class="intro-tag" id="intro-tag"></div>
+  <div id="intro-panel"></div>
 </div>
 
 <!-- ── GAME SCREEN ────────────────────────────── -->
@@ -727,24 +728,54 @@ async function init(){
     document.getElementById('gh-streak-num').textContent=streak;
   }
 
+  const tag=document.getElementById('intro-tag');
   if(hasPlayedToday()){
     renderWaitState(streak);
-    const tag=document.getElementById('intro-tag');
-    // "See you tomorrow" dropped: the countdown and the streak line below both
-    // say it now, and three return prompts on one screen is two too many.
-    if(tag) tag.textContent="You've already played today. Your streak is safe 🔥";
+    // The countdown and streak line carry the "come back" message now, so the
+    // tagline just marks the day as closed rather than repeating them.
+    if(tag) tag.textContent="Today's bundle is in the books.";
+  }else{
+    renderPlayPanel();
   }
 
   syncMuteBtn();
   if(typeof gtag!=='undefined')gtag('event','game_loaded',{bundle_theme:bundle.theme});
 }
 
-// ─── ALREADY-PLAYED STATE ────────────────────────────
-// Replaces the rules card and the play button, neither of which has a job for
-// someone who already finished today: they know the rules, and the button has
-// nothing to do. Sells the wait instead — how long until the next puzzle, that
-// tomorrow's theme is deliberately withheld, and the streak stated forward as
-// the number they stand to reach rather than the one they already have.
+// ─── INTRO PANEL: PLAY STATE ─────────────────────────
+// Hook and rules share one surface. The first item shows through a heavy blur
+// behind a "?" — enough to prove there is something real waiting without
+// giving away what it is.
+function renderPlayPanel(){
+  const host=document.getElementById('intro-panel');
+  if(!host||!bundle)return;
+  const first=bundle.products[0];
+  host.innerHTML=`
+    <div class="merged">
+      <div class="merged-top">
+        <div class="merged-img">
+          <img src="${productImgSrc(first)}" alt="" onerror="this.remove()"/>
+          <div class="merged-q">?</div>
+        </div>
+        <div class="merged-txt">
+          <div class="merged-kick">${bundle.products.length} items · ${TIMER_SECS} sec each</div>
+          <div class="merged-h">Can you guess the price?</div>
+          <div class="merged-s">Get close to earn points</div>
+        </div>
+      </div>
+      <div class="merged-rules">
+        <div class="mr"><div class="mr-i">🏷️</div><span>See the product, lock in your price</span></div>
+        <div class="mr"><div class="mr-i">⏱️</div><span>Beat the ${TIMER_SECS}-second clock</span></div>
+        <div class="mr"><div class="mr-i">🛒</div><span>See something you like? It's one tap away</span></div>
+      </div>
+    </div>
+    <button class="intro-btn" onclick="startGame()">Let's Play ⚡</button>`;
+}
+
+// ─── INTRO PANEL: ALREADY-PLAYED STATE ───────────────
+// Swaps the hook and the play button for the wait: how long until the next
+// bundle, the streak stated forward as the number still to reach, and tomorrow
+// held back deliberately.
 function msUntilReset(){
   const n=new Date();
   return new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,0,0)-n;
@@ -757,20 +788,26 @@ function splitCountdown(ms){
 }
 let _waitTimer=null;
 function renderWaitState(streak){
-  const host=document.getElementById('intro-bottom');
+  const host=document.getElementById('intro-panel');
   if(!host)return;
-  const next=streak>0?streak+1:1;
   const forward=streak>0
-    ?`Come back tomorrow to make it <strong>${next} days</strong> 🔥`
+    ?`Play tomorrow to make it ${streak+1} days 🔥`
     :'Play again tomorrow to start a streak 🔥';
   host.innerHTML=`
-    <div class="wait-card">
-      <div class="wait-label">Next game in</div>
-      <div class="wait-clock" id="wait-clock">--:--:--</div>
-      <div class="wait-units"><span>hrs</span><span>min</span><span>sec</span></div>
-      <div class="wait-locked">🔒 Tomorrow's theme: <strong>???</strong></div>
+    <div class="count">
+      <div class="count-k">Next bundle drops in</div>
+      <div class="count-n" id="wait-clock">--:--:--</div>
+      <div class="count-s">${forward}</div>
     </div>
-    <div class="wait-streak">${forward}</div>`;
+    <div class="nextup">
+      <div class="lockbox">🔒</div>
+      <div class="nu-txt">
+        <div class="nu-kick">Tomorrow's theme</div>
+        <div class="nu-h">? ? ?</div>
+        <div class="nu-s">Unlocks at midnight</div>
+      </div>
+    </div>
+    <button class="cta-locked" disabled>Come Back Tomorrow 🌙</button>`;
   const tick=()=>{
     const el=document.getElementById('wait-clock');
     if(!el)return;
@@ -778,8 +815,9 @@ function renderWaitState(streak){
     if(left<=0){
       clearInterval(_waitTimer);_waitTimer=null;
       // Don't reload on our own — a clock disagreement would loop. Offer it.
-      host.innerHTML=`<div class="wait-streak"><strong>A new theme is live.</strong></div>
-        <button class="wait-ready" onclick="location.reload()">Play Today's Game ⚡</button>`;
+      host.innerHTML=`<div class="count"><div class="count-k">Ready</div>
+        <div class="count-s" style="margin-top:6px;">A new bundle just dropped.</div></div>
+        <button class="intro-btn" onclick="location.reload()">Play Today's Game ⚡</button>`;
       return;
     }
     el.textContent=splitCountdown(left).join(':');
