@@ -7,6 +7,12 @@
 <meta name="description" content="Can you guess the price? Daily themed lifestyle bundles. New theme every day."/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T3D7H10NK7"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T3D7H10NK7');</script>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-0u-V3FrCl3qXqStnjXIKZ.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
 <style>
@@ -695,10 +701,23 @@ function flyPts(pts,color){
 }
 
 // ─── SCREENS ────────────────────────────────────────
+// The game is one document with four screens, so Plausible's automatic tracking
+// would only ever see the initial load. Each screen is sent as its own pageview,
+// deduplicated per visit: the reveal is reached five times a game and counting
+// all of them would inflate totals and bury the funnel. One hit per screen means
+// intro -> game -> reveal -> scorecard reads directly as a drop-off funnel.
+const _seenScreens={intro:true}; // intro is the real page load, already counted as /
+function trackScreen(id){
+  if(_seenScreens[id])return;
+  _seenScreens[id]=true;
+  try{if(typeof plausible==='function')plausible('pageview',{u:location.origin+'/'+id});}catch{}
+}
+
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if(id!=='scorecard')document.getElementById(id).scrollTop=0;
+  trackScreen(id);
 }
 
 // ─── INIT (async — loads data first) ────────────────
