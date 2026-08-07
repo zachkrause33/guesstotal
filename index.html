@@ -254,6 +254,10 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
 .sc-share-btn:active{opacity:.85;}
 .sc-copied{text-align:center;font-size:12px;color:var(--green);font-weight:500;min-height:20px;margin-bottom:10px;}
 .sc-affiliate{font-size:10px;color:var(--text3);text-align:center;padding-bottom:2rem;}
+/* The scorecard now persists all day so the shop links stay reachable, which
+   means the countdown has to live here too or it would never be seen again. */
+.sc-next{text-align:center;font-size:13px;color:var(--text2);margin:1.25rem 0 .5rem;}
+.sc-next strong{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--orange);letter-spacing:1px;font-variant-numeric:tabular-nums;}
 
 /* ─── REVEALING OVERLAY ────────────────────────── */
 .revealing-overlay{position:absolute;inset:0;background:var(--orange-lt);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:20;animation:overlayIn .2s ease;overflow:hidden;}
@@ -437,6 +441,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);}
     <div class="sc-streak-msg" id="sc-streak-msg"></div>
     <div class="sc-section-label">Your Results — Shop the Bundle</div>
     <div id="sc-rows"></div>
+    <div class="sc-next" id="sc-next"></div>
     <p class="sc-affiliate">As an Amazon Associate I earn from qualifying purchases. Come back tomorrow for a new theme.</p>
   </div>
 </div>
@@ -655,6 +660,55 @@ function saveStreak(){
     return count;
   }catch{return 1;}
 }
+// ─── IN-PROGRESS GAME (survives leaving the page) ────
+// Every screen state lived only in memory, and gt_played was written the moment
+// a game started. So following a shop link on mobile — where the tab is often
+// discarded and reloaded on return — wiped the run and then refused a retry,
+// locking the player out of the day. The affiliate link was the one action that
+// ended your game, which is exactly backwards. Progress is now written on every
+// transition and replayed on load.
+const SAVE_KEY='gt_game';
+function saveGame(screen,extra){
+  if(!bundle)return;
+  try{
+    localStorage.setItem(SAVE_KEY,JSON.stringify(Object.assign({
+      day:todayKey(),screen,idx,score,timeLeft,
+      guesses:guesses.map(g=>({i:bundle.products.indexOf(g.product),guess:g.guess,noGuess:!!g.noGuess,auto:!!g.auto}))
+    },extra||{})));
+  }catch{}
+}
+function loadGame(){
+  try{
+    const d=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');
+    return d&&d.day===todayKey()?d:null;
+  }catch{return null;}
+}
+function clearGame(){try{localStorage.removeItem(SAVE_KEY);}catch{}}
+
+// Replays the saved guesses in order so the rotating verdict copy lands on the
+// same variant it did the first time — bandUsage() counts prior guesses, so the
+// array has to be rebuilt one at a time rather than mapped.
+function restoreGame(saved){
+  idx=saved.idx;score=saved.score;guesses=[];
+  for(const g of saved.guesses){
+    const prod=bundle.products[g.i];
+    if(!prod)return false;
+    const pts=g.noGuess?0:calcPoints(g.guess,prod.price);
+    const heat=g.noGuess?noGuessHeat(g.auto):getHeat(pts,Math.abs(g.guess-prod.price),bandUsage(pts));
+    guesses.push({product:prod,guess:g.guess,pts,heat,noGuess:g.noGuess,auto:g.auto});
+  }
+  document.getElementById('gh-theme').textContent=bundle.theme+' '+bundle.emoji;
+  if(saved.screen==='scorecard'){
+    renderScorecard(saved.streak||getStreak(),false);
+  }else if(saved.screen==='reveal'&&guesses.length){
+    renderReveal(guesses[guesses.length-1],false);
+  }else{
+    show('game');
+    renderProduct(typeof saved.timeLeft==='number'?saved.timeLeft:TIMER_SECS);
+  }
+  return true;
+}
+
 function hasPlayedToday(){try{return localStorage.getItem('gt_played')===todayKey();}catch{return false;}}
 function markPlayedToday(){try{localStorage.setItem('gt_played',todayKey());}catch{}}
 
@@ -745,6 +799,15 @@ async function init(){
     document.getElementById('intro-streak-num').textContent=streak;
     document.getElementById('gh-streak').style.display='flex';
     document.getElementById('gh-streak-num').textContent=streak;
+  }
+
+  // An unfinished (or just-finished) run for today wins over the intro — the
+  // player is coming back to something, not starting fresh.
+  const saved=loadGame();
+  if(saved&&restoreGame(saved)){
+    syncMuteBtn();
+    if(typeof gtag!=='undefined')gtag('event','game_resumed',{bundle_theme:bundle.theme,screen:saved.screen});
+    return;
   }
 
   const tag=document.getElementById('intro-tag');
@@ -857,7 +920,7 @@ function startGame(){
 }
 
 // ─── RENDER PRODUCT ──────────────────────────────────
-function renderProduct(){
+function renderProduct(startAt){
   const p=bundle.products[idx];
   const area=document.getElementById('product-area');
 
@@ -884,7 +947,8 @@ function renderProduct(){
     </div>`;
 
   guessLocked=false;
-  startTimer();
+  startTimer(startAt);
+  saveGame('game');
   setTimeout(()=>{
     const inp=document.getElementById('guess-input');
     if(inp){
@@ -895,9 +959,9 @@ function renderProduct(){
 }
 
 // ─── TIMER ───────────────────────────────────────────
-function startTimer(){
+function startTimer(startAt){
   clearInterval(timer);
-  timeLeft=TIMER_SECS;
+  timeLeft=typeof startAt==='number'&&startAt>0?startAt:TIMER_SECS;
   // Snap the bar back to full without animating — the element persists across
   // products, so a transitioned reset reads as the bar refilling on items 2+.
   const bar=document.getElementById('timer-bar');
@@ -912,6 +976,7 @@ function startTimer(){
   timer=setInterval(()=>{
     timeLeft--;
     updateTimerUI();
+    saveGame('game');
     if(timeLeft<=0){clearInterval(timer);lockGuess(true);}
   },1000);
 }
@@ -925,7 +990,23 @@ function updateTimerUI(){
   else{bar.style.background='var(--green)';num.classList.remove('warn');}
   num.textContent=timeLeft;
 }
-function stopTimer(){clearInterval(timer);}
+function stopTimer(){clearInterval(timer);timer=null;}
+
+// The clock stops whenever the page is not in front of the player. Tapping a
+// shop link should cost them nothing — the timer is there to make guessing feel
+// urgent, not to punish looking at the product we just sold them on.
+function pauseForBackground(){
+  if(timer){clearInterval(timer);timer=null;saveGame('game');}
+}
+function resumeFromBackground(){
+  const onGame=document.getElementById('game').classList.contains('active');
+  if(onGame&&!guessLocked&&!timer&&timeLeft>0)startTimer(timeLeft);
+}
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)pauseForBackground();else resumeFromBackground();
+});
+window.addEventListener('pagehide',pauseForBackground);
+window.addEventListener('pageshow',resumeFromBackground);
 
 // ─── LOCK GUESS ──────────────────────────────────────
 function lockGuess(auto=false){
@@ -965,28 +1046,40 @@ function lockGuess(auto=false){
 }
 
 // ─── SHOW REVEAL ─────────────────────────────────────
+// Scoring and rendering are separate so a reveal can be rebuilt on return from
+// an outbound link without banking the guess a second time.
 function showReveal(guess,noGuess=false,auto=false){
   const p=bundle.products[idx];
   const pts=noGuess?0:calcPoints(guess,p.price);
-  const diff=Math.abs(guess-p.price);
-  const heat=noGuess?noGuessHeat(auto):getHeat(pts,diff,bandUsage(pts));
+  const heat=noGuess?noGuessHeat(auto):getHeat(pts,Math.abs(guess-p.price),bandUsage(pts));
   score+=pts;
-  guesses.push({product:p,guess,pts,heat,noGuess});
-
+  guesses.push({product:p,guess,pts,heat,noGuess,auto});
   updateHeat(noGuess?false:isCloseGuess(guess,p.price));
+  renderReveal(guesses[guesses.length-1],true);
+  saveGame('reveal');
+}
+
+function renderReveal(entry,animate){
+  const p=entry.product, guess=entry.guess, pts=entry.pts;
+  const noGuess=entry.noGuess, auto=entry.auto, heat=entry.heat;
+  const diff=Math.abs(guess-p.price);
 
   document.getElementById('gh-score').textContent=`${fmtPts(score)} pts`;
-  document.getElementById('gh-score').classList.add('bump');
-  setTimeout(()=>document.getElementById('gh-score').classList.remove('bump'),400);
+  if(animate){
+    document.getElementById('gh-score').classList.add('bump');
+    setTimeout(()=>document.getElementById('gh-score').classList.remove('bump'),400);
+  }
   document.getElementById('rh-score').textContent=`${fmtPts(score)} pts`;
 
   // FX come from the verdict band itself, so the celebration always matches the
-  // words on screen instead of tracking a parallel threshold ladder.
-  flash(noGuess?'#64748B':heat.flash);
-  if(!noGuess&&heat.confetti)confetti(heat.confetti);
-
-  // No "+0" fly-up on a timeout — the player didn't guess, don't rub it in.
-  if(!noGuess)setTimeout(()=>flyPts(pts,heat.color),300);
+  // words on screen instead of tracking a parallel threshold ladder. Skipped on
+  // a restore — replaying confetti for a guess made minutes ago reads as a bug.
+  if(animate){
+    flash(noGuess?'#64748B':heat.flash);
+    if(!noGuess&&heat.confetti)confetti(heat.confetti);
+    // No "+0" fly-up on a timeout — the player didn't guess, don't rub it in.
+    if(!noGuess)setTimeout(()=>flyPts(pts,heat.color),300);
+  }
 
   const isLast=idx===bundle.products.length-1;
   const variant=getDayVariant();
@@ -1030,22 +1123,49 @@ function showReveal(guess,noGuess=false,auto=false){
 
   const imgWrap=document.getElementById('rvl-img-wrap');
   const variantWrap=document.getElementById('rvl-variant-wrap');
-  const afterVariant=()=>sharedFinishingBeat(imgWrap,variantWrap,p.price,guess,pts);
 
+  if(!animate){settleReveal(variantWrap,p.price,guess);return;}
+
+  const afterVariant=()=>sharedFinishingBeat(imgWrap,variantWrap,p.price,guess,pts);
   playUnwrapSound(variant);
   if(variant===0)runVariantA(variantWrap,p.price,afterVariant);
   else if(variant===1)runVariantB(variantWrap,p.price,afterVariant);
   else runVariantC(imgWrap,variantWrap,p.price,afterVariant);
 }
 
+// Rebuild the reveal in its finished state, with no unwrap and no celebration.
+// Used when a player returns from an outbound link — the beat already happened.
+function settleReveal(variantWrap,actual,guess){
+  if(variantWrap)variantWrap.style.display='none';
+  const display=document.getElementById('rvl-price-display');
+  const num=document.getElementById('rvl-price-num');
+  if(display)display.style.display='block';
+  if(num){num.textContent=`$${actual.toFixed(2)}`;num.style.color=revealColor(accuracyRatio(guess,actual));}
+  const verdict=document.getElementById('rvl-verdict');
+  const ptsEl=document.getElementById('rvl-pts');
+  const cta=document.getElementById('rvl-cta');
+  const next=document.getElementById('rvl-next');
+  if(verdict)verdict.classList.add('show');
+  if(ptsEl)ptsEl.classList.add('show');
+  if(next)next.classList.add('show');
+  if(cta){
+    const state=ctaState(guess,actual,false);
+    if(state!=='plain')cta.classList.add('cta-'+state);
+    cta.classList.add('show-far');
+  }
+}
+
 // ─── NEXT PRODUCT ────────────────────────────────────
 function nextProduct(){
   idx++;
+  saveGame('game');
   if(idx<bundle.products.length){show('game');renderProduct();}
   else{showScorecard();}
 }
 
 // ─── SCORECARD ───────────────────────────────────────
+// Awards the streak and plays the send-off, then renders. Split so returning
+// from a shop link rebuilds the card without banking the streak twice.
 function showScorecard(){
   const streak=saveStreak();
   if(typeof gtag!=='undefined'){
@@ -1058,6 +1178,11 @@ function showScorecard(){
   const finalVibe=getVibe(finalAvg);
   if(finalAvg>=VIBES[VIBES.length-1].min&&finalAvg<VIBES[VIBES.length-2].min)emberDrift(finalVibe.color);
   else confetti(finalAvg>=VIBES[1].min?110:70);
+  renderScorecard(streak,true);
+  saveGame('scorecard',{streak});
+}
+
+function renderScorecard(streak,animate){
   show('scorecard');
 
   const streakChip=document.getElementById('sc-streak-chip');
@@ -1073,19 +1198,34 @@ function showScorecard(){
                streak<5?`${streak} days in a row. Keep it going tomorrow.`:
                streak<10?`${streak} day streak — you're on a roll. Don't break it.`:
                `${streak} days straight. Legendary. See you tomorrow.`;
-    if(streak===7||streak===30||streak===100||streak===365)setTimeout(()=>playMilestonePhrase(),600);
+    if(animate&&(streak===7||streak===30||streak===100||streak===365))setTimeout(()=>playMilestonePhrase(),600);
   }
 
   document.getElementById('sc-theme').textContent=bundle.theme+' '+bundle.emoji;
 
-  let displayed=0;
+  const nextEl=document.getElementById('sc-next');
+  if(nextEl){
+    const tickNext=()=>{
+      const left=msUntilReset();
+      if(left<=0){clearInterval(_waitTimer);_waitTimer=null;nextEl.innerHTML='<strong>A new bundle is live</strong>';return;}
+      nextEl.innerHTML=`Next bundle in <strong>${splitCountdown(left).join(':')}</strong>`;
+    };
+    tickNext();
+    clearInterval(_waitTimer);
+    _waitTimer=setInterval(tickNext,1000);
+  }
+
   const el=document.getElementById('sc-score-big');
-  const step=score/25;
-  const iv=setInterval(()=>{
-    displayed=Math.min(displayed+step,score);
-    el.textContent=fmtPts(displayed);
-    if(displayed>=score)clearInterval(iv);
-  },28);
+  if(!animate){el.textContent=fmtPts(score);}
+  else{
+    let displayed=0;
+    const step=score/25;
+    const iv=setInterval(()=>{
+      displayed=Math.min(displayed+step,score);
+      el.textContent=fmtPts(displayed);
+      if(displayed>=score)clearInterval(iv);
+    },28);
+  }
 
   const avgPct=guesses.reduce((a,g)=>a+g.pts,0)/guesses.length;
   const vibe=getVibe(avgPct);
